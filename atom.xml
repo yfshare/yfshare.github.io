@@ -1,24 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Hexo</title>
+  <title>Jack Wang Blog</title>
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
-  <updated>2017-02-13T03:03:40.449Z</updated>
-  <id>http://yoursite.com/</id>
+  <link href="https://yfshare.github.io/"/>
+  <updated>2017-02-13T07:05:25.838Z</updated>
+  <id>https://yfshare.github.io/</id>
   
   <author>
-    <name>John Doe</name>
+    <name>Jack Wang</name>
     
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>使用GitHub+Hexo搭建免费静态Blog</title>
+    <link href="https://yfshare.github.io/2017/02/13/%E4%BD%BF%E7%94%A8GitHub-Hexo%E6%90%AD%E5%BB%BA%E5%85%8D%E8%B4%B9%E9%9D%99%E6%80%81Blog/"/>
+    <id>https://yfshare.github.io/2017/02/13/使用GitHub-Hexo搭建免费静态Blog/</id>
+    <published>2017-02-13T06:33:54.000Z</published>
+    <updated>2017-02-13T07:05:25.838Z</updated>
+    
+    <content type="html"><![CDATA[<p>This is a test page.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;This is a test page.&lt;/p&gt;
+
+    
+    </summary>
+    
+    
+      <category term="GitHub" scheme="https://yfshare.github.io/tags/GitHub/"/>
+    
+      <category term="Hexo" scheme="https://yfshare.github.io/tags/Hexo/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Hello World</title>
-    <link href="http://yoursite.com/2017/02/13/hello-world/"/>
-    <id>http://yoursite.com/2017/02/13/hello-world/</id>
+    <link href="https://yfshare.github.io/2017/02/13/hello-world/"/>
+    <id>https://yfshare.github.io/2017/02/13/hello-world/</id>
     <published>2017-02-13T03:03:40.449Z</published>
     <updated>2017-02-13T03:03:40.449Z</updated>
     

@@ -2,7 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2017/02/13/hello-world/</loc>
+    <loc>https://yfshare.github.io/2017/02/13/%E4%BD%BF%E7%94%A8GitHub-Hexo%E6%90%AD%E5%BB%BA%E5%85%8D%E8%B4%B9%E9%9D%99%E6%80%81Blog/</loc>
+    
+    <lastmod>2017-02-13T07:05:25.838Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://yfshare.github.io/2017/02/13/hello-world/</loc>
     
     <lastmod>2017-02-13T03:03:40.449Z</lastmod>
     
