@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yfshare.github.io/"/>
-  <updated>2017-02-13T07:05:25.838Z</updated>
+  <updated>2017-02-13T13:06:26.229Z</updated>
   <id>https://yfshare.github.io/</id>
   
   <author>
@@ -14,6 +14,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>安装maupassant-hexo主题</title>
+    <link href="https://yfshare.github.io/2017/02/13/%E5%AE%89%E8%A3%85maupassant-hexo%E4%B8%BB%E9%A2%98/"/>
+    <id>https://yfshare.github.io/2017/02/13/安装maupassant-hexo主题/</id>
+    <published>2017-02-13T13:05:21.000Z</published>
+    <updated>2017-02-13T13:06:26.229Z</updated>
+    
+    <content type="html"><![CDATA[<p>Hexo更换maupassant主题：<br>参考：<a href="https://github.com/tufu9441/maupassant-hexo" target="_blank" rel="external">https://github.com/tufu9441/maupassant-hexo</a><br>淘宝npm源：<a href="http://npm.taobao.org/" target="_blank" rel="external">http://npm.taobao.org/</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">pwd</span></div><div class="line">/e/GitHup_Data/Hexo_B<span class="built_in">log</span></div><div class="line">$ git <span class="built_in">clone</span> https://github.com/tufu9441/maupassant-hexo.git themes/maupassant</div><div class="line">$ npm install hexo-renderer-jade --save</div><div class="line">$ npm install hexo-renderer-sass --save   <span class="comment">#在国内网络原因，这个是安装不了的，可以使用taobao npm源解决</span></div><div class="line">$ npm install -g cnpm --registry=https://registry.npm.taobao.org   <span class="comment">#使用taobao源的cnpm代替官方的npm</span></div><div class="line">$ cnpm install hexo-renderer-sass --save   <span class="comment">#安装hexo-renderer-sass插件</span></div><div class="line">$ grep -i <span class="string">'^theme'</span> _config.yml</div><div class="line">theme: maupassant</div><div class="line">$ hexo g</div><div class="line">$ hexo server</div><div class="line"></div><div class="line">$ hexo deploy</div></pre></td></tr></table></figure></p>
+<p><img src="http://note.youdao.com/yws/api/personal/file/5068DA269F7B404BABDE5FC96C4CB002?method=download&amp;shareKey=4f37242ddca3be850964313ceadf8c4d" alt="image">  </p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Hexo更换maupassant主题：&lt;br&gt;参考：&lt;a href=&quot;https://github.com/tufu9441/maupassant-hexo&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/tufu944
+    
+    </summary>
+    
+    
+      <category term="Hexo" scheme="https://yfshare.github.io/tags/Hexo/"/>
+    
+      <category term="maupassant" scheme="https://yfshare.github.io/tags/maupassant/"/>
+    
+  </entry>
   
   <entry>
     <title>使用GitHub+Hexo搭建免费静态Blog</title>
