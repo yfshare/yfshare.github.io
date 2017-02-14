@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yfshare.github.io/"/>
-  <updated>2017-02-14T12:47:22.032Z</updated>
+  <updated>2017-02-14T15:01:20.795Z</updated>
   <id>https://yfshare.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://yfshare.github.io/2017/02/14/Hexo%E5%88%9B%E5%BB%BA404%E9%A1%B5%E9%9D%A2/"/>
     <id>https://yfshare.github.io/2017/02/14/Hexo创建404页面/</id>
     <published>2017-02-14T12:46:35.000Z</published>
-    <updated>2017-02-14T12:47:22.032Z</updated>
+    <updated>2017-02-14T15:01:20.795Z</updated>
     
     <content type="html"><![CDATA[<p>其实这个页面很简单，但我个人喜欢干净的页面，所以觉得挺好<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">pwd</span></div><div class="line">/e/GitHup_Data/Hexo_B<span class="built_in">log</span></div><div class="line">$ hexo new page 404</div><div class="line">INFO  Created: E:\GitHup_Data\Hexo_B<span class="built_in">log</span>\<span class="built_in">source</span>\404\index.md</div><div class="line">$ <span class="built_in">cd</span> <span class="built_in">source</span>/404/</div><div class="line">$ cat index.md</div><div class="line">title: 404 Not Found：该页无法显示</div><div class="line">toc: <span class="literal">false</span></div><div class="line">comments: <span class="literal">false</span></div><div class="line">permalink: /404</div><div class="line">---</div><div class="line">&lt;style <span class="built_in">type</span>=<span class="string">"text/css"</span>&gt;</div><div class="line">        .article-header &#123;</div><div class="line">                padding: 0;</div><div class="line">                padding-top: 26px;</div><div class="line">                border-left: none;</div><div class="line">                text-align: center;</div><div class="line">        &#125;</div><div class="line">        .article-header:hover &#123;</div><div class="line">                border-left: none;</div><div class="line">        &#125;</div><div class="line">        .article-title &#123;</div><div class="line">                font-size: 2.1em;</div><div class="line">        &#125;</div><div class="line">        strong a &#123;</div><div class="line">                color: <span class="comment">#747474;</span></div><div class="line">        &#125;</div><div class="line">        .article-meta &#123;</div><div class="line">                display: none;</div><div class="line">        &#125;</div><div class="line">        .share &#123;</div><div class="line">                display: none;</div><div class="line">        &#125;</div><div class="line">        .ds-meta &#123;</div><div class="line">                display: none;</div><div class="line">        &#125;</div><div class="line">        .player &#123;</div><div class="line">                margin-left: -10px;</div><div class="line">        &#125;</div><div class="line">        .sign &#123;</div><div class="line">                text-align: right;</div><div class="line">                font-style: italic;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">#page-visit &#123;</span></div><div class="line">                display: none;</div><div class="line">        &#125;</div><div class="line">        .center &#123;</div><div class="line">                text-align: center;</div><div class="line">                height: 2.5em;</div><div class="line">                font-weight: bold;</div><div class="line">        &#125;</div><div class="line">        .article-entry hr &#123;</div><div class="line">                margin: 0;</div><div class="line">        &#125;</div><div class="line">        .pic &#123;</div><div class="line">                text-align: center;</div><div class="line">                margin: 0;</div><div class="line">        &#125;</div><div class="line">        .pic br &#123;</div><div class="line">                display: none;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">#container .article-info-post.article-info &#123;</span></div><div class="line">        display: none;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">#container .article .article-title &#123;</span></div><div class="line">        padding: 0;</div><div class="line">        &#125;</div><div class="line">&lt;/style&gt;</div></pre></td></tr></table></figure></p>
 <figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>hexo g</div><div class="line"><span class="variable">$ </span>hexo d</div></pre></td></tr></table></figure>
@@ -36,6 +36,8 @@
     
     </summary>
     
+      <category term="Hexo" scheme="https://yfshare.github.io/categories/Hexo/"/>
+    
     
       <category term="hexo" scheme="https://yfshare.github.io/tags/hexo/"/>
     
@@ -48,7 +50,7 @@
     <link href="https://yfshare.github.io/2017/02/14/Hexo%E6%B7%BB%E5%8A%A0RSS%E8%AE%A2%E9%98%85%E5%8A%9F%E8%83%BD/"/>
     <id>https://yfshare.github.io/2017/02/14/Hexo添加RSS订阅功能/</id>
     <published>2017-02-14T09:29:41.000Z</published>
-    <updated>2017-02-14T09:30:13.974Z</updated>
+    <updated>2017-02-14T15:01:11.318Z</updated>
     
     <content type="html"><![CDATA[<p>Hexo添加RSS订阅功能  </p>
 <p>先看看效果图：<br><img src="http://note.youdao.com/yws/api/personal/file/B178C78B158B42ECA2681F3DB2E81768?method=download&amp;shareKey=c14821fe5ef65e21aa021e89989e396c" alt="image">  </p>
@@ -68,6 +70,8 @@
     
     </summary>
     
+      <category term="Hexo" scheme="https://yfshare.github.io/categories/Hexo/"/>
+    
     
       <category term="RSS" scheme="https://yfshare.github.io/tags/RSS/"/>
     
@@ -78,7 +82,7 @@
     <link href="https://yfshare.github.io/2017/02/14/Hexo%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9D%83%E8%AF%B4%E6%98%8E/"/>
     <id>https://yfshare.github.io/2017/02/14/Hexo添加版权说明/</id>
     <published>2017-02-14T04:11:43.000Z</published>
-    <updated>2017-02-14T04:12:37.784Z</updated>
+    <updated>2017-02-14T15:01:00.093Z</updated>
     
     <content type="html"><![CDATA[<p>在博客根目录创建一个scriptsd的文件夹<br>在scritps文件夹内，新建一个AddTail.js脚本文件，内容如下<br>在博客根目录，新建一个tail.md文件，里面写想要展示的版本说明内容<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">pwd</span></div><div class="line">/e/GitHup_Data/Hexo_B<span class="built_in">log</span></div><div class="line">$ mkdir scripts</div><div class="line">$ cat scripts/AddTail.js</div><div class="line">// Filename: AddTail.js</div><div class="line">// Author: Colin</div><div class="line">// Date: 2016/06/02</div><div class="line">// Based on the script by KUANG Qi: http://kuangqi.me/tricks/append<span class="_">-a</span>-copyright-info-after-every-post/</div><div class="line"></div><div class="line">// Add a tail to every post from tail.md</div><div class="line">// Great <span class="keyword">for</span> adding copyright info</div><div class="line"></div><div class="line">var fs = require(<span class="string">'fs'</span>);</div><div class="line"></div><div class="line">hexo.extend.filter.register(<span class="string">'before_post_render'</span>, <span class="keyword">function</span>(data)&#123;</div><div class="line">        <span class="keyword">if</span>(data.copyright == <span class="literal">false</span>) <span class="built_in">return</span> data;</div><div class="line"></div><div class="line">        // Add seperate line</div><div class="line">        data.content += <span class="string">'\n___\n'</span>;</div><div class="line"></div><div class="line">        // Try to <span class="built_in">read</span> tail.md</div><div class="line">        try &#123;</div><div class="line">                var file_content = fs.readFileSync(<span class="string">'tail.md'</span>);</div><div class="line">                <span class="keyword">if</span>(file_content &amp;&amp; data.content.length &gt; 50)</div><div class="line">                &#123;</div><div class="line">                        data.content += file_content;</div><div class="line">                &#125;</div><div class="line">        &#125; catch (err) &#123;</div><div class="line">                <span class="keyword">if</span> (err.code !== <span class="string">'ENOENT'</span>) throw err;</div><div class="line"></div><div class="line">                // No process <span class="keyword">for</span> ENOENT error</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // 添加具体文章链接, 不需要去掉即可</div><div class="line">        var permalink = <span class="string">'\n本文出自"Jack Wang Blog"：'</span> + data.permalink;</div><div class="line">        data.content += permalink;</div><div class="line"></div><div class="line">        <span class="built_in">return</span> data;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">$ cat tail.md</div><div class="line">本作品采用[知识共享署名 2.5 中国大陆许可协议](https://creativecommons.org/licenses/by/2.5/cn/)进行许可，欢迎转载，但转载请注明来自[Jack Wang B<span class="built_in">log</span>](https://yfshare.github.io)，并保持转载后文章内容的完整。本人保留所有版权相关权利。</div><div class="line"></div><div class="line">$ hexo clean</div><div class="line">$ hexo g</div><div class="line">$ hexo deploy</div></pre></td></tr></table></figure></p>
 <p>效果图：<br><img src="http://note.youdao.com/yws/api/personal/file/85DA80DB248F4F71A3A5D32FA7970457?method=download&amp;shareKey=15345a6812577d1860858e38ff2734e4" alt="image">  </p>
@@ -93,6 +97,8 @@
     
     </summary>
     
+      <category term="Hexo" scheme="https://yfshare.github.io/categories/Hexo/"/>
+    
     
       <category term="hexo" scheme="https://yfshare.github.io/tags/hexo/"/>
     
@@ -105,7 +111,7 @@
     <link href="https://yfshare.github.io/2017/02/14/Hexo-maupassant%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E5%A4%9A%E8%AF%B4%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/"/>
     <id>https://yfshare.github.io/2017/02/14/Hexo-maupassant主题添加多说评论系统/</id>
     <published>2017-02-14T03:27:02.000Z</published>
-    <updated>2017-02-14T03:53:14.996Z</updated>
+    <updated>2017-02-14T15:01:29.821Z</updated>
     
     <content type="html"><![CDATA[<p>Hexo maupassant主题添加多说评论系统  </p>
 <p>登录<a href="http://yfshare.duoshuo.com" target="_blank" rel="external">多说官网</a><br><a href="http://duoshuo.com/create-site/" target="_blank" rel="external">创建站点</a><br><img src="http://note.youdao.com/yws/api/personal/file/766F52EF87224EB5AA7F9574F1A522AC?method=download&amp;shareKey=382814d963e4e2d578139705ae739b23" alt="image"></p>
@@ -124,6 +130,8 @@
     
     </summary>
     
+      <category term="Hexo" scheme="https://yfshare.github.io/categories/Hexo/"/>
+    
     
       <category term="Hexo" scheme="https://yfshare.github.io/tags/Hexo/"/>
     
@@ -138,7 +146,7 @@
     <link href="https://yfshare.github.io/2017/02/13/%E5%AE%89%E8%A3%85maupassant-hexo%E4%B8%BB%E9%A2%98/"/>
     <id>https://yfshare.github.io/2017/02/13/安装maupassant-hexo主题/</id>
     <published>2017-02-13T13:05:21.000Z</published>
-    <updated>2017-02-13T13:10:11.160Z</updated>
+    <updated>2017-02-14T15:00:47.261Z</updated>
     
     <content type="html"><![CDATA[<p>Hexo更换maupassant主题：<br>参考：<a href="https://github.com/tufu9441/maupassant-hexo" target="_blank" rel="external">https://github.com/tufu9441/maupassant-hexo</a><br>淘宝npm源：<a href="http://npm.taobao.org/" target="_blank" rel="external">http://npm.taobao.org/</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">pwd</span></div><div class="line">/e/GitHup_Data/Hexo_B<span class="built_in">log</span></div><div class="line">$ git <span class="built_in">clone</span> https://github.com/tufu9441/maupassant-hexo.git themes/maupassant</div><div class="line">$ npm install hexo-renderer-jade --save</div><div class="line">$ npm install hexo-renderer-sass --save   <span class="comment">#在国内网络原因，这个是安装不了的，可以使用taobao npm源解决</span></div><div class="line">$ npm install -g cnpm --registry=https://registry.npm.taobao.org   <span class="comment">#使用taobao源的cnpm代替官方的npm</span></div><div class="line">$ cnpm install hexo-renderer-sass --save   <span class="comment">#安装hexo-renderer-sass插件</span></div><div class="line">$ grep -i <span class="string">'^theme'</span> _config.yml</div><div class="line">theme: maupassant</div><div class="line">$ hexo g</div><div class="line">$ hexo server</div><div class="line"></div><div class="line">$ hexo deploy</div></pre></td></tr></table></figure></p>
 <p><img src="http://note.youdao.com/yws/api/personal/file/5068DA269F7B404BABDE5FC96C4CB002?method=download&amp;shareKey=4f37242ddca3be850964313ceadf8c4d" alt="image">  </p>
@@ -154,6 +162,8 @@
     
     </summary>
     
+      <category term="Hexo" scheme="https://yfshare.github.io/categories/Hexo/"/>
+    
     
       <category term="Hexo" scheme="https://yfshare.github.io/tags/Hexo/"/>
     
@@ -166,7 +176,7 @@
     <link href="https://yfshare.github.io/2017/02/13/%E4%BD%BF%E7%94%A8GitHub-Hexo%E6%90%AD%E5%BB%BA%E5%85%8D%E8%B4%B9%E9%9D%99%E6%80%81Blog/"/>
     <id>https://yfshare.github.io/2017/02/13/使用GitHub-Hexo搭建免费静态Blog/</id>
     <published>2017-02-13T06:33:54.000Z</published>
-    <updated>2017-02-13T07:05:25.838Z</updated>
+    <updated>2017-02-14T14:59:45.335Z</updated>
     
     <content type="html"><![CDATA[<p>This is a test page.</p>
 <hr>
@@ -180,6 +190,8 @@
 &lt;p&gt;本文出自”Jack Wang Blog”：&lt;a href=&quot;https://yfshare.github.io/2017/02/13/使用GitHub-Hexo搭建免费静态Blog/&quot;&gt;https://yfs
     
     </summary>
+    
+      <category term="Hexo" scheme="https://yfshare.github.io/categories/Hexo/"/>
     
     
       <category term="Hexo" scheme="https://yfshare.github.io/tags/Hexo/"/>
