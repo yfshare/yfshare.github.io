@@ -137,10 +137,10 @@
     <link href="https://yfshare.github.io/2017/02/14/Hexo-maupassant%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E5%A4%9A%E8%AF%B4%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/"/>
     <id>https://yfshare.github.io/2017/02/14/Hexo-maupassant主题添加多说评论系统/</id>
     <published>2017-02-14T03:27:02.000Z</published>
-    <updated>2017-02-14T16:04:36.692Z</updated>
+    <updated>2017-02-14T16:13:03.842Z</updated>
     
     <content type="html"><![CDATA[<p>Hexo maupassant主题添加多说评论系统  </p>
-<p>查看效果<br><img src="http://note.youdao.com/yws/api/personal/file/8DEC956595CF4691BDF109732DEB1EC6?method=download&amp;shareKey=b123ed32dc4276b232689aec90d78877" alt="image"><br><a id="more"></a><br>登录<a href="http://yfshare.duoshuo.com" target="_blank" rel="external">多说官网</a><br><a href="http://duoshuo.com/create-site/" target="_blank" rel="external">创建站点</a><br><img src="http://note.youdao.com/yws/api/personal/file/766F52EF87224EB5AA7F9574F1A522AC?method=download&amp;shareKey=382814d963e4e2d578139705ae739b23" alt="image"></p>
+<p>查看效果<br><img src="http://note.youdao.com/yws/api/personal/file/804AA9EC4321495386EBAB8F13C8C2EB?method=download&amp;shareKey=f772eecd7e83c252667291edb9a2e9f8" alt="image"><br><a id="more"></a><br>登录<a href="http://yfshare.duoshuo.com" target="_blank" rel="external">多说官网</a><br><a href="http://duoshuo.com/create-site/" target="_blank" rel="external">创建站点</a><br><img src="http://note.youdao.com/yws/api/personal/file/766F52EF87224EB5AA7F9574F1A522AC?method=download&amp;shareKey=382814d963e4e2d578139705ae739b23" alt="image"></p>
 <p>站点创建成功后，设置相关属性<br><img src="http://note.youdao.com/yws/api/personal/file/7E04F5162EA140E9B03F390F9C526156?method=download&amp;shareKey=a9ff4b32519b0c54650b9209ec75fe3b" alt="image">  </p>
 <p>配置Hexo，使其使用多说评论系统<br>修改maupassant主题的_config.yml文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">pwd</span></div><div class="line">/e/GitHup_Data/Hexo_B<span class="built_in">log</span>/themes/maupassant</div><div class="line">$ grep -i <span class="string">'^duoshuo'</span> _config.yml</div><div class="line">duoshuo: yfshare <span class="comment">## Your duoshuo_shortname, e.g. username</span></div><div class="line"><span class="comment">#这里的duoshuo_shortname是在创建多说站点时，在多说域名那输入的字段</span></div><div class="line"></div><div class="line"><span class="comment"># hexo g</span></div><div class="line"><span class="comment"># hexo server</span></div></pre></td></tr></table></figure></p>
 <hr>
@@ -151,16 +151,16 @@
     <summary type="html">
     
       &lt;p&gt;Hexo maupassant主题添加多说评论系统  &lt;/p&gt;
-&lt;p&gt;查看效果&lt;br&gt;&lt;img src=&quot;http://note.youdao.com/yws/api/personal/file/8DEC956595CF4691BDF109732DEB1EC6?method=download&amp;amp;shareKey=b123ed32dc4276b232689aec90d78877&quot; alt=&quot;image&quot;&gt;&lt;br&gt;
+&lt;p&gt;查看效果&lt;br&gt;&lt;img src=&quot;http://note.youdao.com/yws/api/personal/file/804AA9EC4321495386EBAB8F13C8C2EB?method=download&amp;amp;shareKey=f772eecd7e83c252667291edb9a2e9f8&quot; alt=&quot;image&quot;&gt;&lt;br&gt;
     
     </summary>
     
       <category term="Hexo" scheme="https://yfshare.github.io/categories/Hexo/"/>
     
     
-      <category term="Hexo" scheme="https://yfshare.github.io/tags/Hexo/"/>
-    
       <category term="maupassant" scheme="https://yfshare.github.io/tags/maupassant/"/>
+    
+      <category term="Hexo" scheme="https://yfshare.github.io/tags/Hexo/"/>
     
       <category term="多说" scheme="https://yfshare.github.io/tags/%E5%A4%9A%E8%AF%B4/"/>
     
@@ -192,21 +192,22 @@
       <category term="Hexo" scheme="https://yfshare.github.io/categories/Hexo/"/>
     
     
-      <category term="Hexo" scheme="https://yfshare.github.io/tags/Hexo/"/>
-    
       <category term="maupassant" scheme="https://yfshare.github.io/tags/maupassant/"/>
+    
+      <category term="Hexo" scheme="https://yfshare.github.io/tags/Hexo/"/>
     
   </entry>
   
   <entry>
-    <title>使用GitHub+Hexo搭建免费静态Blog</title>
+    <title></title>
     <link href="https://yfshare.github.io/2017/02/13/%E4%BD%BF%E7%94%A8GitHub-Hexo%E6%90%AD%E5%BB%BA%E5%85%8D%E8%B4%B9%E9%9D%99%E6%80%81Blog/"/>
     <id>https://yfshare.github.io/2017/02/13/使用GitHub-Hexo搭建免费静态Blog/</id>
-    <published>2017-02-13T06:33:54.000Z</published>
-    <updated>2017-02-14T15:54:11.206Z</updated>
+    <published>2017-02-13T06:33:55.001Z</published>
+    <updated>2017-02-14T16:39:04.752Z</updated>
     
-    <content type="html"><![CDATA[<p>环境：Hexo 3.x<br>　　　Windows7 x64Bit  </p>
-<p>Hexo官网：<a href="https://hexo.io/zh-cn/" target="_blank" rel="external">https://hexo.io/zh-cn/</a><br>Hexo官方安装文档：<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">https://hexo.io/zh-cn/docs/</a>  </p>
+    <content type="html"><![CDATA[<hr>
+<p>title: 使用GitHub+Hexo搭建免费静态Blog<br>date: 2017-02-13 14:33:54<br>categories: Hexo<br>toc: true</p>
+<h2 id="tags-GitHub-Hexo"><a href="#tags-GitHub-Hexo" class="headerlink" title="tags: [GitHub,Hexo]"></a>tags: [GitHub,Hexo]</h2><p>Hexo官网：<a href="https://hexo.io/zh-cn/" target="_blank" rel="external">https://hexo.io/zh-cn/</a><br>Hexo官方安装文档：<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">https://hexo.io/zh-cn/docs/</a>  </p>
 <h2 id="了解Hexo优点"><a href="#了解Hexo优点" class="headerlink" title="了解Hexo优点"></a>了解Hexo优点</h2><table>
 <thead>
 <tr>
@@ -233,18 +234,18 @@
 </tr>
 </tbody>
 </table>
-<a id="more"></a>
+<p>环境：Hexo 3.x<br>　　　Windows7 x64Bit  </p>
 <h2 id="安装Git-for-Windows"><a href="#安装Git-for-Windows" class="headerlink" title="安装Git for Windows"></a>安装Git for Windows</h2><p>Git for Windows下载地址：<a href="https://git-for-windows.github.io/" target="_blank" rel="external">https://git-for-windows.github.io/</a><br><a href="http://note.youdao.com/yws/api/personal/file/E8BA4EC159A44DD2BBD1A1B93FF92071?method=download&amp;shareKey=f77cb49e8f2061364c5c2bf65b2ce716" target="_blank" rel="external">Git for Windows 2.11下载地址</a>  </p>
 <h2 id="安装Node-JS"><a href="#安装Node-JS" class="headerlink" title="安装Node.JS"></a>安装Node.JS</h2><p>Node.js是一个基于Chrome的V8 JavaScript引擎的JavaScript运行时环境<br>Node.JS for Windows下载地址：<a href="https://nodejs.org/en/" target="_blank" rel="external">https://nodejs.org/en/</a><br><a href="http://note.youdao.com/yws/api/personal/file/5FCECD3216F247288C3C160C212E02A7?method=download&amp;shareKey=21cd785dbd7a375ba7aa6604afecce45" target="_blank" rel="external">node.js-v7.5.0-x64.msi下载地址</a><br>旧版的Node.JS需要配置path环境变量，新版的在安装时会自动配置Path，即可以直接使用npm命令<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">C:\&gt;npm --help</div><div class="line">Usage: npm &lt;<span class="built_in">command</span>&gt;</div><div class="line"><span class="built_in">where</span> &lt;<span class="built_in">command</span>&gt; is one of:</div><div class="line">    access, adduser, bin, bugs, c, cache, completion, config,</div><div class="line">    ddp, dedupe, deprecate, dist-tag, docs, doctor, edit,</div><div class="line">    explore, get, <span class="built_in">help</span>, <span class="built_in">help</span>-search, i, init, install,</div><div class="line">    install-test, it, link, list, ln, login, <span class="built_in">logout</span>, ls,</div><div class="line">    outdated, owner, pack, ping, prefix, prune, publish, rb,</div><div class="line">    rebuild, repo, restart, root, run, run-script, s, se,</div><div class="line">    search, <span class="built_in">set</span>, shrinkwrap, star, stars, start, stop, t, team,</div><div class="line">    <span class="built_in">test</span>, tst, un, uninstall, unpublish, unstar, up, update, v,</div><div class="line">    version, view, whoami</div><div class="line">    </div><div class="line">npm &lt;cmd&gt; -h     quick <span class="built_in">help</span> on &lt;cmd&gt;</div><div class="line">npm <span class="_">-l</span>           display full usage info</div><div class="line">npm <span class="built_in">help</span> &lt;term&gt;  search <span class="keyword">for</span> <span class="built_in">help</span> on &lt;term&gt;</div><div class="line">npm <span class="built_in">help</span> npm     involved overview</div><div class="line"></div><div class="line">Specify configs <span class="keyword">in</span> the ini-formatted file:</div><div class="line">    C:\Users\yfshare\.npmrc</div><div class="line">or on the <span class="built_in">command</span> line via: npm &lt;<span class="built_in">command</span>&gt; --key value</div><div class="line">Config info can be viewed via: npm <span class="built_in">help</span> config</div><div class="line"></div><div class="line">npm@4.1.2 C:\Program Files\nodejs\node_modules\npm</div><div class="line">C:\&gt;</div></pre></td></tr></table></figure></p>
-<h2 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h2><p>打开Windows桌面上的Git shell<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">npm install hexo-cli -g  <span class="comment">#安装到这里了C:\Users\yfshare\AppData\Roaming\npm</span></div><div class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org  <span class="comment">#更换npm源</span></div><div class="line">npm install hexo --save</div></pre></td></tr></table></figure></p>
-<h2 id="初始化Hexo配置"><a href="#初始化Hexo配置" class="headerlink" title="初始化Hexo配置"></a>初始化Hexo配置</h2><p>创建Hexo文件夹<br>安装完成后，建立Data目录(随意，目录最好不要有空格特殊字符之类的)，进入Git Shell切换到E:\GitHup_Data\GitHup\Hexo执行下面的指令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> /E/GitHup_Data/Hexo_B<span class="built_in">log</span>/  <span class="comment">#GitHup是bash环境，切换路径命令</span></div><div class="line">$ hexo init</div><div class="line">$ npm install</div><div class="line">$ ls</div><div class="line">_config.yml  node_modules/  package.json  scaffolds/  <span class="built_in">source</span>/  themes/</div></pre></td></tr></table></figure></p>
+<h2 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h2><p>打开Windows桌面上的Git shell<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">npm install hexo-cli -g  <span class="comment">#安装到这里了C:\Users\yfshare\AppData\Roaming\npm</span></div><div class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org  <span class="comment">#更换npm源</span></div><div class="line">npm install hexo --save</div></pre></td></tr></table></figure></p>
+<h2 id="初始化Hexo配置"><a href="#初始化Hexo配置" class="headerlink" title="初始化Hexo配置"></a>初始化Hexo配置</h2><p>创建Hexo文件夹<br>安装完成后，建立Data目录(随意，目录最好不要有空格特殊字符之类的)，进入 Git Shell 切换到 E:\GitHup_Data\GitHup\Hexo 执行下面的指令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> /E/GitHup_Data/Hexo_B<span class="built_in">log</span>/  <span class="comment">#GitHup是bash环境，切换路径命令</span></div><div class="line">$ hexo init</div><div class="line">$ npm install</div><div class="line">$ ls</div><div class="line">_config.yml  node_modules/  package.json  scaffolds/  <span class="built_in">source</span>/  themes/</div></pre></td></tr></table></figure></p>
 <p>安装Hexo插件<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">$ cd /E/GitHup_Data/Hexo_Blog/</div><div class="line">$ npm <span class="keyword">install</span> hexo-generator-<span class="keyword">index</span> <span class="comment">--save</span></div><div class="line">$ npm <span class="keyword">install</span> hexo-generator-<span class="keyword">archive</span> <span class="comment">--save</span></div><div class="line">$ npm <span class="keyword">install</span> hexo-generator-<span class="keyword">category</span> <span class="comment">--save</span></div><div class="line">$ npm <span class="keyword">install</span> hexo-generator-tag <span class="comment">--save</span></div><div class="line">$ npm <span class="keyword">install</span> hexo-<span class="keyword">server</span> <span class="comment">--save</span></div><div class="line">$ npm <span class="keyword">install</span> hexo-deployer-git <span class="comment">--save</span></div><div class="line">$ npm <span class="keyword">install</span> hexo-deployer-heroku <span class="comment">--save</span></div><div class="line">$ npm <span class="keyword">install</span> hexo-deployer-rsync <span class="comment">--save</span></div><div class="line">$ npm <span class="keyword">install</span> hexo-deployer-openshift <span class="comment">--save</span></div><div class="line">$ npm <span class="keyword">install</span> hexo-renderer-marked@<span class="number">0.2</span> <span class="comment">--save</span></div><div class="line">$ npm <span class="keyword">install</span> hexo-renderer-stylus@<span class="number">0.2</span> <span class="comment">--save</span></div><div class="line">$ npm <span class="keyword">install</span> hexo-generator-feed@<span class="number">1</span> <span class="comment">--save</span></div><div class="line">$ npm <span class="keyword">install</span> hexo-generator-sitemap@<span class="number">1</span> <span class="comment">--save</span></div></pre></td></tr></table></figure></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">$ hexo -v</div><div class="line">hexo-cli: 1.0.2</div><div class="line">os: Windows_NT 6.1.7601 win32 x64</div><div class="line">http_parser: 2.7.0</div><div class="line">node: 7.5.0</div><div class="line">v8: 5.4.500.48</div><div class="line">uv: 1.10.2</div><div class="line">zlib: 1.2.8</div><div class="line">ares: 1.10.1-DEV</div><div class="line">modules: 51</div><div class="line">openssl: 1.0.2k</div><div class="line">icu: 58.2</div><div class="line">unicode: 9.0</div><div class="line">cldr: 30.0.3</div><div class="line">tz: 2016j</div></pre></td></tr></table></figure>
 <p>本地验收<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> /E/GitHup_Data/Hexo_B<span class="built_in">log</span>/</div><div class="line">$ hexo g  <span class="comment">#生成public文件夹</span></div><div class="line">$ hexo server</div><div class="line">INFO  Start processing</div><div class="line">INFO  Hexo is running at http://localhost:4000/. Press Ctrl+C to stop.</div></pre></td></tr></table></figure></p>
 <p><img src="http://note.youdao.com/yws/api/personal/file/F50DFC5051A046F093861703CDBAA7ED?method=download&amp;shareKey=7103cfa4850d3b9beb0fa05b2a650176" alt="image">  </p>
 <p>Hexo简写命令<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">hexo</span> n <span class="comment">#生成文章，或者source\_posts手动编辑</span></div><div class="line">hexo s <span class="comment">#本地发布预览效果</span></div><div class="line">hexo g <span class="comment">#生成public静态文件</span></div><div class="line"><span class="comment">#最后手动同步更新至GitHub</span></div></pre></td></tr></table></figure></p>
 <h2 id="配置Hexo"><a href="#配置Hexo" class="headerlink" title="配置Hexo"></a>配置Hexo</h2><p>参考官方文档：<a href="https://hexo.io/zh-cn/docs/configuration.html" target="_blank" rel="external">https://hexo.io/zh-cn/docs/configuration.html</a><br>在配置过程中请使用<a href="http://www.yamllint.com/" target="_blank" rel="external">yamllint</a>来保证自己的yaml语法正确  </p>
-<p>网站存放在子目录<br>如果您的网站存放在子目录中，例如 <a href="http://yoursite.com/blog" target="_blank" rel="external">http://yoursite.com/blog</a> ，则请将您的 url设为 <a href="http://yoursite.com/blog" target="_blank" rel="external">http://yoursite.com/blog</a> 并把root设为 /blog/  </p>
+<p>网站存放在子目录<br>如果您的网站存放在子目录中，例如 <a href="http://yoursite.com/blog" target="_blank" rel="external">http://yoursite.com/blog</a> ，则请将您的 url设为 <a href="http://yoursite.com/blog" target="_blank" rel="external">http://yoursite.com/blog</a> 并把 root 设为 /blog/  </p>
 <p>在本地的hexo目录下的source目录下新建CNAME文件，内容为youdomain<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> /e/GitHup_Data/Hexo_B<span class="built_in">log</span>/<span class="built_in">source</span>/</div><div class="line">$ ls</div><div class="line">_posts/  CNAME</div><div class="line">$ cat CNAME</div><div class="line">https://yfshare.github.io/Hexo_B<span class="built_in">log</span></div></pre></td></tr></table></figure></p>
 <p>Hexo主题设置<br>官方主题库：<a href="https://hexo.io/themes/" target="_blank" rel="external">https://hexo.io/themes/</a><br>参考文档：<a href="http://jiji262.github.io/2016/04/15/2016-04-15-hexo-github-pages-blog/" target="_blank" rel="external">http://jiji262.github.io/2016/04/15/2016-04-15-hexo-github-pages-blog/</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> /e/GitHup_Data/Hexo_B<span class="built_in">log</span>/themes</div><div class="line">$ hexo clean</div><div class="line">$ git <span class="built_in">clone</span> https://github.com/luuman/hexo-theme-spfk</div><div class="line"><span class="comment">#修改Hexo目录下的_config.yml配置文件中的theme属性，将其设置为hexo-theme-spfk(新下载的主题)</span></div><div class="line">$ grep -i <span class="string">'^theme'</span> ../_config.yml</div><div class="line">theme: landscape</div><div class="line">$ sed -i <span class="string">'/^theme/s/landscape/hexo-theme-spfk/'</span> ../_config.yml</div><div class="line">$ grep -i <span class="string">'^theme'</span> ../_config.yml</div><div class="line">theme: hexo-theme-spfk</div><div class="line">$</div><div class="line"><span class="comment">#更换主题</span></div><div class="line">$ <span class="built_in">cd</span> hexo-theme-spfk/</div><div class="line">$ git pull</div><div class="line">Already up-to-date.</div><div class="line">$ <span class="built_in">cd</span> /e/GitHup_Data/Hexo_B<span class="built_in">log</span>/</div><div class="line">$ hexo g   <span class="comment">#必须要切换到Hexo根目录才能执行hexo g命令，否则报错</span></div><div class="line">$ hexo server  <span class="comment">#同上</span></div></pre></td></tr></table></figure></p>
 <p>更换新主题成功<br><img src="http://note.youdao.com/yws/api/personal/file/1A69C10346B44ADAB7B07C13E25575C4?method=download&amp;shareKey=bea475262c87db06114d0c19442f516a" alt="image">  </p>
@@ -271,43 +272,12 @@
     
     <summary type="html">
     
-      &lt;p&gt;环境：Hexo 3.x&lt;br&gt;　　　Windows7 x64Bit  &lt;/p&gt;
-&lt;p&gt;Hexo官网：&lt;a href=&quot;https://hexo.io/zh-cn/&quot;&gt;https://hexo.io/zh-cn/&lt;/a&gt;&lt;br&gt;Hexo官方安装文档：&lt;a href=&quot;https://hexo.io/zh-cn/docs/&quot;&gt;https://hexo.io/zh-cn/docs/&lt;/a&gt;  &lt;/p&gt;
-&lt;h2 id=&quot;了解Hexo优点&quot;&gt;&lt;a href=&quot;#了解Hexo优点&quot; class=&quot;headerlink&quot; title=&quot;了解Hexo优点&quot;&gt;&lt;/a&gt;了解Hexo优点&lt;/h2&gt;&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;优点&lt;/th&gt;
-&lt;th&gt;描述&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;超快速度&lt;/td&gt;
-&lt;td&gt;Node.js 所带来的超快生成速度，让上百个页面在几秒内瞬间完成渲染&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;一键部署&lt;/td&gt;
-&lt;td&gt;只需一条指令即可部署到 GitHub Pages, Heroku 或其他网站&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;支持Markdown&lt;/td&gt;
-&lt;td&gt;Hexo 支持 GitHub Flavored Markdown 的所有功能，甚至可以整合 Octopress 的大多数插件&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;丰富的插件&lt;/td&gt;
-&lt;td&gt;Hexo 拥有强大的插件系统，安装插件可以让 Hexo 支持 Jade, CoffeeScript&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+      &lt;hr&gt;
+&lt;p&gt;title: 使用GitHub+Hexo搭建免费静态Blog&lt;br&gt;date: 2017-02-13 14:33:54&lt;br&gt;categories: Hexo&lt;br&gt;toc: true&lt;/p&gt;
+&lt;h2 id=&quot;tags-GitHub-Hexo&quot;&gt;&lt;a href=&quot;
     
     </summary>
     
-      <category term="Hexo" scheme="https://yfshare.github.io/categories/Hexo/"/>
-    
-    
-      <category term="Hexo" scheme="https://yfshare.github.io/tags/Hexo/"/>
-    
-      <category term="GitHub" scheme="https://yfshare.github.io/tags/GitHub/"/>
     
   </entry>
   
