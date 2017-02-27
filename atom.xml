@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yfshare.github.io/"/>
-  <updated>2017-02-27T07:30:27.912Z</updated>
+  <updated>2017-02-27T07:32:32.896Z</updated>
   <id>https://yfshare.github.io/</id>
   
   <author>
@@ -20,10 +20,10 @@
     <link href="https://yfshare.github.io/2017/02/27/%E9%87%8D%E5%BB%BAoracle%E6%8E%A7%E5%88%B6%E6%96%87%E4%BB%B6/"/>
     <id>https://yfshare.github.io/2017/02/27/重建oracle控制文件/</id>
     <published>2017-02-27T07:24:08.000Z</published>
-    <updated>2017-02-27T07:30:27.912Z</updated>
+    <updated>2017-02-27T07:32:32.896Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>环境：CentOS 6.6<br>　　　oracle 11.2.0.4.0  </p>
-<p>前几天开发一都比调试存储过程时开了DEBUG，把测试服务器直接搞挂了，最后把测试服务器搞起来了，结果发现oracle数据库也挂了，原因是oracle的控制文件control02.ctl损坏了，因为是测试环境，所以没有备份…xxx<br><a id="more"></a><br>控制文件（control file）是一个相当小的文件（最多能增长到64M左右），其中包含Oracle需要的其他文件的一个目录。参数文件告知实例控制文件的位置，控制文件则告知示例数据库和在线重做日志文件的位置。控制文件还告知了Oracle其他一些事情，如已发生检查点的有关信息、数据库名（必须和db_name参数匹配）、创建数据库的时间戳、归档重做日志的历史（有时这会让控制文件变大）、RMAN信息等。<br>控制文件应该通过硬件（RAID）多路保存，如果不支持镜像，则要通过Oracle多路保存。应该有不止一个副本，而且它们应该保存在不同的磁盘上，以防止万一出现磁盘故障而丢失控制文件。丢失控制文件并不是致命的，但是会使恢复变得困难很多。<br>如果丢失了所有的控制文件并且没有任何的备份，我们可以通过重建控制文件来打开数据库。其中，重建控制文件至少需要以下信息：  </p>
+<p>前几天开发一都比调试存储过程时开了DEBUG，把测试服务器直接搞挂了，最后把测试服务器搞起来了，结果发现oracle数据库也挂了，原因是oracle的控制文件 control02.ctl 损坏了，因为是测试环境，所以没有备份…xxx<br><a id="more"></a><br>控制文件（control file）是一个相当小的文件（最多能增长到64M左右），其中包含Oracle需要的其他文件的一个目录。参数文件告知实例控制文件的位置，控制文件则告知示例数据库和在线重做日志文件的位置。控制文件还告知了Oracle其他一些事情，如已发生检查点的有关信息、数据库名（必须和db_name参数匹配）、创建数据库的时间戳、归档重做日志的历史（有时这会让控制文件变大）、RMAN信息等。<br>控制文件应该通过硬件（RAID）多路保存，如果不支持镜像，则要通过Oracle多路保存。应该有不止一个副本，而且它们应该保存在不同的磁盘上，以防止万一出现磁盘故障而丢失控制文件。丢失控制文件并不是致命的，但是会使恢复变得困难很多。<br>如果丢失了所有的控制文件并且没有任何的备份，我们可以通过重建控制文件来打开数据库。其中，重建控制文件至少需要以下信息：  </p>
 <ol>
 <li>数据库名</li>
 <li>字符集</li>
@@ -58,7 +58,7 @@
     <summary type="html">
     
       &lt;p&gt;环境：CentOS 6.6&lt;br&gt;　　　oracle 11.2.0.4.0  &lt;/p&gt;
-&lt;p&gt;前几天开发一都比调试存储过程时开了DEBUG，把测试服务器直接搞挂了，最后把测试服务器搞起来了，结果发现oracle数据库也挂了，原因是oracle的控制文件control02.ctl损坏了，因为是测试环境，所以没有备份…xxx&lt;br&gt;
+&lt;p&gt;前几天开发一都比调试存储过程时开了DEBUG，把测试服务器直接搞挂了，最后把测试服务器搞起来了，结果发现oracle数据库也挂了，原因是oracle的控制文件 control02.ctl 损坏了，因为是测试环境，所以没有备份…xxx&lt;br&gt;
     
     </summary>
     
