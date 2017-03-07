@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yfshare.github.io/"/>
-  <updated>2017-03-07T09:09:08.000Z</updated>
+  <updated>2017-03-07T09:12:03.000Z</updated>
   <id>https://yfshare.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://yfshare.github.io/2017/03/07/%E9%83%A8%E7%BD%B2Ansible-Tower/"/>
     <id>https://yfshare.github.io/2017/03/07/部署Ansible-Tower/</id>
     <published>2017-03-07T09:05:18.000Z</published>
-    <updated>2017-03-07T09:09:08.000Z</updated>
+    <updated>2017-03-07T09:12:03.000Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Ansible Tower (以前叫’AWX’)是能够帮助任何IT团队更容易使用Ansible的解决方案。该方案基于web<br>Tower允许对用户进行权限控制，即使某用户不能传送某SSH凭证，你也可以通过Tower来对该用户共享该凭证。我们可以通过图形化界面来管理Inventory，也可以对各种各样的云资源做同步。Tower可以记录所有job的日志，也可以与LDAP集成，并且拥有强大的可浏览的REST API。Tower也提供了命令行工具，可以与Jenkins轻松集成。Provisioning回调对自动伸缩拓扑图提供了强大的支持<br><a id="more"></a><br>Tower的免费版本最多支持10个节点，并且Ansible公司会提供强大的支持。可以用Ansible playbook来安装Tower，ansible的版本为1.7x或更高版本<br>安装要求：内存&gt;=2GB,/var &gt;=10GB。否则会安装失败  </p>
 <p>官网地址：<a href="https://www.ansible.com/tower" target="_blank" rel="external">https://www.ansible.com/tower</a><br>下载地址(下载免费控制10个机器的授权)：<a href="https://www.ansible.com/license" target="_blank" rel="external">https://www.ansible.com/license</a><br><a href="https://releases.ansible.com/awx/setup/" target="_blank" rel="external">ansible-tower各个版本下载地址</a><br>目前最新版为3.1.0要求：RHEL 7, CentOS 7, or Ubuntu 14.04 LTS or 16.04 LTS, and requires Ansible Core 2.1.X or later.<br>我这里系统是Centos 6.6，所以只能用Tower-3.0.3及以前的版本  </p>
@@ -53,6 +53,8 @@
       &lt;p&gt;Ansible Tower (以前叫’AWX’)是能够帮助任何IT团队更容易使用Ansible的解决方案。该方案基于web&lt;br&gt;Tower允许对用户进行权限控制，即使某用户不能传送某SSH凭证，你也可以通过Tower来对该用户共享该凭证。我们可以通过图形化界面来管理Inventory，也可以对各种各样的云资源做同步。Tower可以记录所有job的日志，也可以与LDAP集成，并且拥有强大的可浏览的REST API。Tower也提供了命令行工具，可以与Jenkins轻松集成。Provisioning回调对自动伸缩拓扑图提供了强大的支持&lt;br&gt;
     
     </summary>
+    
+      <category term="Ansible" scheme="https://yfshare.github.io/categories/Ansible/"/>
     
     
       <category term="Ansible" scheme="https://yfshare.github.io/tags/Ansible/"/>
