@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yfshare.github.io/2017/03/11/Ansible-Playbooks%E4%B9%8B%E5%AE%89%E8%A3%85Nginx/</loc>
+    
+    <lastmod>2017-03-20T07:06:31.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yfshare.github.io/2017/03/16/Ansible-Playbooks%E4%B9%8B%E5%AE%89%E8%A3%85Mysql/</loc>
     
-    <lastmod>2017-03-16T11:55:15.000Z</lastmod>
+    <lastmod>2017-03-20T07:03:56.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://yfshare.github.io/2017/03/15/Ansible-Playbooks%E4%B9%8B%E5%AE%89%E8%A3%85PHP/</loc>
     
-    <lastmod>2017-03-16T02:33:05.000Z</lastmod>
+    <lastmod>2017-03-20T07:02:06.000Z</lastmod>
     
   </url>
   
@@ -19,13 +26,6 @@
     <loc>https://yfshare.github.io/2017/03/16/Ansible%20Template%E5%A4%84%E7%90%86%E5%90%AB%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E7%9A%84%E6%96%87%E4%BB%B6/</loc>
     
     <lastmod>2017-03-16T02:29:30.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yfshare.github.io/2017/03/11/Ansible-Playbooks%E4%B9%8B%E5%AE%89%E8%A3%85Nginx/</loc>
-    
-    <lastmod>2017-03-14T16:01:13.000Z</lastmod>
     
   </url>
   
