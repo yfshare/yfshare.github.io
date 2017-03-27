@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yfshare.github.io/2017/02/13/%E4%BD%BF%E7%94%A8GitHub-Hexo%E6%90%AD%E5%BB%BA%E5%85%8D%E8%B4%B9%E9%9D%99%E6%80%81Blog/</loc>
+    
+    <lastmod>2017-03-27T15:28:18.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://yfshare.github.io/2017/03/11/Ansible-Playbooks%E4%B9%8B%E5%AE%89%E8%A3%85Nginx/</loc>
     
     <lastmod>2017-03-27T15:24:15.000Z</lastmod>
@@ -138,13 +145,6 @@
     <loc>https://yfshare.github.io/2017/02/15/Hexo%E6%8F%92%E4%BB%B6%E4%B9%8B%E9%9F%B3%E4%B9%90%E8%A7%86%E9%A2%91/</loc>
     
     <lastmod>2017-02-15T03:18:43.898Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://yfshare.github.io/2017/02/13/%E4%BD%BF%E7%94%A8GitHub-Hexo%E6%90%AD%E5%BB%BA%E5%85%8D%E8%B4%B9%E9%9D%99%E6%80%81Blog/</loc>
-    
-    <lastmod>2017-02-14T16:44:14.251Z</lastmod>
     
   </url>
   
