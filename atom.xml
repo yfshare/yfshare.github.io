@@ -87,7 +87,7 @@
     <link href="https://yfshare.github.io/2017/04/12/%E9%83%A8%E7%BD%B2Oracle-RAC%E9%9B%86%E7%BE%A4/"/>
     <id>https://yfshare.github.io/2017/04/12/部署Oracle-RAC集群/</id>
     <published>2017-04-12T01:47:00.000Z</published>
-    <updated>2017-04-12T07:40:47.000Z</updated>
+    <updated>2017-04-15T06:40:56.229Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>RAC：real application clusters introduction  </p>
 <p>ORACLE RAC原理：<br>在一个应用环境当中，所有的服务器使用和管理同一个数据库，目的是为了分散每一台服务器的工作量，硬件上至少需要两台以上的服务器，而且还需一个共享存储设备。还需要两类软件，一个是集群软件，另外一个就是Oracle数据库中的RAC组件，所有服务器上的OS都应该是同一类OS。<br><a id="more"></a><br>根据负载均衡的配置策略，当一个客户端发送请求到某一台服务的listener后，这台服务器根据负载均衡策略，会把请求发送给本机的RAC组件处理，也可能会发送给另外一台服务器的RAC组件处理，处理完请求后，RAC会通过集群软件来访问我们的共享存储设备。</p>
@@ -282,10 +282,10 @@
     
     </summary>
     
-      <category term="Oracle" scheme="https://yfshare.github.io/categories/Oracle/"/>
+      <category term="oracle" scheme="https://yfshare.github.io/categories/oracle/"/>
     
     
-      <category term="Oracle" scheme="https://yfshare.github.io/tags/Oracle/"/>
+      <category term="oracle" scheme="https://yfshare.github.io/tags/oracle/"/>
     
       <category term="RAC" scheme="https://yfshare.github.io/tags/RAC/"/>
     
@@ -1205,9 +1205,9 @@
       <category term="Hexo" scheme="https://yfshare.github.io/categories/Hexo/"/>
     
     
-      <category term="music" scheme="https://yfshare.github.io/tags/music/"/>
-    
       <category term="Hexo" scheme="https://yfshare.github.io/tags/Hexo/"/>
+    
+      <category term="music" scheme="https://yfshare.github.io/tags/music/"/>
     
       <category term="video" scheme="https://yfshare.github.io/tags/video/"/>
     
