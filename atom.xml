@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yfshare.github.io/"/>
-  <updated>2017-05-14T06:27:29.155Z</updated>
+  <updated>2017-05-14T06:51:49.958Z</updated>
   <id>https://yfshare.github.io/</id>
   
   <author>
@@ -14,6 +14,42 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>KVM网络模式详解</title>
+    <link href="https://yfshare.github.io/2017/05/14/KVM%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3/"/>
+    <id>https://yfshare.github.io/2017/05/14/KVM网络模式详解/</id>
+    <published>2017-05-14T06:48:46.000Z</published>
+    <updated>2017-05-14T06:51:49.958Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>KVM 客户机网络连接分为三种模式：host-only、NAT、Bridge<br><a id="more"></a>  </p>
+<ul>
+<li>host-only：看网上说也叫隔离模式，个人理解就类似于Vmware的仅主机模式，意思就是将所有的虚拟机组成一个局域网，不能和外界通信，不能访问Internet，其他主机也不能访问虚拟主机，安全性高。</li>
+<li>NAT方式： 用户网络（User Networking）：让虚拟机访问主机、互联网或本地网络上的资源的简单方法，但是不能从网络或其他的客户机访问客户机，性能上也需要大的调整。</li>
+<li>Bridge方式：虚拟网桥（Virtual Bridge）：这网络模式下客户机与宿主机处于同一网络环境，类似于一台真实的宿主机，直接访问网络资源，设置好后客户机与互联网，客户机与主机之间的通信都很容易。</li>
+</ul>
+<p>host-only<br>仅(虚拟)主机模式比较简单，拓扑图如下<br><img src="http://note.youdao.com/yws/api/personal/file/B315F0517F214AB38C08CA511269ECF5?method=download&amp;shareKey=5030a88551480e95137fef3895355a63" alt="host_only">  </p>
+<p>桥接网络<br>Bridge方式，即客户机通过网桥连接到宿主机网络环境中，可以使客户机成为网络中具有独立IP的主机<br>注：客户机，即用KVM安装在linux宿主机中的虚拟机<br>桥接网络，也叫物理设备共享，被用作把一个物理设备复制到一台虚拟机<br><img src="http://note.youdao.com/yws/api/personal/file/98989AB92F8041D88C02ABC8A70434F2?method=download&amp;shareKey=130bdf969e2631fe19cbd16bc5936ff2" alt="Bridge"><br>网桥的基本原理就是创建一个桥接接口，并把物理主机的eth0绑定到网桥上，客户机的网络模式需要配置为桥接模式  </p>
+<p>NAT网络<br>NAT方式是kvm安装后的默认方式。支持主机与虚拟机的互访，同时也支持虚拟机访问互联网，但不支持外界访问虚拟机<br>virbr0是由宿主机KVM相关模块安装的一个虚拟网络接口（TAP设备），也是一个switch和bridge，负责把内容分发到各虚拟机<br><img src="http://note.youdao.com/yws/api/personal/file/119EF0ED28464FD288E8FB5DF2B3244C?method=download&amp;shareKey=ebbd237b51390893e2bc5200e3765811" alt="NAT"><br><img src="http://note.youdao.com/yws/api/personal/file/163C1296BBC545088C2F6B5A787AD199?method=download&amp;shareKey=a36657a903506b6e3a854228fa00d701" alt="NAT"><br>virbr0是一个桥接器，给虚拟机群虚拟了一个局域网，这个局域网的网络号默认为 192.168.122.0<br>virbr0是kvm虚拟机NAT网络模式的重要角色，相当于Wmware中NAT网络模式中的虚拟NAT服务器<br>同时kvm 安装时默认 NAT 网络模式，他会修改宿主机的 iptables 规则，来实现 NAT网络模式的功能  </p>
+<p>参考：<a href="http://blog.csdn.net/cooling88/article/details/52203998" target="_blank" rel="external">http://blog.csdn.net/cooling88/article/details/52203998</a>  </p>
+<hr>
+<p>本作品采用<a href="https://creativecommons.org/licenses/by/2.5/cn/" target="_blank" rel="external">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://yfshare.github.io">Jack Wang Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。<br><img src="http://note.youdao.com/yws/api/personal/file/FE3C6F68961F4541AF284E5F346FC3CA?method=download&amp;shareKey=c5e4c3ca81daa6e908d5630f8c6ec242" alt="打赏"><br>本文出自”Jack Wang Blog”：<a href="https://yfshare.github.io/2017/05/14/KVM网络模式详解/">https://yfshare.github.io/2017/05/14/KVM网络模式详解/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;KVM 客户机网络连接分为三种模式：host-only、NAT、Bridge&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Virtualization" scheme="https://yfshare.github.io/categories/Virtualization/"/>
+    
+    
+      <category term="Kvm" scheme="https://yfshare.github.io/tags/Kvm/"/>
+    
+      <category term="Linux" scheme="https://yfshare.github.io/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>部署KVM虚拟机之命令行操作</title>
@@ -1334,42 +1370,6 @@
       <category term="zabbix" scheme="https://yfshare.github.io/tags/zabbix/"/>
     
       <category term="Graphtree" scheme="https://yfshare.github.io/tags/Graphtree/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hexo+Github绑定域名</title>
-    <link href="https://yfshare.github.io/2017/02/16/Hexo-Github%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D/"/>
-    <id>https://yfshare.github.io/2017/02/16/Hexo-Github绑定域名/</id>
-    <published>2017-02-16T03:41:33.000Z</published>
-    <updated>2017-02-16T03:47:56.501Z</updated>
-    
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>绑定域名  </p>
-<p>首先去购买一个域名，<a href="https://www.godaddy.com/" target="_blank" rel="external">godaddy</a>或<a href="www.net.cn">万网</a>，听说万网比godaddy买域名便宜些  </p>
-<p>效果图：<br><a id="more"></a><br><img src="http://note.youdao.com/yws/api/personal/file/84A29BD1472F43538084B5D94330CC97?method=download&amp;shareKey=57fc58d40de9aac2b6ab49ea3c19f1a4" alt="image"><br>提交资料审核通过后，需要修改域名的DNS地址<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#修改成dnspod的DNS地址</span></div><div class="line">f1g1ns1.dnspod.net</div><div class="line">f1g1ns2.dnspod.net</div></pre></td></tr></table></figure></p>
-<p><img src="http://note.youdao.com/yws/api/personal/file/46849CEF99294860A7696C77176F0CC4?method=download&amp;shareKey=f604e9ed6bd9698bb6447089c76ca2c2" alt="image">  </p>
-<p>注册 <a href="https://www.dnspod.cn/SignUp" target="_blank" rel="external">dnspod</a> 在dnspod域名解析添加域名，添加记录<br><img src="http://note.youdao.com/yws/api/personal/file/56E163D5B60C4A5BA0B4B3D78FF36914?method=download&amp;shareKey=88b1692a151014c739bc7f9446329fb1" alt="image">  </p>
-<p><img src="http://note.youdao.com/yws/api/personal/file/5092974CA79D4889B36CA1BB02DA048B?method=download&amp;shareKey=b45d293e5c715abbd34f57c6dee09f4b" alt="image"></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">pwd</span></div><div class="line">/e/GitHup_Data/Hexo_B<span class="built_in">log</span></div><div class="line">$ <span class="built_in">cd</span> <span class="built_in">source</span>/</div><div class="line">$ cat CNAME</div><div class="line">www.yfshare.vip</div></pre></td></tr></table></figure>
-<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$ </span>hexo clean</div><div class="line"><span class="variable">$ </span>hexo g</div><div class="line"><span class="variable">$ </span>hexo d</div></pre></td></tr></table></figure>
-<hr>
-<p>本作品采用<a href="https://creativecommons.org/licenses/by/2.5/cn/" target="_blank" rel="external">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://yfshare.github.io">Jack Wang Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。<br><img src="http://note.youdao.com/yws/api/personal/file/FE3C6F68961F4541AF284E5F346FC3CA?method=download&amp;shareKey=c5e4c3ca81daa6e908d5630f8c6ec242" alt="打赏"><br>本文出自”Jack Wang Blog”：<a href="https://yfshare.github.io/2017/02/16/Hexo-Github绑定域名/">https://yfshare.github.io/2017/02/16/Hexo-Github绑定域名/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;绑定域名  &lt;/p&gt;
-&lt;p&gt;首先去购买一个域名，&lt;a href=&quot;https://www.godaddy.com/&quot;&gt;godaddy&lt;/a&gt;或&lt;a href=&quot;www.net.cn&quot;&gt;万网&lt;/a&gt;，听说万网比godaddy买域名便宜些  &lt;/p&gt;
-&lt;p&gt;效果图：&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Hexo" scheme="https://yfshare.github.io/categories/Hexo/"/>
-    
-    
-      <category term="hexo" scheme="https://yfshare.github.io/tags/hexo/"/>
-    
-      <category term="domain" scheme="https://yfshare.github.io/tags/domain/"/>
     
   </entry>
   
