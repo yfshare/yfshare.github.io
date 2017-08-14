@@ -84,7 +84,7 @@
     <link href="https://yfshare.github.io/2017/08/11/tomcat%E5%90%AF%E5%8A%A8%E6%97%B6SessionIdGeneratorBase-createSecureRandom%E8%80%97%E6%97%B6%E9%97%AE%E9%A2%98/"/>
     <id>https://yfshare.github.io/2017/08/11/tomcat启动时SessionIdGeneratorBase-createSecureRandom耗时问题/</id>
     <published>2017-08-11T14:49:41.000Z</published>
-    <updated>2017-08-11T15:29:49.204Z</updated>
+    <updated>2017-08-14T15:49:36.003Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>通常情况，tomcat启动只需要几秒，最近发现发现tomcat启动非常慢，要花近10分钟，而且是发生在生产环境上，这是坚决不允许的，因此亟需解决这个问题<br>目前环境是tomcat7启动非常慢，且日志无任何报错<br><a id="more"></a><br>环境：<br>　　　Centos 7.3<br>　　　java version 1.7.0_80<br>　　　tomcat version 7.0.70  </p>
 <p>在tomcat的<code>catalina.out</code>日志中仅输出如下信息<br>搜索<code>catalina.out</code>日志中<code>Context: initialization completed in</code>关键字段<br><img src="http://note.youdao.com/yws/api/personal/file/07293469E0244BAEA83D0C3811B3B3F8?method=download&amp;shareKey=3a5d2f016b44bc9f7fc08fcd4598d518" alt="start_tomcatlog">  </p>
@@ -115,12 +115,12 @@
     
     </summary>
     
-      <category term="tomcat" scheme="https://yfshare.github.io/categories/tomcat/"/>
-    
-      <category term="session" scheme="https://yfshare.github.io/categories/tomcat/session/"/>
+      <category term="WEB" scheme="https://yfshare.github.io/categories/WEB/"/>
     
     
-      <category term="WEB" scheme="https://yfshare.github.io/tags/WEB/"/>
+      <category term="tomcat" scheme="https://yfshare.github.io/tags/tomcat/"/>
+    
+      <category term="session" scheme="https://yfshare.github.io/tags/session/"/>
     
   </entry>
   
