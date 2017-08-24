@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://yfshare.github.io/"/>
-  <updated>2017-08-22T14:38:06.892Z</updated>
+  <updated>2017-08-24T13:02:58.452Z</updated>
   <id>https://yfshare.github.io/</id>
   
   <author>
@@ -14,6 +14,60 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Win2008 r2 远程桌面服务授权管理器激活方法</title>
+    <link href="https://yfshare.github.io/2017/08/24/Win2008-r2-%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E6%9C%8D%E5%8A%A1%E6%8E%88%E6%9D%83%E7%AE%A1%E7%90%86%E5%99%A8%E6%BF%80%E6%B4%BB%E6%96%B9%E6%B3%95/"/>
+    <id>https://yfshare.github.io/2017/08/24/Win2008-r2-远程桌面服务授权管理器激活方法/</id>
+    <published>2017-08-24T12:59:00.000Z</published>
+    <updated>2017-08-24T13:02:58.452Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Windows 2008在不安装远程桌面服务授权管理器下的情况，系统允许有120天的宽限期，在120天后，又不想购买授权的话，就需要按以下的步骤“折腾”一下<br><a id="more"></a></p>
+<ol>
+<li>在添加角色和功能向导里，先安装<code>远程桌面会话主机</code>，<code>远程桌面授权</code>，<code>远程协助</code>，<code>远程桌面授权工具</code>，<code>远程桌面许可诊断程序</code></li>
+<li>首先进入”开始菜单–&gt;管理工具–&gt;远程桌面服务–&gt;远程桌面授权管理器”，开始激活。</li>
+<li>如果是域控环境，需要把RD授权服务器和RD授权功能都加入到域，否则会显示感叹号。右键<code>RD-LIC授权服务器</code>–&gt;配置–&gt;加入到组，即可。参考：<a href="http://blog.csdn.net/liangdapo/article/details/49127859" target="_blank" rel="external">http://blog.csdn.net/liangdapo/article/details/49127859</a></li>
+<li>在列表里选择已安装的授权服务器，此为的激活状态为“没有激活”，右击鼠标，选择“激活服务器”。</li>
+<li>在弹出的对话框里点“下一步”，连接方法选择“Web 浏览器，点击“下一步”。</li>
+<li>记住这个页面提供的产品ID（如：88888-888-8888888-88888），按照上面的提示，用浏览器打开“<a href="https://activate.microsoft.com”，这个页面是英文界面的，在左边的菜单中选择&quot;Chinese(Simplified)&quot;(简体中文)项，再点&quot;GO&quot;图标，切换为中文界面。" target="_blank" rel="external">https://activate.microsoft.com”，这个页面是英文界面的，在左边的菜单中选择&quot;Chinese(Simplified)&quot;(简体中文)项，再点&quot;GO&quot;图标，切换为中文界面。</a></li>
+<li>确保已选中”启用许可证服务器”，再单击“下一步”按钮。</li>
+<li>填上上面记下来的产品ID，再填入自己的其他基本资料（输入必填项即可），然后再选”下一步”继续。</li>
+<li>在这个页面显示了刚才输入的信息，点击“下一步”继续。</li>
+<li>这个页面会显示：”已成功处理您的许可证服务器激活请求……。许可证服务器ID为：……“，需要把这个分为七段的35位数抄下来，里面包含有数字和大写的英文字母；下方会问你”是否希望立即在具有此产品ID的许可证服务器上安装客户端访问许可证？”，当然应该选择“是”。</li>
+<li>在这个界面的”授权信息“中有个选择”许可证程序“的地方，天火选择的是“企业协议”，博主推荐选这个，然后点”下一步“继续。</li>
+<li>这个页面需要选择”产品类型“，天火选择的是”Windows Server 2008 R2 RDS 每设备CAL或Windows Server 2008 TS 每设备CAL“，俺也推荐选这个，“数量”根据需要随便输，比如：50，在“协议号码”处需要输入已授权的协议号码，这个是关键，否则激活无法通过，天火在这里给大家提供四个：4954438、5256992、6565792、6879321，点“下一步”。</li>
+<li>又是让你确认信息的页面，直接点“下一步”。</li>
+<li>这里就是大家期待已久的页面了：已成功处理您的客户端访问许可证请求…….，需要记住中间新产生的七段35位数，这个就是“许可证密钥包ID”。点“结束”按钮，然后就可以关闭这个窗口了。</li>
+<li>回到服务器激活向导中来，将前面产生的第一个七段35位数（许可证服务器ID）输入到输入框中（支持复制／粘贴），点“下一步”。</li>
+<li>现在完成了授权向导，还需要”立即安装许可证”，在这个界面，默认是选中“立即启动许可证安装向导”的，点”下一步”继续。</li>
+<li>确认一下连接方法使用的是“Web 浏览器”，然后继续点“下一步”。</li>
+<li>在这个界面输入第二个七段35位数（许可证密钥包ID，也支持复制／粘贴），点“下一步”。</li>
+<li>点击“完成”，恭喜你，完成激活和许可证的安装了！</li>
+</ol>
+<p>适用windows server 2012 r2  </p>
+<p>参考：<a href="http://blog.sina.com.cn/s/blog_4152a9f501017asy.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_4152a9f501017asy.html</a>  </p>
+<hr>
+<p>本作品采用<a href="https://creativecommons.org/licenses/by/2.5/cn/" target="_blank" rel="external">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://yfshare.github.io">Jack Wang Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。<br><img src="http://note.youdao.com/yws/api/personal/file/FE3C6F68961F4541AF284E5F346FC3CA?method=download&amp;shareKey=c5e4c3ca81daa6e908d5630f8c6ec242" alt="打赏"><br>本文出自”Jack Wang Blog”：<a href="https://yfshare.github.io/2017/08/24/Win2008-r2-远程桌面服务授权管理器激活方法/">https://yfshare.github.io/2017/08/24/Win2008-r2-远程桌面服务授权管理器激活方法/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Windows 2008在不安装远程桌面服务授权管理器下的情况，系统允许有120天的宽限期，在120天后，又不想购买授权的话，就需要按以下的步骤“折腾”一下&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Windows" scheme="https://yfshare.github.io/categories/Windows/"/>
+    
+    
+      <category term="RDS" scheme="https://yfshare.github.io/tags/RDS/"/>
+    
+      <category term="windows server" scheme="https://yfshare.github.io/tags/windows-server/"/>
+    
+      <category term="Remote Desktop" scheme="https://yfshare.github.io/tags/Remote-Desktop/"/>
+    
+      <category term="远程桌面" scheme="https://yfshare.github.io/tags/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2/"/>
+    
+  </entry>
   
   <entry>
     <title>程序启动报Illegal key size错误</title>
@@ -47,11 +101,11 @@
   </entry>
   
   <entry>
-    <title>部署PinPoint分布式系统监控</title>
-    <link href="https://yfshare.github.io/2017/08/14/%E9%83%A8%E7%BD%B2PinPoint%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E7%9B%91%E6%8E%A7/"/>
-    <id>https://yfshare.github.io/2017/08/14/部署PinPoint分布式系统监控/</id>
+    <title>部署PinPoint分布式调用链系统监控</title>
+    <link href="https://yfshare.github.io/2017/08/14/%E9%83%A8%E7%BD%B2PinPoint%E5%88%86%E5%B8%83%E5%BC%8F%E8%B0%83%E7%94%A8%E9%93%BE%E7%B3%BB%E7%BB%9F%E7%9B%91%E6%8E%A7/"/>
+    <id>https://yfshare.github.io/2017/08/14/部署PinPoint分布式调用链系统监控/</id>
     <published>2017-08-14T15:41:28.000Z</published>
-    <updated>2017-08-22T14:27:10.047Z</updated>
+    <updated>2017-08-23T12:34:31.753Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>pinpoint是开源在github上的一款APM监控工具，JAVA语言开发用于大规模分布式系统监控，对性能的影响最小(只增加约3％资源利用率，吃内存)，安装agent是无侵入式的，只需要在被测试的Tomcat中加上配置下，打下探针就可以监控整套程序了<br><a id="more"></a></p>
 <table>
@@ -92,7 +146,7 @@
 <p>参考：<a href="http://www.cnblogs.com/yyhh/p/6106472.html#yy0201" target="_blank" rel="external">http://www.cnblogs.com/yyhh/p/6106472.html#yy0201</a>  </p>
 <p>附件：<br><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html" target="_blank" rel="external">java7官方下载</a><br><a href="https://github.com/naver/pinpoint/releases/tag/1.6.2" target="_blank" rel="external">PinPoint Git下载</a><br><a href="http://note.youdao.com/yws/api/personal/file/CB316538423E4CDC9C3D41B7EDC5BCB5?method=download&amp;shareKey=f9f1e61b112bd26abafd90e3e57c9a82" target="_blank" rel="external">hbase-1.2.5-bin.tar.gz下载</a><br><a href="http://note.youdao.com/yws/api/personal/file/F2EEA733CE464B5898B3571CE1F4BB49?method=download&amp;shareKey=f412193774511a8762f73cf6792b5f0e" target="_blank" rel="external">分布式调用链监控系统.zip</a>  </p>
 <hr>
-<p>本作品采用<a href="https://creativecommons.org/licenses/by/2.5/cn/" target="_blank" rel="external">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://yfshare.github.io">Jack Wang Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。<br><img src="http://note.youdao.com/yws/api/personal/file/FE3C6F68961F4541AF284E5F346FC3CA?method=download&amp;shareKey=c5e4c3ca81daa6e908d5630f8c6ec242" alt="打赏"><br>本文出自”Jack Wang Blog”：<a href="https://yfshare.github.io/2017/08/14/部署PinPoint分布式系统监控/">https://yfshare.github.io/2017/08/14/部署PinPoint分布式系统监控/</a></p>
+<p>本作品采用<a href="https://creativecommons.org/licenses/by/2.5/cn/" target="_blank" rel="external">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://yfshare.github.io">Jack Wang Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。<br><img src="http://note.youdao.com/yws/api/personal/file/FE3C6F68961F4541AF284E5F346FC3CA?method=download&amp;shareKey=c5e4c3ca81daa6e908d5630f8c6ec242" alt="打赏"><br>本文出自”Jack Wang Blog”：<a href="https://yfshare.github.io/2017/08/14/部署PinPoint分布式调用链系统监控/">https://yfshare.github.io/2017/08/14/部署PinPoint分布式调用链系统监控/</a></p>
 ]]></content>
     
     <summary type="html">
@@ -1117,101 +1171,6 @@
       <category term="JIRA" scheme="https://yfshare.github.io/tags/JIRA/"/>
     
       <category term="Atlassian" scheme="https://yfshare.github.io/tags/Atlassian/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>部署Grafana数据展示系统</title>
-    <link href="https://yfshare.github.io/2017/04/29/%E9%83%A8%E7%BD%B2Grafana%E6%95%B0%E6%8D%AE%E5%B1%95%E7%A4%BA%E7%B3%BB%E7%BB%9F/"/>
-    <id>https://yfshare.github.io/2017/04/29/部署Grafana数据展示系统/</id>
-    <published>2017-04-29T05:48:37.000Z</published>
-    <updated>2017-05-02T12:39:25.000Z</updated>
-    
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Grafana 是 Graphite 和 InfluxDB 仪表盘和图形编辑器。<br>Grafana 是开源的，功能齐全的度量仪表盘和图形编辑器，支持 Graphite，InfluxDB 和 OpenTSDB。<br>Grafana 主要特性：灵活丰富的图形化选项；可以混合多种风格；支持白天和夜间模式；多个数据源；Graphite 和 InfluxDB 查询编辑器等等。<br><a id="more"></a></p>
-<h2 id="认识Grafana"><a href="#认识Grafana" class="headerlink" title="认识Grafana"></a>认识Grafana</h2><p><strong>Graphite 指标编辑器</strong></p>
-<ul>
-<li>Graphite 指标表达解析器</li>
-<li>功能齐全的查询功能</li>
-<li>快速添加和编辑函数和参数</li>
-<li>模板化查询</li>
-<li>See it in action</li>
-</ul>
-<p><strong>图形化</strong></p>
-<ul>
-<li>快速渲染，甚至是较大的时间跨度</li>
-<li>点击和拖拽缩放</li>
-<li>多个 Y 轴 </li>
-<li>条形，折线，点 </li>
-<li>智能 Y 轴格式化</li>
-<li>系列切换和颜色选择 </li>
-<li>Legend values 和格式化选项</li>
-<li>网格阈值，轴标签</li>
-<li>Annotations</li>
-</ul>
-<p><strong>仪表盘</strong></p>
-<ul>
-<li>创建，编辑，保存和搜索仪表盘</li>
-<li>修改列宽和行高</li>
-<li>拖拽面板重新编排</li>
-<li>使用 InfluxDB 或者 Elasticsearch 作为仪表盘存储</li>
-<li>导入和导出仪表盘（JSON 文件）</li>
-<li>从 Graphite 导入仪表盘</li>
-<li>模板</li>
-<li>Scripted dashboards</li>
-<li>Dashboard playlists</li>
-<li>时间范围控制</li>
-</ul>
-<p><strong>InfluxDB</strong></p>
-<ul>
-<li>使用 InfluxDB 作为指标数据源，注释源和仪表盘存储</li>
-<li>查询编辑器</li>
-</ul>
-<p><strong>OpenTSDB</strong></p>
-<ul>
-<li>作为指标数据源</li>
-<li>查询编辑器</li>
-</ul>
-<h2 id="部署Grafana数据展示平台-之在线安装"><a href="#部署Grafana数据展示平台-之在线安装" class="headerlink" title="部署Grafana数据展示平台 之在线安装"></a>部署Grafana数据展示平台 之在线安装</h2><p>官网：<a href="http://grafana.org/" target="_blank" rel="external">http://grafana.org/</a><br>环境：<br>　　　Centos 6.6<br>　　　Zabbix Version 3.0.4<br>　　　grafana Version 3.1.1  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">[root@Zabbix ~]<span class="comment"># wget https://grafanarel.s3.amazonaws.com/builds/grafana-3.1.1-1470047149.x86_64.rpm</span></div><div class="line">[root@Zabbix ~]<span class="comment"># yum -y install grafana-3.1.1-1470047149.x86_64.rpm</span></div><div class="line">[root@Zabbix ~]<span class="comment"># mkdir -p /var/log/grafana</span></div><div class="line">[root@Zabbix ~]<span class="comment"># cd /usr/share/grafana/conf/</span></div><div class="line">[root@Zabbix conf]<span class="comment"># grep -v '^#' defaults.ini | grep -v ^$</span></div><div class="line">···</div><div class="line">[users]</div><div class="line">allow_sign_up = <span class="literal">false</span>         <span class="comment">#关闭这个在登录界面就没有Sign Up了</span></div><div class="line">allow_org_create = <span class="literal">false</span></div><div class="line">auto_assign_org = <span class="literal">false</span></div><div class="line">auto_assign_org_role = Viewer</div><div class="line">verify_email_enabled = <span class="literal">false</span></div><div class="line">login_hint = email or username</div><div class="line">default_theme = dark</div><div class="line">···</div><div class="line">[root@Zabbix conf]<span class="comment">#</span></div></pre></td></tr></table></figure>
-<p>安装Grafana插件<br>官方文档：<a href="http://docs.grafana.org/plugins/installation/" target="_blank" rel="external">http://docs.grafana.org/plugins/installation/</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#列出可用的插件</span></div><div class="line">[root@Zabbix ~]<span class="comment"># grafana-cli plugins list-remote</span></div><div class="line">id: abhisant-druid-datasource version: 0.0.2</div><div class="line">id: alexanderzobnin-zabbix-app version: 3.0.0</div><div class="line">id: bosun-app version: 0.0.25</div><div class="line">id: bosun-datasource version: 0.0.5</div><div class="line">id: crate-datasource version: 0.0.1</div><div class="line">id: fastweb-openfalcon-datasource version: 1.0.0</div><div class="line">id: fetzerch-sunandmoon-datasource version: 0.1.1</div><div class="line">id: grafana-clock-panel version: 0.0.8</div><div class="line">id: grafana-example-app version: 1.0.1</div><div class="line">id: grafana-influxdb-08-datasource version: 1.0.2</div><div class="line">id: grafana-kairosdb-datasource version: 1.0.1</div><div class="line">id: grafana-piechart-panel version: 1.1.1</div><div class="line">id: grafana-simple-json-datasource version: 1.1.2</div><div class="line">id: grafana-worldmap-panel version: 0.0.14</div><div class="line">id: kentik-app version: 1.0.4</div><div class="line">id: mtanda-heatmap-epoch-panel version: 0.1.1</div><div class="line">id: mtanda-histogram-panel version: 0.1.5</div><div class="line">id: ns1-app version: 0.0.5</div><div class="line">id: opennms-datasource version: 2.0.1</div><div class="line">id: percona-percona-app version: 1.0.0</div><div class="line">id: praj-ams-datasource version: 1.0.1</div><div class="line">id: raintank-snap-app version: 0.0.3</div><div class="line">id: raintank-worldping-app version: 1.0.10</div><div class="line">id: sileht-gnocchi-datasource version: 1.0.6</div><div class="line">id: sraoss-sunburst-panel version: 1.0</div><div class="line">id: stagemonitor-elasticsearch-app version: 0.26.0</div><div class="line">id: udoprog-heroic-datasource version: 0.1.0</div><div class="line">id: voxter-app version: 0.0.1</div><div class="line">Restart grafana after installing plugins . &lt;service grafana-server restart&gt;</div><div class="line">[root@Zabbix ~]<span class="comment">#</span></div></pre></td></tr></table></figure></p>
-<p><a href="https://grafana.com/plugins/alexanderzobnin-zabbix-app" target="_blank" rel="external">alexanderzobnin-zabbix-app</a> 插件用于Grafana通过Zabbix API获取数据并展示数据<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@Zabbix ~]<span class="comment"># grafana-cli plugins install alexanderzobnin-zabbix-app</span></div></pre></td></tr></table></figure></p>
-<p><img src="http://note.youdao.com/yws/api/personal/file/F9559698659841E8913649C3444C5701?method=download&amp;shareKey=2c51f44d408b1674bceee85ab5787611" alt="Grafana_install_plugins">  </p>
-<p>安装Grafana其他插件<br>常用插件：<a href="https://grafana.com/plugins/grafana-clock-panel" target="_blank" rel="external">grafana-clock-panel</a>、<a href="https://grafana.com/plugins/grafana-simple-json-datasource" target="_blank" rel="external">grafana-simple-json-datasource</a>、<a href="https://grafana.com/plugins/grafana-piechart-panel" target="_blank" rel="external">grafana-piechart-panel</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[root@Zabbix ~]<span class="comment"># grafana-cli plugins install grafana-clock-panel</span></div><div class="line">[root@Zabbix ~]<span class="comment"># grafana-cli plugins install grafana-simple-json-datasource</span></div><div class="line">[root@Zabbix ~]<span class="comment"># grafana-cli plugins install grafana-piechart-panel</span></div></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#这三个可以不安装，这三个插件是用于检测DNS/PING等网络情况的，需要付费</span></div><div class="line">[root@Zabbix ~]<span class="comment"># grafana-cli plugins install raintank-worldping-app</span></div><div class="line">[root@Zabbix ~]<span class="comment"># grafana-cli plugins install fastweb-openfalcon-datasource</span></div><div class="line">[root@Zabbix ~]<span class="comment"># grafana-cli plugins install percona-percona-app</span></div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#列出已安装的插件</span></div><div class="line">[root@Zabbix ~]<span class="comment"># grafana-cli plugins ls</span></div></pre></td></tr></table></figure>
-<p><img src="http://note.youdao.com/yws/api/personal/file/9AA193AACC784E9DACA6C47A9162C132?method=download&amp;shareKey=d50c4fe6334663c21675454699cba3d2" alt="Grafana_plugins_list"><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">[root@Zabbix ~]<span class="comment"># ll /var/lib/grafana/plugins</span></div><div class="line">total 28</div><div class="line">drwxr-xr-x 7 root root 4096 Aug 30 10:14 alexanderzobnin-zabbix-app</div><div class="line">drwxr-xr-x 6 root root 4096 Aug 30 15:03 fastweb-openfalcon-datasource</div><div class="line">drwxr-xr-x 4 root root 4096 Aug 30 10:15 grafana-clock-panel</div><div class="line">drwxr-xr-x 4 root root 4096 Aug 30 14:40 grafana-piechart-panel</div><div class="line">drwxr-xr-x 5 root root 4096 Aug 30 10:15 grafana-simple-json-datasource</div><div class="line">drwxr-xr-x 4 root root 4096 Aug 30 15:31 percona-percona-app</div><div class="line">drwxr-xr-x 4 root root 4096 Aug 30 10:15 raintank-worldping-app</div><div class="line">[root@Zabbix ~]<span class="comment">#</span></div><div class="line">[root@Zabbix ~]<span class="comment"># /etc/init.d/grafana-server start</span></div><div class="line">Starting Grafana Server: .... OK</div><div class="line">[root@Zabbix ~]<span class="comment"># chkconfig --add grafana-server</span></div><div class="line">[root@Zabbix ~]<span class="comment"># chkconfig grafana-server on</span></div></pre></td></tr></table></figure></p>
-<p>访问：<a href="http://ip:3000/" target="_blank" rel="external">http://ip:3000/</a><br><img src="http://note.youdao.com/yws/api/personal/file/C6BD03BA70054CDA86E0F06A22565CF4?method=download&amp;shareKey=4fef0d3fa79d4ddac0ddcec59cf0f324" alt="Grafana_login"><br><img src="http://note.youdao.com/yws/api/personal/file/9917D8C1D4C24100B069C89E388D6D3B?method=download&amp;shareKey=1e7ad5cb9d8a03620beebe317425fe18" alt="Grafana">  </p>
-<p>安装zabbix插件<br><img src="http://note.youdao.com/yws/api/personal/file/7A07E86DB96749EFB27ED735384BA754?method=download&amp;shareKey=e81b981df1db0df3b7497548f5e3481e" alt="Grafana"><br><img src="http://note.youdao.com/yws/api/personal/file/C630210B1F1B4BF1AA0695CCBED55FC0?method=download&amp;shareKey=675682543eb92186f4ac9dc9a6f88db0" alt="Grafana"><br><img src="http://note.youdao.com/yws/api/personal/file/FB95B45975024294903C014A0EC7452E?method=download&amp;shareKey=503c506c48df2eba416b79fba9eec87b" alt="Grafana"><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Zabbix的API地址为“http://192.168.31.130/zabbix/api_jsonrpc.php”，其中IP的安装zabbix-server的服务器IP</div><div class="line">Zabbix的API账号密码就是Zabbix的Web端登录账号和密码</div></pre></td></tr></table></figure></p>
-<p><img src="http://note.youdao.com/yws/api/personal/file/CAE0140CA04D4DF48FE71CC516745D8D?method=download&amp;shareKey=93d4114c12ef3fadfb95511cc90b3ae5" alt="Grafana_datasource"><br><img src="http://note.youdao.com/yws/api/personal/file/4D17740A04754EFD880EE5538BA68F18?method=download&amp;shareKey=90faa224c21a22ea962bca3ab69c043c" alt="Grafana_datasource"><br><img src="http://note.youdao.com/yws/api/personal/file/85BFEE13D1C9484B813E41FF4F94495F?method=download&amp;shareKey=5ab8cd7a870598acce4cc7ac0f34a619" alt="Grafana_datasource">  </p>
-<p>新建一个仪表<br><img src="http://note.youdao.com/yws/api/personal/file/7A029D61C3034907A7A478057BECABB2?method=download&amp;shareKey=c01433e248d55b813bafd9932d7260cc" alt="Grafana_table"><br><img src="http://note.youdao.com/yws/api/personal/file/FD53B024CD7F40E3A3A7F4649FF93FEE?method=download&amp;shareKey=7e69a28a18f3f352ff7bb8254a2396e3" alt="Grafana_table"><br><img src="http://note.youdao.com/yws/api/personal/file/665E5D9A6E514558B862359B3DCF8D5E?method=download&amp;shareKey=1d17b900e195a92fd4d234951348dd85" alt="Grafana_table"><br><img src="http://note.youdao.com/yws/api/personal/file/DB3037B236F94787B9152D109D39205E?method=download&amp;shareKey=066caf56955144b5c2a564993d8ee54f" alt="Grafana_table"><br><img src="http://note.youdao.com/yws/api/personal/file/ACEE15EF2DA34CD0B7116DC90A9B8D73?method=download&amp;shareKey=f52e33fc6dc6721525bf5b9dfc4f4d09" alt="Grafana_table"><br><img src="http://note.youdao.com/yws/api/personal/file/82DC4AAFDF744673895B25C90706BA22?method=download&amp;shareKey=f0f36343e8c3cb04a984a98f96761f2b" alt="Grafana_table"><br>OK，Grafana在线安装完成  </p>
-<p>看看效果图<br><img src="http://note.youdao.com/yws/api/personal/file/1D8445F4804C435085DE75FBDE27263E?method=download&amp;shareKey=c4fa2915a6d0c49cd5e0a6209a0fba52" alt="Grafana_view"><br><img src="http://note.youdao.com/yws/api/personal/file/8DF5C52B582F494DA2954B8D8827B204?method=download&amp;shareKey=499d5a9b47ace1047965438e21942a1d" alt="Grafana_view"><br><img src="http://note.youdao.com/yws/api/personal/file/07456EC8BB6545CCAB7D2E1318DFCBED?method=download&amp;shareKey=9ca12dd9c5eabd809762f15706fd4164" alt="Grafana_view"><br><img src="http://note.youdao.com/yws/api/personal/file/52FFAD517EBC494DA0FF0B610DCCE4B9?method=download&amp;shareKey=e483df4b036bda1cd7bab7b85caed089" alt="Grafana_view"><br><img src="http://note.youdao.com/yws/api/personal/file/C0B0D4DDAE2F4300A66D28F737E9001A?method=download&amp;shareKey=ac4613af5fcff7c55615905dca9eb00f" alt="Grafana_view">  </p>
-<p>用户管理（使用管理员登录）<br><img src="http://note.youdao.com/yws/api/personal/file/D8F5502ED5EE4BC28D325D53138BEBFD?method=download&amp;shareKey=47cc76449f34b867a36f46ca898518bd" alt="Grafana_user"><br>创建Grafana用户并授权<br><img src="http://note.youdao.com/yws/api/personal/file/A40A324FC3534F5280F3D1CAD703782A?method=download&amp;shareKey=dbee8d7330e6bfbf50ef7faeea881762" alt="Grafana_create_user"><br><img src="http://note.youdao.com/yws/api/personal/file/7D17F2BA1B2347A0870FE23DF7389BB4?method=download&amp;shareKey=c3a99d1cb924d7c0fc91802cae6e6a5b" alt="Grafana_create_user"><br><img src="http://note.youdao.com/yws/api/personal/file/9F5FF958A04040D8A0C66BBCDC52794F?method=download&amp;shareKey=fcaeff76d1d9e5d58a2be6c7e243b7cf" alt="Grafana_create_user"><br><img src="http://note.youdao.com/yws/api/personal/file/BBBE8D23CCE149E9B4A8F39BFEA157A1?method=download&amp;shareKey=a19a190c96a5a86fc670a57ffd7136c2" alt="Grafana_create_user"><br><img src="http://note.youdao.com/yws/api/personal/file/1AA4DE107B614001A5DD67B52C8A1553?method=download&amp;shareKey=845ec93e76260b6153ef0d007ac90361" alt="Grafana_create_user">  </p>
-<h2 id="部署Grafana数据展示平台-之离线安装"><a href="#部署Grafana数据展示平台-之离线安装" class="headerlink" title="部署Grafana数据展示平台 之离线安装"></a>部署Grafana数据展示平台 之离线安装</h2><p>官网：<a href="http://grafana.org/" target="_blank" rel="external">http://grafana.org/</a><br>环境：<br>　　　Centos 7.2<br>　　　Grafana Version 4.2.0  </p>
-<p>Grafana支持多平台安装，目前已知平台有Linux、Windows、Mac、Docker。Linux支持系统有Ubuntu &amp;Debian、Standalone Linux Binaries、Redhat &amp;Centos等等<br>Grafana下载地址：<a href="https://grafana.com/grafana/download" target="_blank" rel="external">https://grafana.com/grafana/download</a>  </p>
-<p><a href="https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-4.2.0-1.x86_64.rpm" target="_blank" rel="external">下载Grafana for Centos</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#安装Grafana</span></div><div class="line">[root@localhost ~]<span class="comment"># yum -y install grafana-4.2.0-1.x86_64.rpm</span></div><div class="line">[root@localhost ~]<span class="comment"># cd /usr/share/grafana/conf/</span></div><div class="line">[root@localhost ~]<span class="comment"># grep -v ^# /usr/share/grafana/conf/defaults.ini | grep -v ^$</span></div><div class="line">...</div><div class="line"><span class="comment">#allow_sign_up、allow_org_create、auto_assign_org值为false在登录界面就没有Sign Up了</span></div><div class="line">[users]</div><div class="line">allow_sign_up = <span class="literal">false</span></div><div class="line">allow_org_create = <span class="literal">false</span></div><div class="line">auto_assign_org = <span class="literal">false</span></div><div class="line">auto_assign_org_role = Viewer</div><div class="line">verify_email_enabled = <span class="literal">false</span></div><div class="line">login_hint = email or username</div><div class="line">default_theme = dark</div><div class="line">...</div><div class="line">[root@localhost ~]<span class="comment"># systemctl enable grafana-server</span></div><div class="line">[root@localhost ~]<span class="comment"># service grafana-server start</span></div><div class="line">[root@localhost ~]<span class="comment"># mkdir -p /var/log/grafana</span></div></pre></td></tr></table></figure></p>
-<p>访问<a href="http://ip:3000" target="_blank" rel="external">http://ip:3000</a><br><img src="http://note.youdao.com/yws/api/personal/file/283EB01F3A4941E29F8AE30FD43E8775?method=download&amp;shareKey=a5c4750aa0f94fb4ef599640a08155d6" alt="Grafana_login">  </p>
-<p>安装Grafana插件<br>grafana插件：<a href="https://grafana.com/plugins" target="_blank" rel="external">https://grafana.com/plugins</a> ，这里可以获取Grafana最新插件  </p>
-<p>安装Grafana for Zabbix插件<br><a href="https://grafana.com/plugins/alexanderzobnin-zabbix-app" target="_blank" rel="external">alexanderzobnin-zabbix-app</a> 插件用于Grafana通过Zabbix API获取数据并展示数据<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]<span class="comment"># unzip alexanderzobnin-grafana-zabbix-v3.3.0-0-geca8096.zip</span></div><div class="line">[root@localhost ~]<span class="comment"># cp -rfp alexanderzobnin-grafana-zabbix-eca8096/ /var/lib/g</span></div><div class="line">rafana/plugins/</div><div class="line">[root@localhost ~]<span class="comment"># service grafana-server restart</span></div></pre></td></tr></table></figure></p>
-<p><img src="http://note.youdao.com/yws/api/personal/file/4FA3930F6A92405EA22D6615C4F27B8C?method=download&amp;shareKey=1f06986616b1ada68340d0504fdd2bd8" alt="Grafana_install_plugin"><br><img src="http://note.youdao.com/yws/api/personal/file/DDFE4FD7CED342AB888E8505A9886929?method=download&amp;shareKey=539ea2e4844cb414ca5a7c0d9e7b5801" alt="Grafana_install_plugin"><br><img src="http://note.youdao.com/yws/api/personal/file/7106F5778C6C4BCEB8EC2691F940C1FC?method=download&amp;shareKey=9dcf899b3fdc6449592318587c0f91a9" alt="Grafana_install_plugin">  </p>
-<p>安装Grafana其他插件<br>常用插件：<a href="https://grafana.com/plugins/grafana-clock-panel" target="_blank" rel="external">grafana-clock-panel</a>、<a href="https://grafana.com/plugins/grafana-simple-json-datasource" target="_blank" rel="external">grafana-simple-json-datasource</a>、<a href="https://grafana.com/plugins/grafana-piechart-panel" target="_blank" rel="external">grafana-piechart-panel</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]<span class="comment"># unzip grafana-clock-panel-c5b3c7f.zip</span></div><div class="line">[root@localhost ~]<span class="comment"># cp -rfp grafana-clock-panel-c5b3c7f /var/lib/grafana/plugins/</span></div><div class="line">[root@localhost ~]<span class="comment"># unzip grafana-piechart-panel-ce2ede8.zip</span></div><div class="line">[root@localhost ~]<span class="comment"># cp grafana-piechart-panel-ce2ede8 /var/lib/grafana/plugins/ -rfp</span></div><div class="line">[root@localhost ~]<span class="comment"># unzip grafana-simple-json-datasource-49eeb6d.zip</span></div><div class="line">[root@localhost ~]<span class="comment"># cp -rfp grafana-simple-json-datasource-49eeb6d /var/lib/grafana/plugins/</span></div><div class="line">[root@localhost ~]<span class="comment"># unzip Vonage-Grafana_Status_panel-1.0.4-0-g8bf28f2.zip</span></div><div class="line">[root@localhost ~]<span class="comment"># cp -rfp Vonage-Grafana_Status_panel-8bf28f2/ /var/lib/grafana/plugins/</span></div><div class="line"></div><div class="line">[root@localhost ~]<span class="comment"># ll /var/lib/grafana/plugins/</span></div><div class="line">total 8</div><div class="line">drwxr-xr-x 6 root root 4096 Feb 10 23:30 alexanderzobnin-grafana-zabbix-eca8096</div><div class="line">drwxr-xr-x 4 root root 4096 Mar 18 07:29 grafana-clock-panel-c5b3c7f</div><div class="line">drwxr-xr-x 4 root root  112 Sep 29  2016 grafana-piechart-panel-ce2ede8</div><div class="line">drwxr-xr-x 5 root root  156 Mar 24 00:54 grafana-simple-json-datasource-49eeb6d</div><div class="line">drwxr-xr-x 4 root root  136 Apr 27 18:02 Vonage-Grafana_Status_panel-8bf28f2</div><div class="line">[root@localhost ~]<span class="comment">#</span></div><div class="line">[root@localhost ~]<span class="comment"># grafana-cli plugins ls </span></div><div class="line">installed plugins:</div><div class="line">vonage-status-panel @ 1.0.4 </div><div class="line">alexanderzobnin-zabbix-app @ 3.3.0 </div><div class="line">grafana-clock-panel @ 0.0.9 </div><div class="line">grafana-piechart-panel @ 1.1.4 </div><div class="line">grafana-simple-json-datasource @ 1.3.1 </div><div class="line"></div><div class="line">Restart grafana after installing plugins . &lt;service grafana-server restart&gt;</div><div class="line"></div><div class="line">[root@localhost ~]<span class="comment">#</span></div><div class="line"><span class="comment">#安装了新的Grafana插件需要重启Grafana</span></div><div class="line">[root@localhost ~]<span class="comment"># service grafana-server restart</span></div></pre></td></tr></table></figure></p>
-<p><img src="http://note.youdao.com/yws/api/personal/file/C95B8C145A5D426DA83765ABCD32AB69?method=download&amp;shareKey=cc367f5f83d84d60348a4207b4b6409b" alt="Grafana_install_plugin"><br>OK，Grafana离线安装完成  </p>
-<p>附件：<br><a href="http://note.youdao.com/yws/api/personal/file/5DBEFC3BD49A4A4389EB254F017BEAE5?method=download&amp;shareKey=6e1a225b682c682666f2b06f5f1053a9" target="_blank" rel="external">grafana_install_packages.zip</a>  </p>
-<hr>
-<p>本作品采用<a href="https://creativecommons.org/licenses/by/2.5/cn/" target="_blank" rel="external">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://yfshare.github.io">Jack Wang Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。<br><img src="http://note.youdao.com/yws/api/personal/file/FE3C6F68961F4541AF284E5F346FC3CA?method=download&amp;shareKey=c5e4c3ca81daa6e908d5630f8c6ec242" alt="打赏"><br>本文出自”Jack Wang Blog”：<a href="https://yfshare.github.io/2017/04/29/部署Grafana数据展示系统/">https://yfshare.github.io/2017/04/29/部署Grafana数据展示系统/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Grafana 是 Graphite 和 InfluxDB 仪表盘和图形编辑器。&lt;br&gt;Grafana 是开源的，功能齐全的度量仪表盘和图形编辑器，支持 Graphite，InfluxDB 和 OpenTSDB。&lt;br&gt;Grafana 主要特性：灵活丰富的图形化选项；可以混合多种风格；支持白天和夜间模式；多个数据源；Graphite 和 InfluxDB 查询编辑器等等。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Zabbix" scheme="https://yfshare.github.io/categories/Zabbix/"/>
-    
-    
-      <category term="Zabbix" scheme="https://yfshare.github.io/tags/Zabbix/"/>
-    
-      <category term="Grafana" scheme="https://yfshare.github.io/tags/Grafana/"/>
     
   </entry>
   

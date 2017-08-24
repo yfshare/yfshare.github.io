@@ -4,6 +4,38 @@
   
     
     <entry>
+      <title><![CDATA[Win2008 r2 远程桌面服务授权管理器激活方法]]></title>
+      <url>https://yfshare.github.io/2017/08/24/Win2008-r2-%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E6%9C%8D%E5%8A%A1%E6%8E%88%E6%9D%83%E7%AE%A1%E7%90%86%E5%99%A8%E6%BF%80%E6%B4%BB%E6%96%B9%E6%B3%95/</url>
+      <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Windows 2008在不安装远程桌面服务授权管理器下的情况，系统允许有120天的宽限期，在120天后，又不想购买授权的话，就需要按以下的步骤“折腾”一下<br><a id="more"></a></p>
+<ol>
+<li>在添加角色和功能向导里，先安装<code>远程桌面会话主机</code>，<code>远程桌面授权</code>，<code>远程协助</code>，<code>远程桌面授权工具</code>，<code>远程桌面许可诊断程序</code></li>
+<li>首先进入”开始菜单–&gt;管理工具–&gt;远程桌面服务–&gt;远程桌面授权管理器”，开始激活。</li>
+<li>如果是域控环境，需要把RD授权服务器和RD授权功能都加入到域，否则会显示感叹号。右键<code>RD-LIC授权服务器</code>–&gt;配置–&gt;加入到组，即可。参考：<a href="http://blog.csdn.net/liangdapo/article/details/49127859" target="_blank" rel="external">http://blog.csdn.net/liangdapo/article/details/49127859</a></li>
+<li>在列表里选择已安装的授权服务器，此为的激活状态为“没有激活”，右击鼠标，选择“激活服务器”。</li>
+<li>在弹出的对话框里点“下一步”，连接方法选择“Web 浏览器，点击“下一步”。</li>
+<li>记住这个页面提供的产品ID（如：88888-888-8888888-88888），按照上面的提示，用浏览器打开“<a href="https://activate.microsoft.com”，这个页面是英文界面的，在左边的菜单中选择&quot;Chinese(Simplified)&quot;(简体中文)项，再点&quot;GO&quot;图标，切换为中文界面。" target="_blank" rel="external">https://activate.microsoft.com”，这个页面是英文界面的，在左边的菜单中选择&quot;Chinese(Simplified)&quot;(简体中文)项，再点&quot;GO&quot;图标，切换为中文界面。</a></li>
+<li>确保已选中”启用许可证服务器”，再单击“下一步”按钮。</li>
+<li>填上上面记下来的产品ID，再填入自己的其他基本资料（输入必填项即可），然后再选”下一步”继续。</li>
+<li>在这个页面显示了刚才输入的信息，点击“下一步”继续。</li>
+<li>这个页面会显示：”已成功处理您的许可证服务器激活请求……。许可证服务器ID为：……“，需要把这个分为七段的35位数抄下来，里面包含有数字和大写的英文字母；下方会问你”是否希望立即在具有此产品ID的许可证服务器上安装客户端访问许可证？”，当然应该选择“是”。</li>
+<li>在这个界面的”授权信息“中有个选择”许可证程序“的地方，天火选择的是“企业协议”，博主推荐选这个，然后点”下一步“继续。</li>
+<li>这个页面需要选择”产品类型“，天火选择的是”Windows Server 2008 R2 RDS 每设备CAL或Windows Server 2008 TS 每设备CAL“，俺也推荐选这个，“数量”根据需要随便输，比如：50，在“协议号码”处需要输入已授权的协议号码，这个是关键，否则激活无法通过，天火在这里给大家提供四个：4954438、5256992、6565792、6879321，点“下一步”。</li>
+<li>又是让你确认信息的页面，直接点“下一步”。</li>
+<li>这里就是大家期待已久的页面了：已成功处理您的客户端访问许可证请求…….，需要记住中间新产生的七段35位数，这个就是“许可证密钥包ID”。点“结束”按钮，然后就可以关闭这个窗口了。</li>
+<li>回到服务器激活向导中来，将前面产生的第一个七段35位数（许可证服务器ID）输入到输入框中（支持复制／粘贴），点“下一步”。</li>
+<li>现在完成了授权向导，还需要”立即安装许可证”，在这个界面，默认是选中“立即启动许可证安装向导”的，点”下一步”继续。</li>
+<li>确认一下连接方法使用的是“Web 浏览器”，然后继续点“下一步”。</li>
+<li>在这个界面输入第二个七段35位数（许可证密钥包ID，也支持复制／粘贴），点“下一步”。</li>
+<li>点击“完成”，恭喜你，完成激活和许可证的安装了！</li>
+</ol>
+<p>适用windows server 2012 r2  </p>
+<p>参考：<a href="http://blog.sina.com.cn/s/blog_4152a9f501017asy.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_4152a9f501017asy.html</a>  </p>
+<hr>
+<p>本作品采用<a href="https://creativecommons.org/licenses/by/2.5/cn/" target="_blank" rel="external">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://yfshare.github.io">Jack Wang Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。<br><img src="http://note.youdao.com/yws/api/personal/file/FE3C6F68961F4541AF284E5F346FC3CA?method=download&amp;shareKey=c5e4c3ca81daa6e908d5630f8c6ec242" alt="打赏"><br>本文出自”Jack Wang Blog”：<a href="https://yfshare.github.io/2017/08/24/Win2008-r2-远程桌面服务授权管理器激活方法/">https://yfshare.github.io/2017/08/24/Win2008-r2-远程桌面服务授权管理器激活方法/</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[程序启动报Illegal key size错误]]></title>
       <url>https://yfshare.github.io/2017/08/22/%E7%A8%8B%E5%BA%8F%E5%90%AF%E5%8A%A8%E6%8A%A5Illegal-key-size%E9%94%99%E8%AF%AF/</url>
       <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>因业务需要，对生产应用系统进行扩容后，当启动应用(tomcat)时，其日志(catalina.out)却输出 <code>java.security.InvalidKeyException: Illegal key size</code> 这样的错误<br>开发在自测和测试在测试环境上测试时都没有遇到这个问题，而在生产上却出现了这个错误，不过生产上的这个服务器是刚部署的<br>后来就是各种查资料，原因是<code>JDK不兼容</code>，不过奇怪的是都是同样的JDK版本，刚部署的服务器却又问题，也可能是后来替换了得吧  </p>
@@ -17,8 +49,8 @@
     </entry>
     
     <entry>
-      <title><![CDATA[部署PinPoint分布式系统监控]]></title>
-      <url>https://yfshare.github.io/2017/08/14/%E9%83%A8%E7%BD%B2PinPoint%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E7%9B%91%E6%8E%A7/</url>
+      <title><![CDATA[部署PinPoint分布式调用链系统监控]]></title>
+      <url>https://yfshare.github.io/2017/08/14/%E9%83%A8%E7%BD%B2PinPoint%E5%88%86%E5%B8%83%E5%BC%8F%E8%B0%83%E7%94%A8%E9%93%BE%E7%B3%BB%E7%BB%9F%E7%9B%91%E6%8E%A7/</url>
       <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>pinpoint是开源在github上的一款APM监控工具，JAVA语言开发用于大规模分布式系统监控，对性能的影响最小(只增加约3％资源利用率，吃内存)，安装agent是无侵入式的，只需要在被测试的Tomcat中加上配置下，打下探针就可以监控整套程序了<br><a id="more"></a></p>
 <table>
 <thead>
@@ -58,7 +90,7 @@
 <p>参考：<a href="http://www.cnblogs.com/yyhh/p/6106472.html#yy0201" target="_blank" rel="external">http://www.cnblogs.com/yyhh/p/6106472.html#yy0201</a>  </p>
 <p>附件：<br><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html" target="_blank" rel="external">java7官方下载</a><br><a href="https://github.com/naver/pinpoint/releases/tag/1.6.2" target="_blank" rel="external">PinPoint Git下载</a><br><a href="http://note.youdao.com/yws/api/personal/file/CB316538423E4CDC9C3D41B7EDC5BCB5?method=download&amp;shareKey=f9f1e61b112bd26abafd90e3e57c9a82" target="_blank" rel="external">hbase-1.2.5-bin.tar.gz下载</a><br><a href="http://note.youdao.com/yws/api/personal/file/F2EEA733CE464B5898B3571CE1F4BB49?method=download&amp;shareKey=f412193774511a8762f73cf6792b5f0e" target="_blank" rel="external">分布式调用链监控系统.zip</a>  </p>
 <hr>
-<p>本作品采用<a href="https://creativecommons.org/licenses/by/2.5/cn/" target="_blank" rel="external">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://yfshare.github.io">Jack Wang Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。<br><img src="http://note.youdao.com/yws/api/personal/file/FE3C6F68961F4541AF284E5F346FC3CA?method=download&amp;shareKey=c5e4c3ca81daa6e908d5630f8c6ec242" alt="打赏"><br>本文出自”Jack Wang Blog”：<a href="https://yfshare.github.io/2017/08/14/部署PinPoint分布式系统监控/">https://yfshare.github.io/2017/08/14/部署PinPoint分布式系统监控/</a></p>
+<p>本作品采用<a href="https://creativecommons.org/licenses/by/2.5/cn/" target="_blank" rel="external">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="https://yfshare.github.io">Jack Wang Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。<br><img src="http://note.youdao.com/yws/api/personal/file/FE3C6F68961F4541AF284E5F346FC3CA?method=download&amp;shareKey=c5e4c3ca81daa6e908d5630f8c6ec242" alt="打赏"><br>本文出自”Jack Wang Blog”：<a href="https://yfshare.github.io/2017/08/14/部署PinPoint分布式调用链系统监控/">https://yfshare.github.io/2017/08/14/部署PinPoint分布式调用链系统监控/</a></p>
 ]]></content>
     </entry>
     
