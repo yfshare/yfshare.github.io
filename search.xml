@@ -6,7 +6,7 @@
     <entry>
       <title><![CDATA[Zabbix监控磁盘IO]]></title>
       <url>https://yfshare.github.io/2017/08/27/Zabbix%E7%9B%91%E6%8E%A7%E7%A3%81%E7%9B%98IO/</url>
-      <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>IOSTAT获取磁盘性能参数后，通过Zabbix Agent传值给Zabbix Server即可<br><a id="more"></a></p>
+      <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>IOSTAT获取磁盘性能参数后，通过Zabbix Agent传值给Zabbix Server即可<br><a id="more"></a></p>
 <h1 id="IOSTAT"><a href="#IOSTAT" class="headerlink" title="IOSTAT"></a>IOSTAT</h1><p>单独执行iostat，显示的结果为从系统开机到当前执行时刻的统计信息。以上输出中，除最上面指示系统版本、主机名和日期的一行外，另有两部分：  </p>
 <ul>
 <li>avg-cpu: 总体cpu使用情况统计信息，对于多核cpu，这里为所有cpu的平均值;  </li>
