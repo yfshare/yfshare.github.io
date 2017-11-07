@@ -4,9 +4,9 @@
   <subtitle>Goals determine what you are going to be</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://yfshare.github.io/"/>
+  <link href="http://www.yfshare.vip/"/>
   <updated>2017-11-04T14:07:20.636Z</updated>
-  <id>https://yfshare.github.io/</id>
+  <id>http://www.yfshare.vip/</id>
   
   <author>
     <name>Jack Wang</name>
@@ -17,12 +17,12 @@
   
   <entry>
     <title>部署FileBeat+logstash+elasticsearch集群+kibana</title>
-    <link href="https://yfshare.github.io/2017/11/04/%E9%83%A8%E7%BD%B2FileBeat-logstash-elasticsearch%E9%9B%86%E7%BE%A4-kibana/"/>
-    <id>https://yfshare.github.io/2017/11/04/部署FileBeat-logstash-elasticsearch集群-kibana/</id>
+    <link href="http://www.yfshare.vip/2017/11/04/%E9%83%A8%E7%BD%B2FileBeat-logstash-elasticsearch%E9%9B%86%E7%BE%A4-kibana/"/>
+    <id>http://www.yfshare.vip/2017/11/04/部署FileBeat-logstash-elasticsearch集群-kibana/</id>
     <published>2017-11-04T13:48:47.000Z</published>
     <updated>2017-11-04T14:07:20.636Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>ELK由Elasticsearch、Logstash和Kibana三部分组件组成，这里新增了一个FileBeat，它是一个轻量级的日志收集处理工具(Agent)，Filebeat占用资源少，适合于在各个服务器上搜集日志后传输给Logstash，官方也推荐此工具<br><a id="more"></a><br>Filebeat隶属于Beats。目前Beats包含四种工具：  </p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>ELK由Elasticsearch、Logstash和Kibana三部分组件组成，这里新增了一个FileBeat，它是一个轻量级的日志收集处理工具(Agent)，Filebeat占用资源少，适合于在各个服务器上搜集日志后传输给Logstash，官方也推荐此工具<br><a id="more"></a><br>Filebeat隶属于Beats。目前Beats包含四种工具：  </p>
 <ol>
 <li>Packetbeat（搜集网络流量数据）  </li>
 <li>Topbeat（搜集系统、进程和文件系统级别的 CPU 和内存使用情况等数据）</li>
@@ -84,29 +84,29 @@
     
     </summary>
     
-      <category term="ELK" scheme="https://yfshare.github.io/categories/ELK/"/>
+      <category term="ELK" scheme="http://www.yfshare.vip/categories/ELK/"/>
     
     
-      <category term="Elasticsearch" scheme="https://yfshare.github.io/tags/Elasticsearch/"/>
+      <category term="Elasticsearch" scheme="http://www.yfshare.vip/tags/Elasticsearch/"/>
     
-      <category term="Kibana" scheme="https://yfshare.github.io/tags/Kibana/"/>
+      <category term="Kibana" scheme="http://www.yfshare.vip/tags/Kibana/"/>
     
-      <category term="Logstash" scheme="https://yfshare.github.io/tags/Logstash/"/>
+      <category term="Logstash" scheme="http://www.yfshare.vip/tags/Logstash/"/>
     
-      <category term="Filebeat" scheme="https://yfshare.github.io/tags/Filebeat/"/>
+      <category term="Filebeat" scheme="http://www.yfshare.vip/tags/Filebeat/"/>
     
-      <category term="Elasticsearch Cluster" scheme="https://yfshare.github.io/tags/Elasticsearch-Cluster/"/>
+      <category term="Elasticsearch Cluster" scheme="http://www.yfshare.vip/tags/Elasticsearch-Cluster/"/>
     
   </entry>
   
   <entry>
     <title>Elasticsearch原理</title>
-    <link href="https://yfshare.github.io/2017/11/02/Elasticsearch%E5%8E%9F%E7%90%86/"/>
-    <id>https://yfshare.github.io/2017/11/02/Elasticsearch原理/</id>
+    <link href="http://www.yfshare.vip/2017/11/02/Elasticsearch%E5%8E%9F%E7%90%86/"/>
+    <id>http://www.yfshare.vip/2017/11/02/Elasticsearch原理/</id>
     <published>2017-11-02T12:43:22.000Z</published>
     <updated>2017-11-02T12:46:05.303Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Elasticsearch原理<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>Elasticsearch原理<br><a id="more"></a></p>
 <h3 id="动态更新的Lucene索引"><a href="#动态更新的Lucene索引" class="headerlink" title="动态更新的Lucene索引"></a>动态更新的Lucene索引</h3><p>Lucene处理方法，新收到的数据写到新文件里<br>Lucene把每次生成的倒排索引，叫做一个段（segment）。使用一个commit文件记录索引内所有的段，生产的segment的数据来源则是放在内存的buffer  </p>
 <ol>
 <li>当前索引有3个segment可用</li>
@@ -236,21 +236,21 @@
     
     </summary>
     
-      <category term="ELK" scheme="https://yfshare.github.io/categories/ELK/"/>
+      <category term="ELK" scheme="http://www.yfshare.vip/categories/ELK/"/>
     
     
-      <category term="Elasticsearch" scheme="https://yfshare.github.io/tags/Elasticsearch/"/>
+      <category term="Elasticsearch" scheme="http://www.yfshare.vip/tags/Elasticsearch/"/>
     
   </entry>
   
   <entry>
     <title>Kibana5使用指南</title>
-    <link href="https://yfshare.github.io/2017/10/30/Kibana5%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"/>
-    <id>https://yfshare.github.io/2017/10/30/Kibana5使用指南/</id>
+    <link href="http://www.yfshare.vip/2017/10/30/Kibana5%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"/>
+    <id>http://www.yfshare.vip/2017/10/30/Kibana5使用指南/</id>
     <published>2017-10-30T13:35:02.000Z</published>
     <updated>2017-11-02T12:44:39.068Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>ELK由Elasticsearch、Logstash和Kibana三部分组件组成，这里新增了一个FileBeat，它是一个轻量级的日志收集处理工具(Agent)，Filebeat占用资源少，适合于在各个服务器上搜集日志后传输给Logstash，官方也推荐此工具<br><a id="more"></a><br>Filebeat隶属于Beats。目前Beats包含四种工具：  </p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>ELK由Elasticsearch、Logstash和Kibana三部分组件组成，这里新增了一个FileBeat，它是一个轻量级的日志收集处理工具(Agent)，Filebeat占用资源少，适合于在各个服务器上搜集日志后传输给Logstash，官方也推荐此工具<br><a id="more"></a><br>Filebeat隶属于Beats。目前Beats包含四种工具：  </p>
 <ol>
 <li>Packetbeat（搜集网络流量数据）  </li>
 <li>Topbeat（搜集系统、进程和文件系统级别的 CPU 和内存使用情况等数据）</li>
@@ -323,25 +323,25 @@
     
     </summary>
     
-      <category term="ELK" scheme="https://yfshare.github.io/categories/ELK/"/>
+      <category term="ELK" scheme="http://www.yfshare.vip/categories/ELK/"/>
     
     
-      <category term="Elasticsearch" scheme="https://yfshare.github.io/tags/Elasticsearch/"/>
+      <category term="Elasticsearch" scheme="http://www.yfshare.vip/tags/Elasticsearch/"/>
     
-      <category term="Kibana" scheme="https://yfshare.github.io/tags/Kibana/"/>
+      <category term="Kibana" scheme="http://www.yfshare.vip/tags/Kibana/"/>
     
-      <category term="Logstash" scheme="https://yfshare.github.io/tags/Logstash/"/>
+      <category term="Logstash" scheme="http://www.yfshare.vip/tags/Logstash/"/>
     
   </entry>
   
   <entry>
     <title>Elasticsearch查询语法</title>
-    <link href="https://yfshare.github.io/2017/10/30/Elasticsearch%E6%9F%A5%E8%AF%A2%E8%AF%AD%E6%B3%95/"/>
-    <id>https://yfshare.github.io/2017/10/30/Elasticsearch查询语法/</id>
+    <link href="http://www.yfshare.vip/2017/10/30/Elasticsearch%E6%9F%A5%E8%AF%A2%E8%AF%AD%E6%B3%95/"/>
+    <id>http://www.yfshare.vip/2017/10/30/Elasticsearch查询语法/</id>
     <published>2017-10-29T16:34:30.000Z</published>
     <updated>2017-11-02T12:44:27.208Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Elasticsearch在很多情况下被当作一个文本型的NOSQL数据库，也有增删查改操作<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>Elasticsearch在很多情况下被当作一个文本型的NOSQL数据库，也有增删查改操作<br><a id="more"></a></p>
 <h4 id="数据写入"><a href="#数据写入" class="headerlink" title="数据写入"></a>数据写入</h4><p>Elasticsearch的一大特点是，全是<code>RESTful</code>接口处理JSON请求<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># curl -XPOST http://localhost:9200/logstash-2017.10.29/testlog -d '&#123;</span></div><div class="line">    <span class="string">"date"</span>: <span class="string">"1509271325780"</span></div><div class="line">    <span class="string">"user"</span>: <span class="string">"jack"</span></div><div class="line">    <span class="string">"mesg"</span>: <span class="string">"first message into Elasticsearch"</span></div><div class="line">&#125;<span class="string">'</span></div></pre></td></tr></table></figure></p>
 <h4 id="数据获取"><a href="#数据获取" class="headerlink" title="数据获取"></a>数据获取</h4><p>在数据写入时，会返回该数据的<code>_id</code>，这是后续用来获取数据的关键：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># curl -XGET http://localhost:9200/logstash-2017.10.29/testlog/AV9nlDQhv96dGKcHC2zo</span></div><div class="line">&#123;<span class="string">"_index"</span>: <span class="string">"logstash-2017.10.29"</span>,<span class="string">"_type"</span>: <span class="string">"testlog"</span>, <span class="string">"_id"</span>: <span class="string">"AV9nlDQhv96dGKcHC2zo"</span>, <span class="string">"_version"</span>: 1, <span class="string">"found"</span>: <span class="literal">true</span>, <span class="string">"_source"</span>: &#123;</div><div class="line">    <span class="string">"date"</span>: <span class="string">"1509271325780"</span>,</div><div class="line">    <span class="string">"user"</span>: <span class="string">"jack"</span>,</div><div class="line">    <span class="string">"mesg"</span>: <span class="string">"first message into Elasticsearch"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>也可以使用下面语法来获取源数据部分<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -XGET http://localhost:9200/logstash-2017.10.29/testlog/AV9nlDQhv96dGKcHC2zo/_source</div></pre></td></tr></table></figure></p>
@@ -397,23 +397,23 @@
     
     </summary>
     
-      <category term="ELK" scheme="https://yfshare.github.io/categories/ELK/"/>
+      <category term="ELK" scheme="http://www.yfshare.vip/categories/ELK/"/>
     
     
-      <category term="Elasticsearch" scheme="https://yfshare.github.io/tags/Elasticsearch/"/>
+      <category term="Elasticsearch" scheme="http://www.yfshare.vip/tags/Elasticsearch/"/>
     
-      <category term="查询语法" scheme="https://yfshare.github.io/tags/%E6%9F%A5%E8%AF%A2%E8%AF%AD%E6%B3%95/"/>
+      <category term="查询语法" scheme="http://www.yfshare.vip/tags/%E6%9F%A5%E8%AF%A2%E8%AF%AD%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>Python 读取Mysql生成EXCEL（XLSX）</title>
-    <link href="https://yfshare.github.io/2017/10/16/Python-%E8%AF%BB%E5%8F%96Mysql%E7%94%9F%E6%88%90EXCEL%EF%BC%88XLSX%EF%BC%89/"/>
-    <id>https://yfshare.github.io/2017/10/16/Python-读取Mysql生成EXCEL（XLSX）/</id>
+    <link href="http://www.yfshare.vip/2017/10/16/Python-%E8%AF%BB%E5%8F%96Mysql%E7%94%9F%E6%88%90EXCEL%EF%BC%88XLSX%EF%BC%89/"/>
+    <id>http://www.yfshare.vip/2017/10/16/Python-读取Mysql生成EXCEL（XLSX）/</id>
     <published>2017-10-16T15:17:50.000Z</published>
     <updated>2017-10-16T15:21:45.307Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>以前做报表从Mysql数据里面提取数据很简单，几条简单的SHELL脚本就可以实现该功能，因为是自己使用，所以对于格式无所谓，以前使用的都是<code>.csv</code>格式，因为其是以<code>逗号</code>区分的，方便脚本处理。这次不一样了，虽然这次接到需求也是从Mysql中导出数据，但是！！导出文件的格式必须是<code>.XLSX</code>这是微软EXCEL软件自有的格式，包含特殊的文件头，所以之前的方法失效了，失效了… 折腾了好久，也请教了别人，终于，终于解决了这个需求。<br><a id="more"></a><br>环境：<br>　　　Centos 7.2.1511<br>　　　Python 2.7.5 -&gt; 3.5</p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>以前做报表从Mysql数据里面提取数据很简单，几条简单的SHELL脚本就可以实现该功能，因为是自己使用，所以对于格式无所谓，以前使用的都是<code>.csv</code>格式，因为其是以<code>逗号</code>区分的，方便脚本处理。这次不一样了，虽然这次接到需求也是从Mysql中导出数据，但是！！导出文件的格式必须是<code>.XLSX</code>这是微软EXCEL软件自有的格式，包含特殊的文件头，所以之前的方法失效了，失效了… 折腾了好久，也请教了别人，终于，终于解决了这个需求。<br><a id="more"></a><br>环境：<br>　　　Centos 7.2.1511<br>　　　Python 2.7.5 -&gt; 3.5</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]<span class="comment"># python -V</span></div><div class="line">Python 2.7.5</div><div class="line">[root@localhost ~]<span class="comment">#</span></div><div class="line"></div><div class="line"><span class="comment">#安装easy_install命令</span></div><div class="line">[root@localhost ~]<span class="comment"># wget https://bootstrap.pypa.io/ez_setup.py -O - | python</span></div><div class="line"></div><div class="line"><span class="comment">#安装pip命令(python包管理软件)</span></div><div class="line">[root@localhost ~]<span class="comment"># wget https://pypi.python.org/packages/11/b6/abcb525026a4be042b486df43905d6893fb04f05aac21c32c638e939e447/pip-9.0.1.tar.gz#md5=35f01da33009719497f01a4ba69d63c9</span></div><div class="line">[root@localhost ~]<span class="comment"># tar -zxf pip-9.0.1.tar.gz </span></div><div class="line">[root@localhost ~]<span class="comment"># cd pip-9.0.1</span></div><div class="line">[root@localhost pip-9.0.1]<span class="comment"># python setup.py install</span></div><div class="line"></div><div class="line"><span class="comment">#安装python module</span></div><div class="line">[root@localhost ~]<span class="comment"># python select3.py </span></div><div class="line">Traceback (most recent call last):</div><div class="line">  File <span class="string">"select3.py"</span>, line 3, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">    from sqlalchemy import create_engine</div><div class="line">ImportError: No module named sqlalchemy</div><div class="line">[root@localhost ~]<span class="comment">#</span></div><div class="line"></div><div class="line"><span class="comment">#安装sqlalchemy模块</span></div><div class="line">[root@localhost ~]<span class="comment"># pip install sqlalchemy</span></div><div class="line">Collecting pymysql</div><div class="line">  Downloading PyMySQL-0.7.11-py2.py3-none-any.whl (78kB)</div><div class="line">    100% |████████████████████████████████| 81kB 48kB/s </div><div class="line">Installing collected packages: pymysql</div><div class="line">Successfully installed pymysql-0.7.11</div><div class="line">[root@localhost ~]<span class="comment">#</span></div><div class="line"></div><div class="line"><span class="comment">#重复执行python select3.py 安装缺失的模块</span></div><div class="line">[root@localhost ~]<span class="comment"># pip install pymysql</span></div><div class="line">[root@localhost ~]<span class="comment"># pip install pandas</span></div><div class="line"></div><div class="line"><span class="comment"># Python 2.7不支持中文，报错如下，需要升级到 Python ，测试 Python 3.5.4 支持</span></div><div class="line">[root@localhost ~]<span class="comment"># python select3.py </span></div><div class="line">Traceback (most recent call last):</div><div class="line">  File <span class="string">"select3.py"</span>, line 10, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">    sql.encode(<span class="string">'gb18030'</span>)</div><div class="line">UnicodeDecodeError: <span class="string">'ascii'</span> codec can<span class="string">'t decode byte 0xe6 in position 20: ordinal not in range(128)</span></div><div class="line">[root@localhost ~]#</div></pre></td></tr></table></figure>
 <p>升级 Python 2.7.5 至 Python 3.5<br><strong>不要动系统自带的Python，否则系统的某些功能都无法正常使用</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]<span class="comment"># wget https://www.python.org/ftp/python/3.5.4/Python-3.5.4.tgz</span></div><div class="line">[root@localhost ~]<span class="comment"># yum install openssl-devel -y</span></div><div class="line">[root@localhost ~]<span class="comment"># tar -zxf Python-3.5.4.tgz</span></div><div class="line">[root@localhost ~]<span class="comment"># mkdir -p /usr/local/Python-3.5.4</span></div><div class="line">[root@localhost ~]<span class="comment"># cd Python-3.5.4</span></div><div class="line">[root@localhost Python-3.5.4]<span class="comment"># ./configure --prefix=/usr/local/Python-3.5.4/</span></div><div class="line">[root@localhost Python-3.5.4]<span class="comment"># make &amp;&amp; make install</span></div><div class="line">[root@localhost ~]<span class="comment"># /usr/local/Python-3.5.4/bin/python3.5 -V</span></div><div class="line">Python 3.5.4</div><div class="line">[root@localhost ~]<span class="comment">#</span></div><div class="line"></div><div class="line"><span class="comment"># 现在系统同时存在两个版本的 Python，因此脚本需要的模块需要重新安装，因为Python 3.5.2之后自带 pip3 和 setuptools，因此需要使用 pip3 安装所需要的模块</span></div><div class="line">[root@localhost ~]<span class="comment"># /usr/local/Python-3.5.4/bin/python3.5 select3.py </span></div><div class="line">Traceback (most recent call last):</div><div class="line">  File <span class="string">"select3.py"</span>, line 3, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">    from sqlalchemy import create_engine</div><div class="line">ImportError: No module named <span class="string">'sqlalchemy'</span></div><div class="line">[root@localhost ~]<span class="comment">#</span></div><div class="line"></div><div class="line"><span class="comment">#安装所需要的 Python 模块</span></div><div class="line">[root@localhost ~]<span class="comment"># /usr/local/Python-3.5.4/bin/pip3.5 install sqlalchemy</span></div><div class="line">[root@localhost ~]<span class="comment"># /usr/local/Python-3.5.4/bin/pip3.5 install pymysql</span></div><div class="line">[root@localhost ~]<span class="comment"># /usr/local/Python-3.5.4/bin/pip3.5 install pandas     #这个很慢</span></div><div class="line">[root@localhost ~]<span class="comment"># /usr/local/Python-3.5.4/bin/pip3.5 install openpyxl</span></div><div class="line"></div><div class="line">[root@localhost ~]<span class="comment"># cat /etc/profile.d/Python.sh </span></div><div class="line"><span class="meta">#!/bin/sh</span></div><div class="line">Python3_5_home=<span class="string">'/usr/local/Python-3.5.4'</span></div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;Python3_5_home&#125;</span>/bin:<span class="variable">$PATH</span></div><div class="line">[root@localhost ~]<span class="comment"># source /etc/profile.d/Python.sh</span></div><div class="line"></div><div class="line">[root@localhost ~]<span class="comment"># /usr/local/Python-3.5.4/bin/python3.5 select3.py</span></div><div class="line">[root@localhost ~]<span class="comment"># ll | grep output.xlsx </span></div><div class="line">-rw-r--r--   1 root root      4854 Oct 15 06:37 output.xlsx</div><div class="line">[root@localhost ~]<span class="comment">#</span></div></pre></td></tr></table></figure></p>
 <p><img src="http://note.youdao.com/yws/api/personal/file/7B8F09CFC0CF45BCAD07916AA8A1CAFB?method=download&amp;shareKey=974173e2da4dc8ec9df2e29c1973427e" alt="Py_mysql_to_excel">  </p>
@@ -430,27 +430,27 @@
     
     </summary>
     
-      <category term="Python" scheme="https://yfshare.github.io/categories/Python/"/>
+      <category term="Python" scheme="http://www.yfshare.vip/categories/Python/"/>
     
     
-      <category term="Mysql" scheme="https://yfshare.github.io/tags/Mysql/"/>
+      <category term="Mysql" scheme="http://www.yfshare.vip/tags/Mysql/"/>
     
-      <category term="Python" scheme="https://yfshare.github.io/tags/Python/"/>
+      <category term="Python" scheme="http://www.yfshare.vip/tags/Python/"/>
     
-      <category term="Excel" scheme="https://yfshare.github.io/tags/Excel/"/>
+      <category term="Excel" scheme="http://www.yfshare.vip/tags/Excel/"/>
     
-      <category term="Xlsx" scheme="https://yfshare.github.io/tags/Xlsx/"/>
+      <category term="Xlsx" scheme="http://www.yfshare.vip/tags/Xlsx/"/>
     
   </entry>
   
   <entry>
     <title>Zabbix监控redis</title>
-    <link href="https://yfshare.github.io/2017/09/10/Zabbix%E7%9B%91%E6%8E%A7redis/"/>
-    <id>https://yfshare.github.io/2017/09/10/Zabbix监控redis/</id>
+    <link href="http://www.yfshare.vip/2017/09/10/Zabbix%E7%9B%91%E6%8E%A7redis/"/>
+    <id>http://www.yfshare.vip/2017/09/10/Zabbix监控redis/</id>
     <published>2017-09-10T12:55:10.000Z</published>
     <updated>2017-09-10T12:57:51.573Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Zabbix监控Redis<br><a id="more"></a><br>环境：<br>　　　Centos 7.3<br>　　　Zabbix version : 3.0.2<br>　　　Redis version : 3.2.5  </p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>Zabbix监控Redis<br><a id="more"></a><br>环境：<br>　　　Centos 7.3<br>　　　Zabbix version : 3.0.2<br>　　　Redis version : 3.2.5  </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#监控脚本</span></div><div class="line">[root@localhost ~]<span class="comment"># cd /etc/zabbix/scripts/</span></div><div class="line">[root@localhost scripts]<span class="comment"># ls</span></div><div class="line">check_redis.sh</div><div class="line">[root@localhost scripts]<span class="comment"># cat check_redis.sh </span></div><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line">PORT=<span class="string">'6379'</span></div><div class="line">STATUS_redis=`/bin/redis-cli -h <span class="string">'192.168.1.1'</span> -p <span class="variable">$PORT</span> <span class="_">-a</span> redis_password ping`</div><div class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$STATUS_redis</span>"</span> == <span class="string">'PONG'</span> ];<span class="keyword">then</span></div><div class="line">	<span class="built_in">echo</span> <span class="string">'1'</span></div><div class="line"><span class="keyword">else</span></div><div class="line">	<span class="built_in">echo</span> <span class="string">'0'</span></div><div class="line"><span class="keyword">fi</span></div><div class="line">[root@localhost scripts]<span class="comment">#</span></div><div class="line"></div><div class="line"><span class="comment">#zabbix agent</span></div><div class="line">[root@localhost ~]<span class="comment"># cd /etc/zabbix/zabbix_agentd.d/</span></div><div class="line">[root@localhost zabbix_agentd.d]<span class="comment"># cat userparameter_redis.conf </span></div><div class="line">UserParameter=redis_status[*],/bin/redis-cli -h <span class="string">'192.168.1.1'</span> -p <span class="variable">$1</span> <span class="_">-a</span> redis_password info | grep -w <span class="variable">$2</span> | awk -F<span class="string">':'</span> <span class="string">'&#123;print $NF&#125;'</span></div><div class="line">UserParameter=redis_ping,sh /etc/zabbix/scripts/check_redis.sh</div><div class="line">[root@localhost zabbix_agentd.d]<span class="comment">#</span></div><div class="line"></div><div class="line">[root@localhost ~]<span class="comment"># systemctl restart zabbix-agent</span></div><div class="line">[root@localhost ~]<span class="comment"># zabbix_get -s localhost -k redis_ping</span></div><div class="line">1</div><div class="line">[root@localhost ~]<span class="comment"># zabbix_get -s localhost -k redis_status[6379,used_memory]</span></div><div class="line">1210708664</div><div class="line">[root@localhost ~]<span class="comment">#</span></div></pre></td></tr></table></figure>
 <p>把修改后的模版链接到主机上<br><img src="http://note.youdao.com/yws/api/personal/file/CC389D2BC7B64E31AC375564D51DFFDD?method=download&amp;shareKey=f62b62d5785e6b5d59091beb1a84e087" alt="Zabbix Monitor Redis"><br><img src="http://note.youdao.com/yws/api/personal/file/4B422DF4096E4BB29C95C36C94BB17A2?method=download&amp;shareKey=ed5f2e64d8d7999e4daf559e6c48c10f" alt="Zabbix Monitor Redis"><br><img src="http://note.youdao.com/yws/api/personal/file/70AC5B37AF304881A771259522ACF1AE?method=download&amp;shareKey=24338b2339b17eddff0fa60d721d07f9" alt="Zabbix Monitor Redis"><br><img src="http://note.youdao.com/yws/api/personal/file/F043F5ABCE964C9A88B7DC1D4BE4E600?method=download&amp;shareKey=78a2dd918ea6d15bbbfc7a003fd8fc1c" alt="Zabbix Monitor Redis"><br><img src="http://note.youdao.com/yws/api/personal/file/965860E7F3C343109324312F17CF0C42?method=download&amp;shareKey=58fe3b21783cc6c81cdeccbff4ffe9c8" alt="Zabbix Monitor Redis"><br><img src="http://note.youdao.com/yws/api/personal/file/6D2C578CB4C1406AB0C7201AAAF18CE8?method=download&amp;shareKey=ce1f49d596164110225afdf819ae1ca3" alt="Zabbix Monitor Redis"><br><img src="http://note.youdao.com/yws/api/personal/file/A210C26E59984F99936F36C525E225A3?method=download&amp;shareKey=a87e00f9930183e621c0300a0745a9ef" alt="Zabbix Monitor Redis">  </p>
 <p>参考：<a href="http://blog.hackroad.com/operations-engineer/linux_server/11019.html" target="_blank" rel="external">http://blog.hackroad.com/operations-engineer/linux_server/11019.html</a><br><a href="http://www.cnblogs.com/gnuhpc/p/4609592.html" target="_blank" rel="external">http://www.cnblogs.com/gnuhpc/p/4609592.html</a>  </p>
@@ -465,23 +465,23 @@
     
     </summary>
     
-      <category term="Zabbix" scheme="https://yfshare.github.io/categories/Zabbix/"/>
+      <category term="Zabbix" scheme="http://www.yfshare.vip/categories/Zabbix/"/>
     
     
-      <category term="zabbix" scheme="https://yfshare.github.io/tags/zabbix/"/>
+      <category term="zabbix" scheme="http://www.yfshare.vip/tags/zabbix/"/>
     
-      <category term="redis" scheme="https://yfshare.github.io/tags/redis/"/>
+      <category term="redis" scheme="http://www.yfshare.vip/tags/redis/"/>
     
   </entry>
   
   <entry>
     <title>Zookeeper运维经验分享[转]</title>
-    <link href="https://yfshare.github.io/2017/09/04/Zookeeper%E8%BF%90%E7%BB%B4%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB-%E8%BD%AC/"/>
-    <id>https://yfshare.github.io/2017/09/04/Zookeeper运维经验分享-转/</id>
+    <link href="http://www.yfshare.vip/2017/09/04/Zookeeper%E8%BF%90%E7%BB%B4%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB-%E8%BD%AC/"/>
+    <id>http://www.yfshare.vip/2017/09/04/Zookeeper运维经验分享-转/</id>
     <published>2017-09-04T14:02:10.000Z</published>
     <updated>2017-09-10T12:59:37.372Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>　　Zookeeper是一个分布式协调框架，有不错的性能，也经过许多公司的验证，所以在很多场景都有使用。大家一般用Zookeeper来实现服务发现(类似DNS)，配置管理，分布式锁，leader选举等。在这些场景中，Zookeeper成为了一个被依赖的核心组件，Zookeeper的稳定性是需要特别关注的<br><a id="more"></a><br>　　去哪儿网也在很多场景依赖Zookeeper，所以我们也一直在摸索怎么更好的运维稳定的Zookeeper集群。在过去的几年我们也踩过一些坑，也因为Zookeeper导致了故障。现在将我们运维Zookeeper集群的一些经验分享，也欢迎大家提供更好的建议<br>　　那么在打算运维一套Zookeeper集群之前，我们先了解一些Zookeeper的基本原理<br>　　集群里分三种角色: Leader,Follower和Observer。Leader和Follower参与投票，Observer只会『听』投票的结果，不参与投票  </p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>　　Zookeeper是一个分布式协调框架，有不错的性能，也经过许多公司的验证，所以在很多场景都有使用。大家一般用Zookeeper来实现服务发现(类似DNS)，配置管理，分布式锁，leader选举等。在这些场景中，Zookeeper成为了一个被依赖的核心组件，Zookeeper的稳定性是需要特别关注的<br><a id="more"></a><br>　　去哪儿网也在很多场景依赖Zookeeper，所以我们也一直在摸索怎么更好的运维稳定的Zookeeper集群。在过去的几年我们也踩过一些坑，也因为Zookeeper导致了故障。现在将我们运维Zookeeper集群的一些经验分享，也欢迎大家提供更好的建议<br>　　那么在打算运维一套Zookeeper集群之前，我们先了解一些Zookeeper的基本原理<br>　　集群里分三种角色: Leader,Follower和Observer。Leader和Follower参与投票，Observer只会『听』投票的结果，不参与投票  </p>
 <p>　　投票集群里的节点数要求是奇数  </p>
 <ol>
 <li>一个集群容忍挂掉的节点数的等式为 <code>N=2F +1</code>，N为投票集群节点数，F为能同时容忍失败节点数。比如一个三节点集群，可以挂掉一个节点，5节点集群可以挂掉两个…  </li>
@@ -531,23 +531,23 @@
     
     </summary>
     
-      <category term="WEB" scheme="https://yfshare.github.io/categories/WEB/"/>
+      <category term="WEB" scheme="http://www.yfshare.vip/categories/WEB/"/>
     
     
-      <category term="Linux" scheme="https://yfshare.github.io/tags/Linux/"/>
+      <category term="Linux" scheme="http://www.yfshare.vip/tags/Linux/"/>
     
-      <category term="zookeeper" scheme="https://yfshare.github.io/tags/zookeeper/"/>
+      <category term="zookeeper" scheme="http://www.yfshare.vip/tags/zookeeper/"/>
     
   </entry>
   
   <entry>
     <title>Zabbix监控磁盘IO</title>
-    <link href="https://yfshare.github.io/2017/08/28/Zabbix%E7%9B%91%E6%8E%A7%E7%A3%81%E7%9B%98IO/"/>
-    <id>https://yfshare.github.io/2017/08/28/Zabbix监控磁盘IO/</id>
+    <link href="http://www.yfshare.vip/2017/08/28/Zabbix%E7%9B%91%E6%8E%A7%E7%A3%81%E7%9B%98IO/"/>
+    <id>http://www.yfshare.vip/2017/08/28/Zabbix监控磁盘IO/</id>
     <published>2017-08-28T12:33:21.000Z</published>
     <updated>2017-08-28T12:54:57.382Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>IOSTAT获取磁盘性能参数后，通过Zabbix Agent传值给Zabbix Server即可<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>IOSTAT获取磁盘性能参数后，通过Zabbix Agent传值给Zabbix Server即可<br><a id="more"></a></p>
 <h1 id="IOSTAT"><a href="#IOSTAT" class="headerlink" title="IOSTAT"></a>IOSTAT</h1><p>单独执行iostat，显示的结果为从系统开机到当前执行时刻的统计信息。以上输出中，除最上面指示系统版本、主机名和日期的一行外，另有两部分：  </p>
 <ul>
 <li>avg-cpu: 总体cpu使用情况统计信息，对于多核cpu，这里为所有cpu的平均值;  </li>
@@ -587,25 +587,25 @@
     
     </summary>
     
-      <category term="Zabbix" scheme="https://yfshare.github.io/categories/Zabbix/"/>
+      <category term="Zabbix" scheme="http://www.yfshare.vip/categories/Zabbix/"/>
     
     
-      <category term="zabbix" scheme="https://yfshare.github.io/tags/zabbix/"/>
+      <category term="zabbix" scheme="http://www.yfshare.vip/tags/zabbix/"/>
     
-      <category term="IO" scheme="https://yfshare.github.io/tags/IO/"/>
+      <category term="IO" scheme="http://www.yfshare.vip/tags/IO/"/>
     
-      <category term="disk" scheme="https://yfshare.github.io/tags/disk/"/>
+      <category term="disk" scheme="http://www.yfshare.vip/tags/disk/"/>
     
   </entry>
   
   <entry>
     <title>Win2008 r2 远程桌面服务授权管理器激活方法</title>
-    <link href="https://yfshare.github.io/2017/08/24/Win2008-r2-%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E6%9C%8D%E5%8A%A1%E6%8E%88%E6%9D%83%E7%AE%A1%E7%90%86%E5%99%A8%E6%BF%80%E6%B4%BB%E6%96%B9%E6%B3%95/"/>
-    <id>https://yfshare.github.io/2017/08/24/Win2008-r2-远程桌面服务授权管理器激活方法/</id>
+    <link href="http://www.yfshare.vip/2017/08/24/Win2008-r2-%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E6%9C%8D%E5%8A%A1%E6%8E%88%E6%9D%83%E7%AE%A1%E7%90%86%E5%99%A8%E6%BF%80%E6%B4%BB%E6%96%B9%E6%B3%95/"/>
+    <id>http://www.yfshare.vip/2017/08/24/Win2008-r2-远程桌面服务授权管理器激活方法/</id>
     <published>2017-08-24T12:59:00.000Z</published>
     <updated>2017-08-25T15:12:42.630Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Windows 2008在不安装远程桌面服务授权管理器下的情况，系统允许有120天的宽限期，在120天后，又不想购买授权的话，就需要按以下的步骤“折腾”一下<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>Windows 2008在不安装远程桌面服务授权管理器下的情况，系统允许有120天的宽限期，在120天后，又不想购买授权的话，就需要按以下的步骤“折腾”一下<br><a id="more"></a></p>
 <ol>
 <li>在添加角色和功能向导里，先安装<code>远程桌面会话主机</code>，<code>远程桌面授权</code>，<code>远程协助</code>，<code>远程桌面授权工具</code>，<code>远程桌面许可诊断程序</code></li>
 <li>首先进入”开始菜单–&gt;管理工具–&gt;远程桌面服务–&gt;远程桌面授权管理器”，开始激活。</li>
@@ -639,27 +639,27 @@
     
     </summary>
     
-      <category term="Windows" scheme="https://yfshare.github.io/categories/Windows/"/>
+      <category term="Windows" scheme="http://www.yfshare.vip/categories/Windows/"/>
     
     
-      <category term="RDS" scheme="https://yfshare.github.io/tags/RDS/"/>
+      <category term="RDS" scheme="http://www.yfshare.vip/tags/RDS/"/>
     
-      <category term="windows server" scheme="https://yfshare.github.io/tags/windows-server/"/>
+      <category term="windows server" scheme="http://www.yfshare.vip/tags/windows-server/"/>
     
-      <category term="Remote Desktop" scheme="https://yfshare.github.io/tags/Remote-Desktop/"/>
+      <category term="Remote Desktop" scheme="http://www.yfshare.vip/tags/Remote-Desktop/"/>
     
-      <category term="远程桌面" scheme="https://yfshare.github.io/tags/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2/"/>
+      <category term="远程桌面" scheme="http://www.yfshare.vip/tags/%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2/"/>
     
   </entry>
   
   <entry>
     <title>程序启动报Illegal key size错误</title>
-    <link href="https://yfshare.github.io/2017/08/22/%E7%A8%8B%E5%BA%8F%E5%90%AF%E5%8A%A8%E6%8A%A5Illegal-key-size%E9%94%99%E8%AF%AF/"/>
-    <id>https://yfshare.github.io/2017/08/22/程序启动报Illegal-key-size错误/</id>
+    <link href="http://www.yfshare.vip/2017/08/22/%E7%A8%8B%E5%BA%8F%E5%90%AF%E5%8A%A8%E6%8A%A5Illegal-key-size%E9%94%99%E8%AF%AF/"/>
+    <id>http://www.yfshare.vip/2017/08/22/程序启动报Illegal-key-size错误/</id>
     <published>2017-08-22T14:29:21.000Z</published>
     <updated>2017-08-22T14:38:06.892Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>因业务需要，对生产应用系统进行扩容后，当启动应用(tomcat)时，其日志(catalina.out)却输出 <code>java.security.InvalidKeyException: Illegal key size</code> 这样的错误<br>开发在自测和测试在测试环境上测试时都没有遇到这个问题，而在生产上却出现了这个错误，不过生产上的这个服务器是刚部署的<br>后来就是各种查资料，原因是<code>JDK不兼容</code>，不过奇怪的是都是同样的JDK版本，刚部署的服务器却又问题，也可能是后来替换了得吧  </p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>因业务需要，对生产应用系统进行扩容后，当启动应用(tomcat)时，其日志(catalina.out)却输出 <code>java.security.InvalidKeyException: Illegal key size</code> 这样的错误<br>开发在自测和测试在测试环境上测试时都没有遇到这个问题，而在生产上却出现了这个错误，不过生产上的这个服务器是刚部署的<br>后来就是各种查资料，原因是<code>JDK不兼容</code>，不过奇怪的是都是同样的JDK版本，刚部署的服务器却又问题，也可能是后来替换了得吧  </p>
 <p>处理办法: 在官方网站下载JCE无限制权限策略文件<br>JDK7的下载地址: <a href="http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html" target="_blank" rel="external">http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html</a><br>JDK8的下载地址: <a href="http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html" target="_blank" rel="external">http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html</a><br>如果安装了JRE，将两个jar文件放到%JRE_HOME%\lib\security目录下覆盖原来的文件<br>如果安装了JDK，还要将两个jar文件也放到%JDK_HOME%\jre\lib\security目录下覆盖原来文件  </p>
 <p>替换JDK<code>local_policy.jar</code>和<code>US_export_policy.jar</code>两个文件，然后重启应用即可<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]<span class="comment"># ls /usr/local/jdk/jre/lib/security/ -lrtc</span></div><div class="line">total 144</div><div class="line">-rw-r--r-- 1   10  143     0 Aug 16 22:13 trusted.libraries</div><div class="line">-rw-r--r-- 1   10  143    98 Aug 16 22:13 javaws.policy</div><div class="line">-rw-r--r-- 1   10  143  2593 Aug 16 22:13 java.policy</div><div class="line">-rw-r--r-- 1   10  143   158 Aug 16 22:13 javafx.policy</div><div class="line">-rw-r--r-- 1   10  143  4054 Aug 16 22:13 blacklist</div><div class="line">-rw-r--r-- 1   10  143 18033 Aug 16 22:13 java.security</div><div class="line">-rw-r--r-- 1   10  143 98626 Aug 16 22:13 cacerts</div><div class="line">-rw-r--r-- 1 root root  2500 Aug 17 20:54 local_policy.jar   <span class="comment">#替换这文件</span></div><div class="line">-rw-r--r-- 1 root root  2487 Aug 17 20:54 US_export_policy.jar      <span class="comment">#替换这文件</span></div><div class="line">[root@localhost ~]<span class="comment">#</span></div></pre></td></tr></table></figure></p>
 <p>附件：<br><a href="http://note.youdao.com/yws/api/personal/file/86096F1D533C49E983860AB8531476E0?method=download&amp;shareKey=6c993d393fc466c6f03539f61ed3d009" target="_blank" rel="external">local_policy.jar</a><br><a href="http://note.youdao.com/yws/api/personal/file/FB0E6938DEE64BA18508AAF920FD5D02?method=download&amp;shareKey=a0dd06db1ed70a2870e5ef6b847428b1" target="_blank" rel="external">US_export_policy.jar</a>  </p>
@@ -670,27 +670,27 @@
     
     <summary type="html">
     
-      &lt;script src=&quot;/assets/js/DPlayer.min.js&quot;&gt; &lt;/script&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;p&gt;因业务需要，对生产应用系统进行扩容后，当启动应用(tomcat)时，其日志
+      &lt;script src=&quot;/assets/js/APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;script src=&quot;/assets/js/DPlayer.min.js&quot;&gt; &lt;/script&gt;&lt;p&gt;因业务需要，对生产应用系统进行扩容后，当启动应用(tomcat)时，其日志
     
     </summary>
     
-      <category term="WEB" scheme="https://yfshare.github.io/categories/WEB/"/>
+      <category term="WEB" scheme="http://www.yfshare.vip/categories/WEB/"/>
     
     
-      <category term="tomcat" scheme="https://yfshare.github.io/tags/tomcat/"/>
+      <category term="tomcat" scheme="http://www.yfshare.vip/tags/tomcat/"/>
     
-      <category term="Illegal key size" scheme="https://yfshare.github.io/tags/Illegal-key-size/"/>
+      <category term="Illegal key size" scheme="http://www.yfshare.vip/tags/Illegal-key-size/"/>
     
   </entry>
   
   <entry>
     <title>部署PinPoint分布式调用链系统监控</title>
-    <link href="https://yfshare.github.io/2017/08/14/%E9%83%A8%E7%BD%B2PinPoint%E5%88%86%E5%B8%83%E5%BC%8F%E8%B0%83%E7%94%A8%E9%93%BE%E7%B3%BB%E7%BB%9F%E7%9B%91%E6%8E%A7/"/>
-    <id>https://yfshare.github.io/2017/08/14/部署PinPoint分布式调用链系统监控/</id>
+    <link href="http://www.yfshare.vip/2017/08/14/%E9%83%A8%E7%BD%B2PinPoint%E5%88%86%E5%B8%83%E5%BC%8F%E8%B0%83%E7%94%A8%E9%93%BE%E7%B3%BB%E7%BB%9F%E7%9B%91%E6%8E%A7/"/>
+    <id>http://www.yfshare.vip/2017/08/14/部署PinPoint分布式调用链系统监控/</id>
     <published>2017-08-14T15:41:28.000Z</published>
     <updated>2017-08-23T12:34:31.753Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>pinpoint是开源在github上的一款APM监控工具，JAVA语言开发用于大规模分布式系统监控，对性能的影响最小(只增加约3％资源利用率，吃内存)，安装agent是无侵入式的，只需要在被测试的Tomcat中加上配置下，打下探针就可以监控整套程序了<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>pinpoint是开源在github上的一款APM监控工具，JAVA语言开发用于大规模分布式系统监控，对性能的影响最小(只增加约3％资源利用率，吃内存)，安装agent是无侵入式的，只需要在被测试的Tomcat中加上配置下，打下探针就可以监控整套程序了<br><a id="more"></a></p>
 <table>
 <thead>
 <tr>
@@ -738,23 +738,23 @@
     
     </summary>
     
-      <category term="WEB" scheme="https://yfshare.github.io/categories/WEB/"/>
+      <category term="WEB" scheme="http://www.yfshare.vip/categories/WEB/"/>
     
     
-      <category term="PinPoint" scheme="https://yfshare.github.io/tags/PinPoint/"/>
+      <category term="PinPoint" scheme="http://www.yfshare.vip/tags/PinPoint/"/>
     
-      <category term="Monitor System" scheme="https://yfshare.github.io/tags/Monitor-System/"/>
+      <category term="Monitor System" scheme="http://www.yfshare.vip/tags/Monitor-System/"/>
     
   </entry>
   
   <entry>
     <title>tomcat启动时SessionIdGeneratorBase.createSecureRandom耗时问题</title>
-    <link href="https://yfshare.github.io/2017/08/11/tomcat%E5%90%AF%E5%8A%A8%E6%97%B6SessionIdGeneratorBase-createSecureRandom%E8%80%97%E6%97%B6%E9%97%AE%E9%A2%98/"/>
-    <id>https://yfshare.github.io/2017/08/11/tomcat启动时SessionIdGeneratorBase-createSecureRandom耗时问题/</id>
+    <link href="http://www.yfshare.vip/2017/08/11/tomcat%E5%90%AF%E5%8A%A8%E6%97%B6SessionIdGeneratorBase-createSecureRandom%E8%80%97%E6%97%B6%E9%97%AE%E9%A2%98/"/>
+    <id>http://www.yfshare.vip/2017/08/11/tomcat启动时SessionIdGeneratorBase-createSecureRandom耗时问题/</id>
     <published>2017-08-11T14:49:41.000Z</published>
     <updated>2017-08-14T15:49:36.003Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>通常情况，tomcat启动只需要几秒，最近发现发现tomcat启动非常慢，要花近10分钟，而且是发生在生产环境上，这是坚决不允许的，因此亟需解决这个问题<br>目前环境是tomcat7启动非常慢，且日志无任何报错<br><a id="more"></a><br>环境：<br>　　　Centos 7.3<br>　　　java version 1.7.0_80<br>　　　tomcat version 7.0.70  </p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>通常情况，tomcat启动只需要几秒，最近发现发现tomcat启动非常慢，要花近10分钟，而且是发生在生产环境上，这是坚决不允许的，因此亟需解决这个问题<br>目前环境是tomcat7启动非常慢，且日志无任何报错<br><a id="more"></a><br>环境：<br>　　　Centos 7.3<br>　　　java version 1.7.0_80<br>　　　tomcat version 7.0.70  </p>
 <p>在tomcat的<code>catalina.out</code>日志中仅输出如下信息<br>搜索<code>catalina.out</code>日志中<code>Context: initialization completed in</code>关键字段<br><img src="http://note.youdao.com/yws/api/personal/file/07293469E0244BAEA83D0C3811B3B3F8?method=download&amp;shareKey=3a5d2f016b44bc9f7fc08fcd4598d518" alt="start_tomcatlog">  </p>
 <h1 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h1><p>Tomcat 7/8都使用<code>bash org.apache.catalina.util.SessionIdGeneratorBase.createSecureRandom</code>类产生安全随机类<code>SecureRandom</code>的实例作为会话ID，花了近7分钟<br>SHA1PRNG算法是基于SHA-1算法实现且保密性较强的伪随机数生成器<br>在SHA1PRNG中，有一个种子产生器，它根据配置执行各种操作  </p>
 <ol>
@@ -783,23 +783,23 @@
     
     </summary>
     
-      <category term="WEB" scheme="https://yfshare.github.io/categories/WEB/"/>
+      <category term="WEB" scheme="http://www.yfshare.vip/categories/WEB/"/>
     
     
-      <category term="tomcat" scheme="https://yfshare.github.io/tags/tomcat/"/>
+      <category term="tomcat" scheme="http://www.yfshare.vip/tags/tomcat/"/>
     
-      <category term="session" scheme="https://yfshare.github.io/tags/session/"/>
+      <category term="session" scheme="http://www.yfshare.vip/tags/session/"/>
     
   </entry>
   
   <entry>
     <title>Deploy Windows 10 with the Microsoft Deployment Toolkit (Windows 10)</title>
-    <link href="https://yfshare.github.io/2017/08/01/Deploy-Windows-10-with-the-Microsoft-Deployment-Toolkit-Windows-10/"/>
-    <id>https://yfshare.github.io/2017/08/01/Deploy-Windows-10-with-the-Microsoft-Deployment-Toolkit-Windows-10/</id>
+    <link href="http://www.yfshare.vip/2017/08/01/Deploy-Windows-10-with-the-Microsoft-Deployment-Toolkit-Windows-10/"/>
+    <id>http://www.yfshare.vip/2017/08/01/Deploy-Windows-10-with-the-Microsoft-Deployment-Toolkit-Windows-10/</id>
     <published>2017-08-01T13:42:29.000Z</published>
     <updated>2017-08-01T15:14:58.423Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Microsoft Deployment Toolkit (MDT) 提供了自动化桌面和服务器部署的统一的工具、流程和指南集合。除了减少部署时间和标准化桌面和服务器映像，MDT 还提供了更高的安全性和持续的配置管理<br>Windows ADK（Windows 评估和部署工具包） 它具有自定义大规模部署的 Windows 映像以及测试系统、添加的组件和在该系统上运行的应用程序的质量和性能所需的工具<br>WDS是windows 部署服务<br><a id="more"></a><br>环境：<br>　　　windows server 2016<br>　　　AD DC 2016<br>　　　DHCP<br>　　　DNS<br>　　　windows10 v1607  </p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>Microsoft Deployment Toolkit (MDT) 提供了自动化桌面和服务器部署的统一的工具、流程和指南集合。除了减少部署时间和标准化桌面和服务器映像，MDT 还提供了更高的安全性和持续的配置管理<br>Windows ADK（Windows 评估和部署工具包） 它具有自定义大规模部署的 Windows 映像以及测试系统、添加的组件和在该系统上运行的应用程序的质量和性能所需的工具<br>WDS是windows 部署服务<br><a id="more"></a><br>环境：<br>　　　windows server 2016<br>　　　AD DC 2016<br>　　　DHCP<br>　　　DNS<br>　　　windows10 v1607  </p>
 <p>工具：<br>　　　win10_v1607 for Windows ADK<br>　　　MicrosoftDeploymentToolkit_x64  </p>
 <p><a href="https://developer.microsoft.com/zh-cn/windows/hardware/windows-assessment-deployment-kit" target="_blank" rel="external">官方ADK 获取地址</a><br><a href="https://technet.microsoft.com/zh-CN/windows/dn475741" target="_blank" rel="external">官方Microsoft Deployment Toolkit获取地址</a>  </p>
 <p><a href="http://download.microsoft.com/download/9/A/E/9AE69DD5-BA93-44E0-864E-180F5E700AB4/adk/adksetup.exe" target="_blank" rel="external">适用于 Windows 10 版本 1607 的 Windows ADK 官方下载地址</a><br><a href="http://note.youdao.com/yws/api/personal/file/0392306BF2AB4AE399FDE15CC92CB4DF?method=download&amp;shareKey=3de5091df7000b558544a55ef3f56881" target="_blank" rel="external">win10_v1607 for windows adk本地下载</a><br><a href="https://www.microsoft.com/en-us/download/details.aspx?id=54259" target="_blank" rel="external">Microsoft Deployment Toolkit (8443)官方下载地址</a><br><a href="http://note.youdao.com/noteshare?id=3b7ce3ec8d2bf427405347720f87407f&amp;sub=8BF1453CEE854660B934FC9F84A5CC30" target="_blank" rel="external">win10_v1607 for mdt_8443本地下载</a><br>注： 8443适用于  </p>
@@ -867,29 +867,29 @@
     
     </summary>
     
-      <category term="Windows" scheme="https://yfshare.github.io/categories/Windows/"/>
+      <category term="Windows" scheme="http://www.yfshare.vip/categories/Windows/"/>
     
     
-      <category term="MDT" scheme="https://yfshare.github.io/tags/MDT/"/>
+      <category term="MDT" scheme="http://www.yfshare.vip/tags/MDT/"/>
     
-      <category term="WDS" scheme="https://yfshare.github.io/tags/WDS/"/>
+      <category term="WDS" scheme="http://www.yfshare.vip/tags/WDS/"/>
     
-      <category term="win10" scheme="https://yfshare.github.io/tags/win10/"/>
+      <category term="win10" scheme="http://www.yfshare.vip/tags/win10/"/>
     
-      <category term="windows" scheme="https://yfshare.github.io/tags/windows/"/>
+      <category term="windows" scheme="http://www.yfshare.vip/tags/windows/"/>
     
-      <category term="PXE" scheme="https://yfshare.github.io/tags/PXE/"/>
+      <category term="PXE" scheme="http://www.yfshare.vip/tags/PXE/"/>
     
   </entry>
   
   <entry>
     <title>怎么在Linux划分大磁盘分区</title>
-    <link href="https://yfshare.github.io/2017/07/15/%E6%80%8E%E4%B9%88%E5%9C%A8Linux%E5%88%92%E5%88%86%E5%A4%A7%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA/"/>
-    <id>https://yfshare.github.io/2017/07/15/怎么在Linux划分大磁盘分区/</id>
+    <link href="http://www.yfshare.vip/2017/07/15/%E6%80%8E%E4%B9%88%E5%9C%A8Linux%E5%88%92%E5%88%86%E5%A4%A7%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA/"/>
+    <id>http://www.yfshare.vip/2017/07/15/怎么在Linux划分大磁盘分区/</id>
     <published>2017-07-15T05:35:28.000Z</published>
     <updated>2017-07-15T05:53:05.197Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>前几天收到需求，在阿里云上购买5台服务器，配置为32G,8核,3T<br>问题主要是卡在这里，阿里云的公共镜像里 Centos 7.3 默认为 EXT4 文件系统，和官方的不同，官网默认文件系统为 XFS 。而 EXT4 文件系统默认最大只支持最大分区为2TB，这里有3TB，如果用 EXT4 文件系统，就表示剩余的1TB空间会被浪费…  </p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>前几天收到需求，在阿里云上购买5台服务器，配置为32G,8核,3T<br>问题主要是卡在这里，阿里云的公共镜像里 Centos 7.3 默认为 EXT4 文件系统，和官方的不同，官网默认文件系统为 XFS 。而 EXT4 文件系统默认最大只支持最大分区为2TB，这里有3TB，如果用 EXT4 文件系统，就表示剩余的1TB空间会被浪费…  </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[root@bigdata1 ~]<span class="comment"># fdisk -l /dev/vdb </span></div><div class="line"></div><div class="line">Disk /dev/vdb: 3298.5 GB, 3298534883328 bytes, 6442450944 sectors</div><div class="line">Units = sectors of 1 * 512 = 512 bytes</div><div class="line">Sector size (logical/physical): 512 bytes / 512 bytes</div><div class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</div><div class="line"></div><div class="line">[root@bigdata1 ~]<span class="comment">#</span></div></pre></td></tr></table></figure>
 <p>这时默认的fdisk分区工具将无法使用了，因为它不能满足我们的需求，这里就需要用到 parted 分区工具了<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#分区命令</span></div><div class="line">parted /dev/vdb</div><div class="line">mklabel</div><div class="line">gpt</div><div class="line">mkpart</div><div class="line"></div><div class="line">xfs</div><div class="line">0G</div><div class="line">3299GB</div><div class="line">p</div><div class="line">quit</div></pre></td></tr></table></figure></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">[root@bigdata1 ~]<span class="comment"># parted /dev/vdb </span></div><div class="line">GNU Parted 3.1</div><div class="line">Using /dev/vdb</div><div class="line">Welcome to GNU Parted! Type <span class="string">'help'</span> to view a list of commands.</div><div class="line">(parted) p                                                                </div><div class="line">Error: /dev/vdb: unrecognised disk label</div><div class="line">Model: Virtio Block Device (virtblk)                                      </div><div class="line">Disk /dev/vdb: 3299GB</div><div class="line">Sector size (logical/physical): 512B/512B</div><div class="line">Partition Table: unknown</div><div class="line">Disk Flags: </div><div class="line">(parted) <span class="built_in">help</span>                                                             </div><div class="line">  align-check TYPE N                        check partition N <span class="keyword">for</span> TYPE(min|opt) alignment</div><div class="line">  <span class="built_in">help</span> [COMMAND]                           <span class="built_in">print</span> general <span class="built_in">help</span>, or <span class="built_in">help</span> on COMMAND</div><div class="line">  mklabel,mktable LABEL-TYPE               create a new disklabel (partition table)</div><div class="line">  mkpart PART-TYPE [FS-TYPE] START END     make a partition</div><div class="line">  name NUMBER NAME                         name partition NUMBER as NAME</div><div class="line">  <span class="built_in">print</span> [devices|free|list,all|NUMBER]     display the partition table, available devices, free space, all found</div><div class="line">        partitions, or a particular partition</div><div class="line">  quit                                     <span class="built_in">exit</span> program</div><div class="line">  rescue START END                         rescue a lost partition near START and END</div><div class="line">  rm NUMBER                                delete partition NUMBER</div><div class="line">  select DEVICE                            choose the device to edit</div><div class="line">  disk_set FLAG STATE                      change the FLAG on selected device</div><div class="line">  disk_toggle [FLAG]                       toggle the state of FLAG on selected device</div><div class="line">  <span class="built_in">set</span> NUMBER FLAG STATE                    change the FLAG on partition NUMBER</div><div class="line">  toggle [NUMBER [FLAG]]                   toggle the state of FLAG on partition NUMBER</div><div class="line">  unit UNIT                                <span class="built_in">set</span> the default unit to UNIT</div><div class="line">  version                                  display the version number and copyright information of GNU Parted</div><div class="line">(parted) mklabel                                                          </div><div class="line">New disk label <span class="built_in">type</span>? gpt                                                  </div><div class="line">(parted) p                                                                </div><div class="line">Model: Virtio Block Device (virtblk)</div><div class="line">Disk /dev/vdb: 3299GB</div><div class="line">Sector size (logical/physical): 512B/512B</div><div class="line">Partition Table: gpt</div><div class="line">Disk Flags: </div><div class="line"></div><div class="line">Number  Start  End  Size  File system  Name  Flags</div><div class="line"></div><div class="line">(parted) mkpart                                                           </div><div class="line">Partition name?  []? ?                                                    </div><div class="line">File system <span class="built_in">type</span>?  [ext2]? xfs</div><div class="line">Start? 0G                                                                 </div><div class="line">End? 3299GB                                                               </div><div class="line">(parted) p                                                                </div><div class="line">Model: Virtio Block Device (virtblk)</div><div class="line">Disk /dev/vdb: 3299GB</div><div class="line">Sector size (logical/physical): 512B/512B</div><div class="line">Partition Table: gpt</div><div class="line">Disk Flags: </div><div class="line"></div><div class="line">Number  Start   End     Size    File system  Name  Flags</div><div class="line"> 1      1049kB  3299GB  3299GB               ?</div><div class="line"></div><div class="line">(parted) quit                                                             </div><div class="line">Information: You may need to update /etc/fstab.</div><div class="line"></div><div class="line">[root@bigdata1 ~]<span class="comment">#</span></div></pre></td></tr></table></figure>
@@ -903,31 +903,31 @@
     
     <summary type="html">
     
-      &lt;script src=&quot;/assets/js/DPlayer.min.js&quot;&gt; &lt;/script&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;p&gt;前几天收到需求，在阿里云上购买5台服务器，配置为32G,8核,3T&lt;br&gt;
+      &lt;script src=&quot;/assets/js/APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;script src=&quot;/assets/js/DPlayer.min.js&quot;&gt; &lt;/script&gt;&lt;p&gt;前几天收到需求，在阿里云上购买5台服务器，配置为32G,8核,3T&lt;br&gt;
     
     </summary>
     
-      <category term="Linux" scheme="https://yfshare.github.io/categories/Linux/"/>
+      <category term="Linux" scheme="http://www.yfshare.vip/categories/Linux/"/>
     
     
-      <category term="Linux" scheme="https://yfshare.github.io/tags/Linux/"/>
+      <category term="Linux" scheme="http://www.yfshare.vip/tags/Linux/"/>
     
-      <category term="大磁盘分区" scheme="https://yfshare.github.io/tags/%E5%A4%A7%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA/"/>
+      <category term="大磁盘分区" scheme="http://www.yfshare.vip/tags/%E5%A4%A7%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA/"/>
     
-      <category term="ext4" scheme="https://yfshare.github.io/tags/ext4/"/>
+      <category term="ext4" scheme="http://www.yfshare.vip/tags/ext4/"/>
     
-      <category term="xfs" scheme="https://yfshare.github.io/tags/xfs/"/>
+      <category term="xfs" scheme="http://www.yfshare.vip/tags/xfs/"/>
     
   </entry>
   
   <entry>
     <title>部署wordpress</title>
-    <link href="https://yfshare.github.io/2017/06/25/%E9%83%A8%E7%BD%B2wordpress/"/>
-    <id>https://yfshare.github.io/2017/06/25/部署wordpress/</id>
+    <link href="http://www.yfshare.vip/2017/06/25/%E9%83%A8%E7%BD%B2wordpress/"/>
+    <id>http://www.yfshare.vip/2017/06/25/部署wordpress/</id>
     <published>2017-06-25T02:52:45.000Z</published>
     <updated>2017-06-25T02:55:01.243Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>WordPress是一种使用PHP语言开发的博客平台，用户可以在支持PHP和MySQL数据库的服务器上架设属于自己的网站。也可以把 WordPress当作一个内容管理系统（CMS）来使用. WordPress是一款个人博客系统，并逐步演化成一款内容管理系统软件<br><a id="more"></a><br>官网：<a href="https://wordpress.org/" target="_blank" rel="external">https://wordpress.org/</a><br>官方文档：<a href="https://codex.wordpress.org/Main_Page" target="_blank" rel="external">https://codex.wordpress.org/Main_Page</a><br>wordpress最新版下载(目前最新版是4.8)：<a href="https://wordpress.org/latest.tar.gz" target="_blank" rel="external">https://wordpress.org/latest.tar.gz</a><br>wordpress安装要求：<a href="https://wordpress.org/about/requirements/" target="_blank" rel="external">https://wordpress.org/about/requirements/</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#wordpress 4.8系统安装要求</span></div><div class="line">php version &gt;= 7</div><div class="line">mysql version &gt;=5.6 or MariaDB version &gt;= 10.0</div><div class="line">https support</div></pre></td></tr></table></figure></p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>WordPress是一种使用PHP语言开发的博客平台，用户可以在支持PHP和MySQL数据库的服务器上架设属于自己的网站。也可以把 WordPress当作一个内容管理系统（CMS）来使用. WordPress是一款个人博客系统，并逐步演化成一款内容管理系统软件<br><a id="more"></a><br>官网：<a href="https://wordpress.org/" target="_blank" rel="external">https://wordpress.org/</a><br>官方文档：<a href="https://codex.wordpress.org/Main_Page" target="_blank" rel="external">https://codex.wordpress.org/Main_Page</a><br>wordpress最新版下载(目前最新版是4.8)：<a href="https://wordpress.org/latest.tar.gz" target="_blank" rel="external">https://wordpress.org/latest.tar.gz</a><br>wordpress安装要求：<a href="https://wordpress.org/about/requirements/" target="_blank" rel="external">https://wordpress.org/about/requirements/</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#wordpress 4.8系统安装要求</span></div><div class="line">php version &gt;= 7</div><div class="line">mysql version &gt;=5.6 or MariaDB version &gt;= 10.0</div><div class="line">https support</div></pre></td></tr></table></figure></p>
 <p>官方安装文档：<a href="https://codex.wordpress.org/Installing_WordPress#Famous_5-Minute_Install" target="_blank" rel="external">https://codex.wordpress.org/Installing_WordPress#Famous_5-Minute_Install</a>  </p>
 <h2 id="安装LNMP环境"><a href="#安装LNMP环境" class="headerlink" title="安装LNMP环境"></a>安装LNMP环境</h2><p>环境：<br>　　　Centos 7.3<br>　　　wordpress version 4.8<br>　　　mysql version 5.6.36<br>　　　php version 7.1.5<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]<span class="comment"># yum -y install mysql-community-server mysql-community-client</span></div><div class="line">[root@localhost ~]<span class="comment"># systemctl start mysql</span></div><div class="line">[root@localhost ~]<span class="comment"># systemctl list-unit-files | grep -i mysql</span></div><div class="line">mysql.service                               enabled </div><div class="line">mysqld.service                              enabled </div><div class="line">[root@localhost ~]<span class="comment">#</span></div><div class="line"></div><div class="line"><span class="comment">#更新yum源</span></div><div class="line">[root@localhost ~]<span class="comment"># rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm</span></div><div class="line">[root@localhost ~]<span class="comment"># rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm</span></div><div class="line"><span class="comment">#安装php71</span></div><div class="line">[root@localhost ~]<span class="comment"># yum install php71w-fpm php71w-devel php71w-gd php71w-imap php71w-mysql php71w-odbc</span></div><div class="line"><span class="comment">#安装nginx1.12.0-1.w7</span></div><div class="line">[root@localhost ~]<span class="comment"># yum install nginx1w</span></div><div class="line"></div><div class="line">[root@localhost ~]<span class="comment"># systemctl start php-fpm</span></div><div class="line">[root@localhost ~]<span class="comment"># systemctl enable php-fpm</span></div><div class="line">[root@localhost ~]<span class="comment"># systemctl start nginx</span></div><div class="line">[root@localhost ~]<span class="comment"># systemctl enable nginx</span></div></pre></td></tr></table></figure></p>
 <h2 id="安装wordpress"><a href="#安装wordpress" class="headerlink" title="安装wordpress"></a>安装wordpress</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#官方只提供最新版下载，本文附件会提供wordpress-4.8下载</span></div><div class="line">[root@localhost ~]<span class="comment"># wget https://wordpress.org/latest.tar.gz -O wordpress-4.8.tar.gz</span></div><div class="line">[root@localhost ~]<span class="comment"># tar -zxf wordpress-4.8.tar.gz -C /usr/local/</span></div></pre></td></tr></table></figure>
@@ -950,21 +950,21 @@
     
     </summary>
     
-      <category term="WEB" scheme="https://yfshare.github.io/categories/WEB/"/>
+      <category term="WEB" scheme="http://www.yfshare.vip/categories/WEB/"/>
     
     
-      <category term="wordpress" scheme="https://yfshare.github.io/tags/wordpress/"/>
+      <category term="wordpress" scheme="http://www.yfshare.vip/tags/wordpress/"/>
     
   </entry>
   
   <entry>
     <title>部署atlassian-confluence 6.1.2</title>
-    <link href="https://yfshare.github.io/2017/06/25/%E9%83%A8%E7%BD%B2atlassian-confluence-6-1-2/"/>
-    <id>https://yfshare.github.io/2017/06/25/部署atlassian-confluence-6-1-2/</id>
+    <link href="http://www.yfshare.vip/2017/06/25/%E9%83%A8%E7%BD%B2atlassian-confluence-6-1-2/"/>
+    <id>http://www.yfshare.vip/2017/06/25/部署atlassian-confluence-6-1-2/</id>
     <published>2017-06-25T02:37:27.000Z</published>
     <updated>2017-06-25T02:50:57.619Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>AtlassianConfluence（简称Confluence）是一个专业的wiki程序。它是一个知识管理的工具，通过它可以实现团队成员之间的协作和知识共享。Confluence不是一个开源软件，非商业用途可以免费使用<br>Confluence使用简单，但它强大的编辑和站点管理特征能够帮助团队成员之间共享信息，文档协作，集体讨论。 目前，Confluence被用于广泛地用于项目团队，开发团队，市场销售团队<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>AtlassianConfluence（简称Confluence）是一个专业的wiki程序。它是一个知识管理的工具，通过它可以实现团队成员之间的协作和知识共享。Confluence不是一个开源软件，非商业用途可以免费使用<br>Confluence使用简单，但它强大的编辑和站点管理特征能够帮助团队成员之间共享信息，文档协作，集体讨论。 目前，Confluence被用于广泛地用于项目团队，开发团队，市场销售团队<br><a id="more"></a></p>
 <p>首页：<a href="https://www.atlassian.com/" target="_blank" rel="external">https://www.atlassian.com/</a><br>　　　<a href="https://www.atlassian.com/software/confluence" target="_blank" rel="external">https://www.atlassian.com/software/confluence</a>  </p>
 <p>atlassian-confluence各版本下载地址(截至到目前最新版是6.2.2)：<a href="https://www.atlassian.com/software/confluence/download-archives" target="_blank" rel="external">https://www.atlassian.com/software/confluence/download-archives</a>  </p>
 <p>6.1.2系统配置要求官方文档：<br><a href="https://confluence.atlassian.com/conf61/system-requirements-877188692.html" target="_blank" rel="external">https://confluence.atlassian.com/conf61/system-requirements-877188692.html</a><br><a href="https://confluence.atlassian.com/conf61/supported-platforms-877188781.html" target="_blank" rel="external">https://confluence.atlassian.com/conf61/supported-platforms-877188781.html</a>  </p>
@@ -1002,23 +1002,23 @@
     
     </summary>
     
-      <category term="Atlassian" scheme="https://yfshare.github.io/categories/Atlassian/"/>
+      <category term="Atlassian" scheme="http://www.yfshare.vip/categories/Atlassian/"/>
     
     
-      <category term="Atlassian" scheme="https://yfshare.github.io/tags/Atlassian/"/>
+      <category term="Atlassian" scheme="http://www.yfshare.vip/tags/Atlassian/"/>
     
-      <category term="Confluence" scheme="https://yfshare.github.io/tags/Confluence/"/>
+      <category term="Confluence" scheme="http://www.yfshare.vip/tags/Confluence/"/>
     
   </entry>
   
   <entry>
     <title>Dubbo理论</title>
-    <link href="https://yfshare.github.io/2017/06/21/Dubbo%E7%90%86%E8%AE%BA/"/>
-    <id>https://yfshare.github.io/2017/06/21/Dubbo理论/</id>
+    <link href="http://www.yfshare.vip/2017/06/21/Dubbo%E7%90%86%E8%AE%BA/"/>
+    <id>http://www.yfshare.vip/2017/06/21/Dubbo理论/</id>
     <published>2017-06-20T16:01:51.000Z</published>
     <updated>2017-06-20T16:05:01.331Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>DUBBO是Alibaba开源的分布式服务框架，致力于提供高性能和透明化的RPC远程服务调用方案，使用这种方式可以使各个层之间解耦合(或者最大限度地松耦合)。从服务模型的角度，Dubbo采用的是一种非常简单的模型，分为<strong>提供方提供服务</strong>和<strong>消费方消费服务</strong>，基于这一点可以抽象出<strong>服务提供方</strong>(Provider)和<strong>服务消费方</strong>(Consumer)两个角色<br><a id="more"></a><br>官网：<a href="http://dubbo.io/" target="_blank" rel="external">http://dubbo.io/</a><br>用户手册：<a href="http://dubbo.io/User+Guide-zh.htm" target="_blank" rel="external">http://dubbo.io/User+Guide-zh.htm</a><br>管理指南：<a href="http://dubbo.io/Administrator+Guide-zh.htm" target="_blank" rel="external">http://dubbo.io/Administrator+Guide-zh.htm</a><br>FAQ：<a href="http://dubbo.io/FAQ-zh.htm" target="_blank" rel="external">http://dubbo.io/FAQ-zh.htm</a>  </p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>DUBBO是Alibaba开源的分布式服务框架，致力于提供高性能和透明化的RPC远程服务调用方案，使用这种方式可以使各个层之间解耦合(或者最大限度地松耦合)。从服务模型的角度，Dubbo采用的是一种非常简单的模型，分为<strong>提供方提供服务</strong>和<strong>消费方消费服务</strong>，基于这一点可以抽象出<strong>服务提供方</strong>(Provider)和<strong>服务消费方</strong>(Consumer)两个角色<br><a id="more"></a><br>官网：<a href="http://dubbo.io/" target="_blank" rel="external">http://dubbo.io/</a><br>用户手册：<a href="http://dubbo.io/User+Guide-zh.htm" target="_blank" rel="external">http://dubbo.io/User+Guide-zh.htm</a><br>管理指南：<a href="http://dubbo.io/Administrator+Guide-zh.htm" target="_blank" rel="external">http://dubbo.io/Administrator+Guide-zh.htm</a><br>FAQ：<a href="http://dubbo.io/FAQ-zh.htm" target="_blank" rel="external">http://dubbo.io/FAQ-zh.htm</a>  </p>
 <p>Dubbo总体架构图<br><img src="http://note.youdao.com/yws/api/personal/file/E36A4921C3074B4D8E75C4AF51C250B7?method=download&amp;shareKey=86c67efbb244731c612a3b9c5c8a6b95" alt="dubbo-architecture"><br>Dubbo框架设计一共划分了10个层，而最上面的 Service 层是留给实际想要使用Dubbo开发分布式服务的开发者实现业务逻辑的接口层<br>图中左边淡蓝背景的为服务消费方使用的接口，右边淡绿色背景的为服务提供方使用的接口， 位于中轴线上的为双方都用到的接口<br>结合Dubbo官方文档，整理了一下框架分层架构，各个层次的设计要点如下：  </p>
 <ol>
 <li>服务接口层（Service）：该层是与实际业务逻辑相关的，根据服务提供方和服务消费方的业务设计对应的接口和实现  </li>
@@ -1095,25 +1095,25 @@
     
     </summary>
     
-      <category term="WEB" scheme="https://yfshare.github.io/categories/WEB/"/>
+      <category term="WEB" scheme="http://www.yfshare.vip/categories/WEB/"/>
     
     
-      <category term="Dubbo" scheme="https://yfshare.github.io/tags/Dubbo/"/>
+      <category term="Dubbo" scheme="http://www.yfshare.vip/tags/Dubbo/"/>
     
-      <category term="Web" scheme="https://yfshare.github.io/tags/Web/"/>
+      <category term="Web" scheme="http://www.yfshare.vip/tags/Web/"/>
     
-      <category term="Tomcat" scheme="https://yfshare.github.io/tags/Tomcat/"/>
+      <category term="Tomcat" scheme="http://www.yfshare.vip/tags/Tomcat/"/>
     
   </entry>
   
   <entry>
     <title>Ant</title>
-    <link href="https://yfshare.github.io/2017/06/19/Ant/"/>
-    <id>https://yfshare.github.io/2017/06/19/Ant/</id>
+    <link href="http://www.yfshare.vip/2017/06/19/Ant/"/>
+    <id>http://www.yfshare.vip/2017/06/19/Ant/</id>
     <published>2017-06-19T14:46:38.000Z</published>
     <updated>2017-06-19T14:50:25.522Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Ant是一个Apache基金会下的跨平台的构件工具，可以实现自动构建和部署，大多数用于JAVA环境中的软件开发<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>Ant是一个Apache基金会下的跨平台的构件工具，可以实现自动构建和部署，大多数用于JAVA环境中的软件开发<br><a id="more"></a></p>
 <h2 id="Ant"><a href="#Ant" class="headerlink" title="Ant"></a>Ant</h2><p>官网：<a href="http://ant.apache.org/" target="_blank" rel="external">http://ant.apache.org/</a><br>官方文档：<a href="http://ant.apache.org/manual/index.html" target="_blank" rel="external">http://ant.apache.org/manual/index.html</a><br>下载：<a href="http://ant.apache.org/bindownload.cgi" target="_blank" rel="external">http://ant.apache.org/bindownload.cgi</a><br><a href="http://mirror.bit.edu.cn/apache//ant/binaries/apache-ant-1.9.9-bin.zip" target="_blank" rel="external">apache-ant-1.9.9-bin.zip官方下载</a><br><a href="http://note.youdao.com/yws/api/personal/file/DA790D1F015A4B3EA72C8478B5045781?method=download&amp;shareKey=736463d1e22df8aec9cebf13f9bb2694" target="_blank" rel="external">apache-ant-1.9.9-bin.zip本地下载</a>  </p>
 <p><img src="http://note.youdao.com/yws/api/personal/file/A10BDE3E38FF477ABDD560B5DAEB4CBE?method=download&amp;shareKey=407a4732d49b42ddec1a7ff1290060dd" alt="ANT流程"><br>jar包这个部分步骤是为下面编译增量包做准备的，因为增量包导出的增量文件，它依赖于整个项目的其他代码，如果没有这些代码的支持是编译不通过。然而又不能直接通过diff得到增量的class，所以只能导出增量文件后，通过引用全部工程的代码的class再进行编译即可  </p>
 <p>环境：<br>　　　centos 7.2<br>　　　jdk version 1.7.0_79<br>　　　ant version 1.9.9  </p>
@@ -1135,23 +1135,23 @@
     
     </summary>
     
-      <category term="Jenkins" scheme="https://yfshare.github.io/categories/Jenkins/"/>
+      <category term="Jenkins" scheme="http://www.yfshare.vip/categories/Jenkins/"/>
     
     
-      <category term="Ant" scheme="https://yfshare.github.io/tags/Ant/"/>
+      <category term="Ant" scheme="http://www.yfshare.vip/tags/Ant/"/>
     
-      <category term="Jenkins" scheme="https://yfshare.github.io/tags/Jenkins/"/>
+      <category term="Jenkins" scheme="http://www.yfshare.vip/tags/Jenkins/"/>
     
   </entry>
   
   <entry>
     <title>Play Framework</title>
-    <link href="https://yfshare.github.io/2017/06/19/Play-Framework/"/>
-    <id>https://yfshare.github.io/2017/06/19/Play-Framework/</id>
+    <link href="http://www.yfshare.vip/2017/06/19/Play-Framework/"/>
+    <id>http://www.yfshare.vip/2017/06/19/Play-Framework/</id>
     <published>2017-06-19T14:44:55.000Z</published>
     <updated>2017-06-19T14:50:44.236Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Play是一个full-stack（全栈的）Java Web应用框架，包括一个简单的无状态MVC模型，具有Hibernate的对象持续，一个基于Groovy的模板引擎，以及建立一个现代Web应用所需的所有东西<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>Play是一个full-stack（全栈的）Java Web应用框架，包括一个简单的无状态MVC模型，具有Hibernate的对象持续，一个基于Groovy的模板引擎，以及建立一个现代Web应用所需的所有东西<br><a id="more"></a></p>
 <h2 id="Play-Framework"><a href="#Play-Framework" class="headerlink" title="Play Framework"></a>Play Framework</h2><p>官网：<a href="https://playframework.com/" target="_blank" rel="external">https://playframework.com/</a><br>官网下载页：<a href="https://playframework.com/download" target="_blank" rel="external">https://playframework.com/download</a>  </p>
 <p><a href="https://downloads.typesafe.com/play/2.2.6/play-2.2.6.zip" target="_blank" rel="external">官方play-2.2.6.zip下载</a><br><a href="http://note.youdao.com/yws/api/personal/file/0C87E9E4557E46B9895CAF2424BDC154?method=download&amp;shareKey=a6cd1bf9a59a9765a20266de98d9cb29" target="_blank" rel="external">本地play-2.2.6.zip下载</a>  </p>
 <p>环境：<br>　　　centos 7.2<br>　　　jdk version 1.7.0_79<br>　　　play version 2.2.6<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]<span class="comment"># unzip play-2.2.6.zip -d /usr/local/</span></div><div class="line">[root@localhost ~]<span class="comment"># tail -2 /etc/profile</span></div><div class="line"><span class="built_in">export</span> PLAY_HOME=<span class="string">"/usr/local/play-2.2.6"</span></div><div class="line"><span class="built_in">export</span> PATH=<span class="string">"<span class="variable">$PLAY_HOME</span>"</span>:<span class="variable">$PATH</span></div><div class="line">[root@localhost ~]<span class="comment"># echo $PLAY_HOME</span></div><div class="line">/usr/<span class="built_in">local</span>/play-2.2.6</div><div class="line">[root@localhost ~]<span class="comment">#</span></div><div class="line"></div><div class="line"><span class="comment">#play安装完成</span></div><div class="line">[root@localhost ~]<span class="comment"># play -version</span></div><div class="line">Getting com.typesafe.play console_2.10 2.2.6 ...</div><div class="line">:: retrieving :: org.scala-sbt<span class="comment">#boot-app</span></div><div class="line">	confs: [default]</div><div class="line">	6 artifacts copied, 0 already retrieved (2012kB/72ms)</div><div class="line">Getting Scala 2.10.3 (<span class="keyword">for</span> console)...</div><div class="line">:: retrieving :: org.scala-sbt<span class="comment">#boot-scala</span></div><div class="line">	confs: [default]</div><div class="line">	5 artifacts copied, 0 already retrieved (24447kB/302ms)</div><div class="line">       _</div><div class="line"> _ __ | | __ _ _  _</div><div class="line">| <span class="string">'_ \| |/ _'</span> | || |</div><div class="line">|  __/|_|\____|\__ /</div><div class="line">|_|            |__/</div><div class="line"></div><div class="line">play 2.2.6 built with Scala 2.10.3 (running Java 1.7.0_79), http://www.playframework.com</div><div class="line"></div><div class="line">This is not a play application!</div><div class="line"></div><div class="line">Use `play new` to create a new Play application <span class="keyword">in</span> the current directory,</div><div class="line">or go to an existing application and launch the development console using `play`.</div><div class="line"></div><div class="line">You can also browse the complete documentation at http://www.playframework.com.</div><div class="line"></div><div class="line">[root@localhost ~]<span class="comment">#</span></div></pre></td></tr></table></figure></p>
@@ -1171,23 +1171,23 @@
     
     </summary>
     
-      <category term="Jenkins" scheme="https://yfshare.github.io/categories/Jenkins/"/>
+      <category term="Jenkins" scheme="http://www.yfshare.vip/categories/Jenkins/"/>
     
     
-      <category term="Jenkins" scheme="https://yfshare.github.io/tags/Jenkins/"/>
+      <category term="Jenkins" scheme="http://www.yfshare.vip/tags/Jenkins/"/>
     
-      <category term="Play Framework" scheme="https://yfshare.github.io/tags/Play-Framework/"/>
+      <category term="Play Framework" scheme="http://www.yfshare.vip/tags/Play-Framework/"/>
     
   </entry>
   
   <entry>
     <title>Java构建工具：Ant vs Maven vs Gradle</title>
-    <link href="https://yfshare.github.io/2017/06/19/Java%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%EF%BC%9AAnt-vs-Maven-vs-Gradle/"/>
-    <id>https://yfshare.github.io/2017/06/19/Java构建工具：Ant-vs-Maven-vs-Gradle/</id>
+    <link href="http://www.yfshare.vip/2017/06/19/Java%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%EF%BC%9AAnt-vs-Maven-vs-Gradle/"/>
+    <id>http://www.yfshare.vip/2017/06/19/Java构建工具：Ant-vs-Maven-vs-Gradle/</id>
     <published>2017-06-19T14:42:35.000Z</published>
     <updated>2017-06-19T14:45:56.790Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>最开始时，只有Make一种构建工具，其后来发展为GNU Make。但因需求的发展，码农世界JVM生态圈主要分为三大构建工具：Apache Ant+Ivy，Maven，Gradel<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>最开始时，只有Make一种构建工具，其后来发展为GNU Make。但因需求的发展，码农世界JVM生态圈主要分为三大构建工具：Apache Ant+Ivy，Maven，Gradel<br><a id="more"></a></p>
 <h2 id="Ant-with-Ivy"><a href="#Ant-with-Ivy" class="headerlink" title="Ant with Ivy"></a>Ant with Ivy</h2><p>Ant是第一个“现代”构建工具，在很多方面它有些像Make。2000年发布，在很短时间内成为Java项目上最流行的构建工具。它的学习曲线很缓，因此不需要什么特殊的准备就能上手。它基于过程式编程的idea。在最初的版本之后，逐渐具备了支持插件的功能<br>　　主要的不足是用XML作为脚本编写格式XML，本质上是层次化的，并不能很好地贴合Ant过程化编程的初衷。Ant的另外一个问题是，除非是很小的项目，否则它的XML文件很快就大得无法管理。<br>后来，随着通过网络进行依赖管理成为必备功能，Ant采用了Apache Ivy<br>　　Ant的主要优点在于对构建过程的控制上  </p>
 <h2 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h2><p>Maven发布于2004年。目的是解决码农使用Ant所带来的一些问题.<br>　　Maven仍旧使用XML作为编写构建配置的文件格式，但文件结构却有巨大的变化. 　　Ant需要码农将执行task所需的全部命令都一一列出，然而Maven依靠约定(convention)并提供现成的可调用的目标(goal). 不仅如此，Maven具备从网络上自动下载依赖的能力（Ant后来通过Ivy也具备了这个功能），这一点革命性地改变了我们开发软件的方式<br>　　但是，Maven也有它的问题，依赖管理不能很好地处理相同库文件不同版本之间的冲突（Ivy在这方面更好一些）。XML作为配置文件的格式有严格的结构层次和标准，定制化目标（goal）很困难。因为Maven主要聚焦于依赖管理，实际上用Maven很难写出复杂、定制化的构建脚本，甚至不如Ant<br>　　用XML写的配置文件会变得越来越大，越来越笨重。在大型项目中，它经常什么“特别的”事还没干就有几百行代码<br>　　Maven的主要优点是生命周期。只要项目基于一定之规，它的整个生命周期都能够轻松搞定，代价是牺牲了灵活性<br>　　在对DSL（Domain Specific Languages)的热情持续高涨之时，通常的想法是设计一套能够解决特定领域问题的语言。在构建这方面，DSL的一个成功案例就是Gradle  </p>
 <h2 id="Gradle"><a href="#Gradle" class="headerlink" title="Gradle"></a>Gradle</h2><p>　　Gradle结合了前两者的优点，在此基础之上做了很多改进。它具有Ant的强大和灵活，又有Maven的生命周期管理且易于使用。最终结果就是一个工具在2012年华丽诞生并且很快地获得了广泛关注。例如，Google采用Gradle作为Android OS的默认构建工具<br>　　Gradle不用XML，它使用基于Groovy的专门的DSL，从而使Gradle构建脚本变得比用Ant和Maven写的要简洁清晰。Gradle样板文件的代码很少，这是因为它的DSL被设计用于解决特定的问题：贯穿软件的生命周期，从编译，到静态检查，到测试，直到打包和部署<br>　　它使用Apache Ivy来处理Jar包的依赖，Gradle的成就可以概括为：约定好，灵活性也高  </p>
@@ -1227,18 +1227,18 @@
     
     </summary>
     
-      <category term="Jenkins" scheme="https://yfshare.github.io/categories/Jenkins/"/>
+      <category term="Jenkins" scheme="http://www.yfshare.vip/categories/Jenkins/"/>
     
     
-      <category term="Ant" scheme="https://yfshare.github.io/tags/Ant/"/>
+      <category term="Ant" scheme="http://www.yfshare.vip/tags/Ant/"/>
     
-      <category term="Jenkins" scheme="https://yfshare.github.io/tags/Jenkins/"/>
+      <category term="Jenkins" scheme="http://www.yfshare.vip/tags/Jenkins/"/>
     
-      <category term="Java" scheme="https://yfshare.github.io/tags/Java/"/>
+      <category term="Java" scheme="http://www.yfshare.vip/tags/Java/"/>
     
-      <category term="Maven" scheme="https://yfshare.github.io/tags/Maven/"/>
+      <category term="Maven" scheme="http://www.yfshare.vip/tags/Maven/"/>
     
-      <category term="Gradle" scheme="https://yfshare.github.io/tags/Gradle/"/>
+      <category term="Gradle" scheme="http://www.yfshare.vip/tags/Gradle/"/>
     
   </entry>
   
