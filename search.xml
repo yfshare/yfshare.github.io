@@ -4,6 +4,63 @@
   
     
     <entry>
+      <title><![CDATA[Logstash配置语法]]></title>
+      <url>http://www.yfshare.vip/2017/11/22/Logstash%E9%85%8D%E7%BD%AE%E8%AF%AD%E6%B3%95/</url>
+      <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Logstash 社区通常习惯用 shipper，broker 和 indexer 来描述数据流中不同进程各自的角色<br><a id="more"></a><br>Logstash设计了自己的DSL。包含有  </p>
+<ul>
+<li>区域</li>
+<li>注释</li>
+<li>数据类型(布尔值，字符串，数值，数组，哈希)</li>
+<li>条件判断</li>
+<li>字段引用等<br><img src="http://note.youdao.com/yws/api/personal/file/5ABEC6BA6184467BA639CD46B67E6AD1?method=download&amp;shareKey=6411709c4a0ddd05944af76c3744134d" alt="Lostash角色">  </li>
+</ul>
+<h4 id="区段-section"><a href="#区段-section" class="headerlink" title="区段(section)"></a>区段(section)</h4><p>Logstash用<code>{}</code>来定义区域。区域内可以包括插件区域定义，可以在一个区域内定义多个插件。插件区域内则可以定义键值对设置。示例如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">input &#123;</div><div class="line">    stdin &#123;&#125;</div><div class="line">    syslog &#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h4><p>Logstash 支持少量的数据值类型：</p>
+<ul>
+<li>bool<br><code>debug =&gt; true</code></li>
+<li>string<br><code>host =&gt; &quot;hostname&quot;</code></li>
+<li>number<br><code>port =&gt; 514</code></li>
+<li>array<br><code>match =&gt; [&quot;datetime&quot;, &quot;UNIX&quot;, &quot;ISO8601&quot;]</code></li>
+<li>hash  <figure class="highlight coq"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">options =&gt; &#123;</div><div class="line">    key1 =&gt; <span class="string">"value1"</span>,</div><div class="line">    key2 =&gt; <span class="string">"value2"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>注：如果你用的版本低于 1.2.0，哈希的语法跟数组是一样的，如： <code>match =&gt; [ &quot;field1&quot;, &quot;pattern1&quot;, &quot;field2&quot;, &quot;pattern2&quot; ]</code>  </p>
+<h4 id="字段引用-field-reference"><a href="#字段引用-field-reference" class="headerlink" title="字段引用(field reference)"></a>字段引用(field reference)</h4><p>字段是Logstash::Event对象的属性。之前提过事件就像一个哈希一样，所以可以想象字段就像一个键值对。<br>如果在Logstash配置中使用字段的值，只需要把字段的名字写在中括号 [] 里就行了，这就叫字段引用。<br>对于嵌套字段(也就是多维哈希表，或者叫哈希的哈希)，每层的字段名都写在 [] 里。如，可以从 geoip 里这样获取 longitude 值<br><code>[geoip][location][0]</code><br>注：logstash 的数组也支持倒序下标，即<code>[geoip][location][-1]</code>可以获取数组最后一个元素的值。<br>Logstash 还支持变量内插，在字符串里使用字段引用的方法是：<br><code>&quot;the longitude is %{[geoip][location][0]}&quot;</code>  </p>
+<h4 id="条件判断-condition"><a href="#条件判断-condition" class="headerlink" title="条件判断(condition)"></a>条件判断(condition)</h4><p>Logstash从 1.3.0 版开始支持条件判断和表达式。<br>表达式支持下面这些操作符：  </p>
+<ul>
+<li><code>==</code>(等于), <code>!=</code>(不等于), <code>&lt;</code>(小于), <code>&gt;</code>(大于), <code>&lt;=</code>(小于等于), <code>&gt;=</code>(大于等于)  </li>
+<li><code>=~</code>(匹配正则), <code>!~</code>（不匹配正则）  </li>
+<li><code>in</code>(包含), <code>not in</code>(不包含)  </li>
+<li><code>and</code>(与), <code>or</code>(或), <code>nand</code>(非与), <code>xor</code>(非或)  </li>
+<li><code>()</code>(复合表达式), <code>!()</code>(对复合表达式结果取反)<br>通常来说，你都会在表达式里用到字段引用。为了尽量展示全面各种表达式，下面虚拟一个示例：  <figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">if "_grokparsefailure" not in [tags] &#123;</div><div class="line">&#125; else if [<span class="string">status</span>] !~ /^2\d\d/ or ( [<span class="string">url</span>] == "/noc.gif" nand [<span class="string">geoip</span>][<span class="symbol">city</span>] != "beijing" ) &#123;</div><div class="line">&#125; else &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="命令行参数"><a href="#命令行参数" class="headerlink" title="命令行参数"></a>命令行参数</h4><p>Logstash 提供了一个 shell 脚本叫 logstash 方便快速运行。它支持以下参数：  </p>
+<ul>
+<li><p><code>-e</code><br>意即执行。我们在 “Hello World” 的时候已经用过这个参数了。事实上你可以不写任何具体配置，直接运行 <code>bin/logstash -e &#39;&#39;</code> 达到相同效果。这个参数的默认值是下面这样：  </p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class">input </span>&#123;</div><div class="line">    <span class="class">stdin </span>&#123; &#125;</div><div class="line">&#125;</div><div class="line"><span class="class">output </span>&#123;</div><div class="line">    <span class="class">stdout </span>&#123; &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>--config</code> 或 <code>-f</code><br>意即文件。真实运用中，我们会写很长的配置，甚至可能超过 shell 所能支持的 1024 个字符长度。所以我们必把配置固化到文件里，然后通过 <code>bin/logstash -f agent.conf</code> 这样的形式来运行。<br>此外，logstash 还提供一个方便我们规划和书写配置的小功能。你可以直接用 <code>bin/logstash -f /etc/logstash.d/</code> 来运行。logstash 会自动读取 <code>/etc/logstash.d/</code> 目录下所有<code>*.conf</code>的文本文件，然后在自己内存里拼接成一个完整的大配置文件，再去执行。<br>#注意：logstash 列出目录下所有文件时，是字母排序的。而 logstash 配置段的 <code>filter</code> 和 <code>output</code> 都是顺序执行，所以顺序非常重要。采用多文件管理的用户，推荐采用数字编号方式命名配置文件，同时在配置中，严谨采用 if 判断限定不同日志的动作。</p>
+</li>
+<li><code>--configtest</code> 或 <code>-t</code><br>意即测试。用来测试 Logstash 读取到的配置文件语法是否能正常解析。Logstash 配置语法是用 <code>grammar.treetop</code> 定义的。尤其是使用了上一条提到的读取目录方式的读者，尤其要提前测试。  </li>
+<li><code>--log</code> 或 <code>-l</code><br>意即日志。Logstash 默认输出日志到标准错误。生产环境下你可以通过<code>bin/logstash -l logs/logstash.log</code>命令来统一存储日志。  </li>
+<li><code>--pipeline-workers</code> 或 <code>-w</code><br>运行 filter 和 output 的 pipeline 线程数量。默认是 CPU 核数。  </li>
+<li><code>--pipeline-batch-size</code> 或 <code>-b</code><br>每个 Logstash pipeline 线程，在执行具体的 filter 和 output 函数之前，最多能累积的日志条数。默认是 125 条。越大性能越好，同样也会消耗越多的 JVM 内存。  <ul>
+<li><code>--pipeline-batch-delay</code> 或 <code>-u</code><br>每个 Logstash pipeline 线程，在打包批量日志的时候，最多等待几毫秒。默认是 5 ms。  </li>
+</ul>
+</li>
+<li><code>--pluginpath</code> 或 <code>-P</code><br>可以写自己的插件，然后用<code>bin/logstash --pluginpath /path/to/own/plugins</code>加载它们。  </li>
+<li><code>--verbose</code><br>输出一定的调试日志。  </li>
+<li><code>--debug</code><br>输出更多的调试日志。  </li>
+</ul>
+<h4 id="设置文件"><a href="#设置文件" class="headerlink" title="设置文件"></a>设置文件</h4><p>从 Logstash 5.0 开始，新增了<code>$LS_HOME/config/logstash.yml</code> 文件，可以将所有的命令行参数都通过 <code>YAML</code> 文件方式设置。同时为了反映命令行配置参数的层级关系，参数也都改成用.而不是-了。<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">pipeline:</span></div><div class="line"><span class="symbol">    workers:</span> <span class="number">24</span></div><div class="line"><span class="symbol">    batch:</span></div><div class="line"><span class="symbol">        size:</span> <span class="number">125</span></div><div class="line"><span class="symbol">        delay:</span> <span class="number">5</span></div></pre></td></tr></table></figure></p>
+<p>参考文档：<a href="http://kibana.logstash.es/content/logstash/get-start/full-config.html" target="_blank" rel="external">http://kibana.logstash.es/content/logstash/get-start/full-config.html</a>  </p>
+<hr>
+<p>本作品采用<a href="https://creativecommons.org/licenses/by/2.5/cn/" target="_blank" rel="external">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://www.yfshare.vip">Jack Wang Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。<br><img src="http://note.youdao.com/yws/api/personal/file/FE3C6F68961F4541AF284E5F346FC3CA?method=download&amp;shareKey=c5e4c3ca81daa6e908d5630f8c6ec242" alt="打赏"><br>本文出自”Jack Wang Blog”：<a href="http://www.yfshare.vip/2017/11/22/Logstash配置语法/">http://www.yfshare.vip/2017/11/22/Logstash配置语法/</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[ELK安装(基础)]]></title>
       <url>http://www.yfshare.vip/2017/11/22/ELK%E5%AE%89%E8%A3%85-%E5%9F%BA%E7%A1%80/</url>
       <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>ELK是三个开源软件的缩写，分别表示：Elasticsearch , Logstash, Kibana , 它们都是开源软件<br><a id="more"></a></p>
