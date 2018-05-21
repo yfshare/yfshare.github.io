@@ -131,7 +131,7 @@
 </ol>
 <p>注：ansible需要使用2.4以上的版本，因有些语法2.4以下不支持.<br>当前ansible版本为2.5.2。  </p>
 <h5 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">yum -y install https://mirrors.aliyun.com/epel/epel-release-latest-7.noarch.rpm</div><div class="line">yum -y install ansible</div></pre></td></tr></table></figure>
-<p>注：这里安装ansible-2.5.2时，yum源里会缺少python-babel-0.9.6-8.el7.noarch.rpm包，可以在<a href="https://pkgs.org/download/python-b" target="_blank" rel="external">https://pkgs.org/download/python-b</a><br>abel这里下载.在当前目录也提供了该依赖包.<br>按要求修改hosts文件相关参数<br>操作步骤：  </p>
+<p>注：这里安装ansible-2.5.2时，yum源里会缺少python-babel-0.9.6-8.el7.noarch.rpm包，可以在<a href="https://pkgs.org/download/python-babel" target="_blank" rel="external">https://pkgs.org/download/python-babel</a> 这里下载.在当前目录也提供了该依赖包.<br>按要求修改hosts文件相关参数<br>操作步骤：  </p>
 <ol>
 <li>ansible-playbook -i hosts 01-kube-etcd-all.yml  #部署etcd  </li>
 <li>ansible-playbook -i hosts 02-kube-master.yml    #部署kube-master  </li>

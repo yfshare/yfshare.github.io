@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yfshare.vip/"/>
-  <updated>2018-05-21T08:15:40.438Z</updated>
+  <updated>2018-05-21T08:20:12.080Z</updated>
   <id>http://www.yfshare.vip/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.yfshare.vip/2018/05/21/Ansible%E9%83%A8%E7%BD%B2TLS-K8S/"/>
     <id>http://www.yfshare.vip/2018/05/21/Ansible部署TLS-K8S/</id>
     <published>2018-05-21T08:09:57.000Z</published>
-    <updated>2018-05-21T08:15:40.438Z</updated>
+    <updated>2018-05-21T08:20:12.080Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>本文是基于Ansible批量部署kubernetes集群环境<br><a id="more"></a><br>支持部署k8s环境：  </p>
 <ul>
@@ -147,7 +147,7 @@
 </ol>
 <p>注：ansible需要使用2.4以上的版本，因有些语法2.4以下不支持.<br>当前ansible版本为2.5.2。  </p>
 <h5 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">yum -y install https://mirrors.aliyun.com/epel/epel-release-latest-7.noarch.rpm</div><div class="line">yum -y install ansible</div></pre></td></tr></table></figure>
-<p>注：这里安装ansible-2.5.2时，yum源里会缺少python-babel-0.9.6-8.el7.noarch.rpm包，可以在<a href="https://pkgs.org/download/python-b" target="_blank" rel="external">https://pkgs.org/download/python-b</a><br>abel这里下载.在当前目录也提供了该依赖包.<br>按要求修改hosts文件相关参数<br>操作步骤：  </p>
+<p>注：这里安装ansible-2.5.2时，yum源里会缺少python-babel-0.9.6-8.el7.noarch.rpm包，可以在<a href="https://pkgs.org/download/python-babel" target="_blank" rel="external">https://pkgs.org/download/python-babel</a> 这里下载.在当前目录也提供了该依赖包.<br>按要求修改hosts文件相关参数<br>操作步骤：  </p>
 <ol>
 <li>ansible-playbook -i hosts 01-kube-etcd-all.yml  #部署etcd  </li>
 <li>ansible-playbook -i hosts 02-kube-master.yml    #部署kube-master  </li>
@@ -191,9 +191,9 @@
     
       <category term="k8s" scheme="http://www.yfshare.vip/tags/k8s/"/>
     
-      <category term="Ansible" scheme="http://www.yfshare.vip/tags/Ansible/"/>
-    
       <category term="kubernetes" scheme="http://www.yfshare.vip/tags/kubernetes/"/>
+    
+      <category term="Ansible" scheme="http://www.yfshare.vip/tags/Ansible/"/>
     
   </entry>
   
@@ -523,11 +523,11 @@
       <category term="K8S" scheme="http://www.yfshare.vip/categories/K8S/"/>
     
     
+      <category term="k8s" scheme="http://www.yfshare.vip/tags/k8s/"/>
+    
       <category term="Kubernetes" scheme="http://www.yfshare.vip/tags/Kubernetes/"/>
     
       <category term="glusterfs" scheme="http://www.yfshare.vip/tags/glusterfs/"/>
-    
-      <category term="k8s" scheme="http://www.yfshare.vip/tags/k8s/"/>
     
   </entry>
   
@@ -652,11 +652,11 @@
       <category term="K8S" scheme="http://www.yfshare.vip/categories/K8S/"/>
     
     
-      <category term="K8S" scheme="http://www.yfshare.vip/tags/K8S/"/>
-    
       <category term="Prometheus" scheme="http://www.yfshare.vip/tags/Prometheus/"/>
     
       <category term="Kubernetes" scheme="http://www.yfshare.vip/tags/Kubernetes/"/>
+    
+      <category term="K8S" scheme="http://www.yfshare.vip/tags/K8S/"/>
     
   </entry>
   
