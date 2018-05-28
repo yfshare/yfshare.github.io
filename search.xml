@@ -698,17 +698,17 @@
 </thead>
 <tbody>
 <tr>
-<td>Master1</td>
+<td>Master1 + ETCD1</td>
 <td>192.168.1.195</td>
 <td>etcd、kube-apiserver、kube-controller-manager、kube-scheduler、Flannel</td>
 </tr>
 <tr>
-<td>Master2</td>
+<td>ETCD2</td>
 <td>192.168.1.196</td>
 <td>etcd</td>
 </tr>
 <tr>
-<td>Master3</td>
+<td>ETCD3</td>
 <td>192.168.1.197</td>
 <td>etcd</td>
 </tr>
