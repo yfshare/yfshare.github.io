@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yfshare.vip/"/>
-  <updated>2018-07-03T14:18:16.062Z</updated>
+  <updated>2018-07-03T14:22:01.074Z</updated>
   <id>http://www.yfshare.vip/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.yfshare.vip/2018/06/30/%E9%83%A8%E7%BD%B2Zabbix%203.4/"/>
     <id>http://www.yfshare.vip/2018/06/30/部署Zabbix 3.4/</id>
     <published>2018-06-30T12:30:00.000Z</published>
-    <updated>2018-07-03T14:18:16.062Z</updated>
+    <updated>2018-07-03T14:22:01.074Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>虽然zabbix已经玩了好多遍了，但每次重新部署时，还得到处找，今天抽空整理下文档，以后就可以直接复制粘贴了，哈哈<br><a id="more"></a></p>
 <h4 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h4><p>环境：<br>　　centos 7.4<br>　　zabbix 3.4.11<br>　　mysql 5.6<br>　　php 5.4<br>　　nginx 12.2  </p>
