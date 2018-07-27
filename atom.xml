@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yfshare.vip/"/>
-  <updated>2018-07-10T15:29:10.107Z</updated>
+  <updated>2018-07-27T15:04:42.009Z</updated>
   <id>http://www.yfshare.vip/</id>
   
   <author>
@@ -14,6 +14,501 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>操作系统层</title>
+    <link href="http://www.yfshare.vip/2018/07/27/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%B1%82/"/>
+    <id>http://www.yfshare.vip/2018/07/27/操作系统层/</id>
+    <published>2018-07-27T14:03:19.000Z</published>
+    <updated>2018-07-27T15:04:42.009Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>到目前为止，也工作了好几年了吧。曾经某次听赵班长的公开课，听着听着发现，越听越懵…有种啥也不会的感觉..-_-!!!<br>但是呢，这些东西也确实是在工作中用到过，只是比较零碎。某些名词也确实很熟悉，但是呢，比如你现在问我里面具体的细节，我会用一脸懵逼来回应你，哈哈。<br>这些天抽空对着赵班长总结的表格，尝试在网上收集了些资料，整理出下面的文章。如果有不对的地方，欢迎大家指点。在整理这些东西的过程中，也是对我自己所掌握知识的一种回顾吧。让我们为了自己心中所想，一起努力吧！<br><a id="more"></a></p>
+<p>整理运维知识体系之操作系统层<br>参考：<a href="https://www.unixhot.com/page/ops" target="_blank" rel="external">https://www.unixhot.com/page/ops</a>  </p>
+<table><tr><td>运维架构层级</td><td>运维角度</td><td>内容描述/主要技术关键词</td><td>监控体系</td><td>自动化/DevOps</td><td>云计算</td></tr><tr><td rowspan="5">操作系统层</td><td>CPU</td><td>CPU运行级别、CPU管理(进程管理、taskset、intel VT-X)、使用率、上下文切换、运行队列、进程调度、系统调用</td><td>mpstat、strace</td><td rowspan="5">虚拟化</td><td rowspan="5">公有云弹性计算产品</td></tr><tr><td>内存</td><td>虚拟内存、SWAP换入换出、内存寻址、内存管理（Buffer Cache、HugePages、ksmd、EPT）</td><td>vmstat、free</td></tr><tr><td>I/O(磁盘)</td><td>缺页中断、IOPS(顺序IO、随机IO)、IO管理(IO调度算法、virtio)、VFS</td><td>iostat、iotop</td></tr><tr><td>I/O(网络)</td><td>TCP/IP(三次握手、四次挥手、状态转换、TCP队列)、IO模型、Bonding、Bridge、网络管理(iftop、tcpdump)</td><td>iftop</td></tr><tr><td>内核/Shell</td><td>内核定制、内存参数优化、脚本编程(AWK、Sed、Shell、Python、PHP、Perl、Ruby、Lua)</td><td>系统监控</td></tr></table>
+
+<h4 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h4><p><a href="https://blog.csdn.net/albenxie/article/details/72885951" target="_blank" rel="external">文档参考</a>  </p>
+<ul>
+<li>CPU运行级别  <ol>
+<li>Intel的 x86处理器是通过Ring级别来进行访问控制的，级别共分4层，RING0,RING1,RING2,RING3。Windows只使用其中的两个级别RING0和RING3。RING0层拥有最高的权限，RING3层拥有最低的权限。  </li>
+<li>按照Intel原有的构想，应用程序工作在RING3层，只能访问RING3层的数据，操作系统工作在RING0层，可以访问所有层的数据，而其他驱动程序位于RING1、RING2层，每一层只能访问本层以及权限更低层的数据。RING设计的初衷是将系统权限与程序分离出来，使之能够让OS更好的管理当前系统资源，也使得系统更加稳定。  </li>
+<li>应用程序的代码运行在最低运行级别上ring3上，不能做受控操作。如果要做，比如要访问磁盘，写文件，那就要通过执行系统调用（函数），执行系统调用的时候，CPU的运行级别会发生从ring3到ring0的切换，并跳转到系统调用对应的内核代码位置执行，这样内核就为你完成了设备访问，完成之后再从ring0返回ring3。这个过程也称作用户态和内核态的切换。  </li>
+<li>驱动程序都是工作在ring0上，否则驱动不了设备。  </li>
+</ol>
+</li>
+<li>intel VT-X  <ol>
+<li>虚拟化在这里就遇到了一个难题，因为宿主操作系统是工作在ring0的，客户操作系统就不能也在ring0了。但执行的指令还是一样的，这样肯定不行，因为没权限，跑不起来。一般客户操作系统执行特权指令时，会触发异常（CPU机制，没权限的指令，触发异常），然后VMM捕获这个异常，在异常里面做翻译，模拟，最后返回到客户操作系统内，客户操作系统认为自己的特权指令工作正常，继续运行。但是这个性能损耗非常的大。以前只是简单的执行一条指令，现在却需要复杂的异常处理。  </li>
+<li>后来，CPU厂商开始支持虚拟化，支持Intel-VT 的CPU，有VMX root operation 和 VMX non-root operation两种模式，两种模式都支持Ring 0 ~ Ring 3 这 4 个运行级别。这时VMM可以运行在VMX root operation模式下，客户OS运行在VMX non-root operation模式下。即硬件这层做了些区分，在全虚拟化下，有些靠“捕获异常-翻译-模拟”的实现就不需要了。  </li>
+</ol>
+</li>
+<li>进程管理  <ol>
+<li>进程是正在运行的程序实体，并且包括这个运行的程序中占据的所有系统资源，如CPU，IO，内存，网络资源等。进程和程序的区别在于：程序是指令的集合，是程序的静态描述，而进程是动态的一次活动的执行。<a href="http://www.cnblogs.com/sun1993/p/7777589.html" target="_blank" rel="external">参考</a>  </li>
+</ol>
+</li>
+<li><p>taskset  </p>
+<ol>
+<li>LINUX提供的一个命令，可以让某个程序运行在某个（或）某些CPU上。<a href="https://coolshell.cn/articles/7490.html" target="_blank" rel="external">参考性能调优攻略</a>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># taskset -p 31100</span></div><div class="line">pid 31100<span class="string">'s current affinity mask: f</span></div><div class="line"># 显示结果的 f 实际上是二进制4个低位均为1的bitmask，每一个1对应于1个CPU，表示该进程在4个CPU上运行</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># taskset -pc 2 31100</span></div><div class="line">pid 31100<span class="string">'s current affinity list: 0-3</span></div><div class="line">pid 31100's new affinity list: 2</div><div class="line"><span class="comment"># 2表示CPU将只会运行在第3个CPU上(从0开始计数)</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>CPU使用率  </p>
+<ol>
+<li>反映的是当前cpu的繁忙程度，忽高忽低的原因在于占用cpu处理时间的进程可能处于io等待状态但却还未释放进入wait。  </li>
+<li>平均负载(load average)是指某段时间内占用cpu时间的进程和等待cpu时间的进程数，这里等待cpu时间的进程是指等待被唤醒的进程，不包括处于wait状态进程。  </li>
+<li>对于每一个CPU来说运行队列最好不要超过3。如果是双核CPU就不要超过6。如果队列长期保持在3以上，说明任何一个进程运行时都不能马上得到cpu的响应，这时可能需要考虑升级cpu。另外满负荷运行cpu的使用率最好是user空间保持在<code>65%～70%</code>，system空间保持在<code>30%</code>，空闲保持在<code>0%~5%</code>。  </li>
+<li>top  </li>
+</ol>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%us</td>
+<td>用户空间程序的cpu使用率(没有通过nice调度)</td>
+</tr>
+<tr>
+<td>%sy</td>
+<td>系统空间的cpu使用率，主要是内核程序</td>
+</tr>
+<tr>
+<td>%ni</td>
+<td>用户空间且通过nice调度过的程序的cpu使用率</td>
+</tr>
+<tr>
+<td>%id</td>
+<td>空闲cpu</td>
+</tr>
+<tr>
+<td>%wa</td>
+<td>cpu运行时在等待io的时间</td>
+</tr>
+<tr>
+<td>%hi</td>
+<td>cpu处理硬中断的数量</td>
+</tr>
+<tr>
+<td>%si</td>
+<td>cpu处理软中断的数量</td>
+</tr>
+<tr>
+<td>%st</td>
+<td>被虚拟机偷走的cpu</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>vmstat  </li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>r</td>
+<td>运行队列(多少个进程真的分配到CPU)。当值超过CPU数目，就会出现CPU瓶颈。和CPU的负载有关系，一般负载超过3就比较高，超过5就很高，超过10就不正常，服务器状态很危险。top的负载类似每秒的运行队列，如果队列过大，表示CPU很繁忙，一般会造成CPU使用率很高。</td>
+</tr>
+<tr>
+<td>b</td>
+<td>阻塞的进程</td>
+</tr>
+<tr>
+<td>swpd</td>
+<td>虚拟内存使用的大小。如果大于0表示机器的物理内存不足</td>
+</tr>
+<tr>
+<td>free</td>
+<td>空闲的物理内存大小</td>
+</tr>
+<tr>
+<td>buff</td>
+<td>缓存(主要用于块设备)</td>
+</tr>
+<tr>
+<td>cache</td>
+<td>缓存(缓存文件)</td>
+</tr>
+<tr>
+<td>si</td>
+<td>每秒从磁盘读入虚拟内存的大小。如果大于0表示物理内存不够或内存泄漏</td>
+</tr>
+<tr>
+<td>so</td>
+<td>每秒虚拟内存写入磁盘的大小。如果大于0表示物理内存不够或内存泄漏</td>
+</tr>
+<tr>
+<td>bi</td>
+<td>块设备每秒写入的块数量，块设备指系统上所有的磁盘和其他设备，默认为1024byte</td>
+</tr>
+<tr>
+<td>bo</td>
+<td>块设备每秒读取的块数量，如果读取文件，bo会大于0。bi和bo一般都接近0，不然就是IO过于频繁</td>
+</tr>
+<tr>
+<td>in</td>
+<td>每秒CPU的中断次数，包括时间中断</td>
+</tr>
+<tr>
+<td>cs</td>
+<td>每秒上下文切换次数，在调用系统函数，就要进行上下文切换，线程的切换，也要进程上下文切换，这个值要越小越好，太大了，要考虑调低线程或者进程的数目。每次调用系统函数，代码就会进入内核空间，导致上下文切换，这个很耗资源。</td>
+</tr>
+<tr>
+<td>us</td>
+<td>用户CPU使用率</td>
+</tr>
+<tr>
+<td>sy</td>
+<td>系统CPU使用率，如果太高，表示系统调用时间长</td>
+</tr>
+<tr>
+<td>id</td>
+<td>空闲CPU时间，一般来说，id + us + sy = 100</td>
+</tr>
+<tr>
+<td>wt</td>
+<td>等待IO CPU时间</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><p>sar<br>sar命令语法和vmstat一样  </p>
+<table><tr><td>命令</td><td>参数</td><td>描述</td></tr><tr><td rowspan="5">sar -q 1 5</td><td>runq-sz</td><td>运行队列的长度(等待运行的进程数)</td></tr><tr><td>plist-sz</td><td>进程列表中进程(processes)和线程(threads)的数量</td></tr><tr><td>ldavg-1</td><td>最后1分钟的系统平均负载(System load average)</td></tr><tr><td>ldavg-5</td><td>过去5分钟的系统平均负载</td></tr><tr><td>ldavg-15</td><td>过去15分钟的系统平均负载</td></tr></table>
+
+<ol>
+<li><p>mpstat  </p>
+<table><tr><td>命令</td><td>参数</td><td>描述</td></tr><tr><td rowspan="8">mpstat 1 5</td><td>%user</td><td>处理用户进程所使用 CPU 的百分比</td></tr><tr><td>%nice</td><td>使用 nice 命令对进程进行降级时 CPU 的百分比</td></tr><tr><td>%system</td><td>内核进程使用的 CPU 百分比</td></tr><tr><td>%iowait</td><td>等待进行 I/O 所使用的 CPU 时间百分比</td></tr><tr><td>%irq</td><td>用于处理系统中断的 CPU 百分比</td></tr><tr><td>%soft</td><td>软件中断的 CPU 百分比</td></tr><tr><td>%idle</td><td>显示 CPU 的空闲百分比</td></tr><tr><td>%intr/s</td><td>显示每秒 CPU 接收的中断总数</td></tr></table>
+</li>
+<li><p>pidstat  </p>
+<table><tr><td>命令</td><td>参数</td><td>描述</td></tr><tr><td rowspan="6">pidstat</td><td>%user</td><td>处理用户进程所使用 CPU 的百分比</td></tr><tr><td>%system</td><td>内核进程使用的 CPU 百分比</td></tr><tr><td>%guest</td><td>进程在虚拟机占用cpu的百分比</td></tr><tr><td>%CPU</td><td>进程占用cpu的百分比</td></tr><tr><td>CPU</td><td>处理进程的cpu编号</td></tr><tr><td>Command</td><td>当前进程对应的命令</td></tr><tr><td rowspan="6">pidstat -r</td><td>PID</td><td>进程标识符</td></tr><tr><td>Minflt/s</td><td>任务每秒发生的次要错误，不需要从磁盘中加载页</td></tr><tr><td>Majflt/s</td><td>任务每秒发生的主要错误，需要从磁盘中加载页</td></tr><tr><td>VSZ</td><td>虚拟地址大小，虚拟内存的使用KB</td></tr><tr><td>RSS</td><td>常驻集合大小，非交换区五里内存使用KB</td></tr><tr><td>Command</td><td>当前进程对应的命令</td></tr><tr><td rowspan="5">pidstat -d</td><td>PID</td><td>进程id</td></tr><tr><td>kB_rd/s</td><td>每秒从磁盘读取的KB</td></tr><tr><td>kB_wr/s</td><td>每秒写入磁盘KB</td></tr><tr><td>kB_ccwr/s</td><td>任务取消的写入磁盘的KB。当任务截断脏的pagecache的时候会发生</td></tr><tr><td>Command</td><td>当前进程对应的命令</td></tr><tr><td rowspan="4">pidstat -w -p PID</td><td>PID</td><td>进程id</td></tr><tr><td>Cswch/s</td><td>每秒主动任务上下文切换数量</td></tr><tr><td>Nvcswch/s</td><td>每秒被动任务上下文切换数量</td></tr><tr><td>Command</td><td>当前进程对应的命令</td></tr><tr><td rowspan="8">pidstat -t -p PID</td><td>TGID</td><td>主线程号</td></tr><tr><td>TID</td><td>线程id</td></tr><td>%user</td><td>处理用户进程所使用 CPU 的百分比</td><tr><td>%system</td><td>内核进程使用的 CPU 百分比</td></tr><tr><td>%guest</td><td>进程在虚拟机占用cpu的百分比</td></tr><tr><td>%CPU</td><td>进程占用cpu的百分比</td></tr><tr><td>CPU</td><td>处理进程的cpu编号</td></tr><tr><td>Command</td><td>当前进程对应的命令</td></tr><tr><td rowspan="5">pidstat -T ALL -p PID</td><td>PID</td><td>进程标识符</td></tr><tr><td>Usr-ms</td><td>任务和子线程在用户级别使用的毫秒数</td></tr><tr><td>System-ms</td><td>任务和子线程在系统级别使用的毫秒数</td></tr><tr><td>Guest-ms</td><td>任务和子线程在虚拟机(running a virtual processor)使用的毫秒数</td></tr><tr><td>Command</td><td>当前进程对应的命令</td></tr></table>
+
+</li>
+</ol>
+</li>
+</ol>
+<ul>
+<li><p>上下文切换<br><a href="https://www.jianshu.com/p/8c026542d121" target="_blank" rel="external">文档参考</a><br>现在linux是大多基于抢占式，CPU给每个任务一定的服务时间，当时间片轮转的时候，需要把当前状态保存下来，同时加载下一个任务，这个过程叫做上下文切换。时间片轮转的方式，使得多个任务利用一个CPU执行成为可能，但是保存现场和加载现场，也带来了性能消耗。<br>对于抢占式操作系统，引起上下文切换的原因大致有几下几种：  </p>
+<ul>
+<li>当前任务的时间片用完之后，系统CPU正常调度下一个任务  </li>
+<li>当前任务碰到IO阻塞，调度线程将挂起此任务，继续下一个任务  </li>
+<li>多个任务抢占锁资源，当前任务没有抢到，被调度器挂起，继续下一个任务  </li>
+<li>用户代码挂起当前任务，让出CPU时间  </li>
+<li>硬件中断  </li>
+</ul>
+<p>监测Linux的应用的时候，当CPU的利用率非常高，但是系统的性能却上不去的时候，不妨监控一下线程/进程的切换，看看是不是context switching导致的overhead过高。常用命令：<code>pidstat</code>，<code>vmstat</code>  </p>
+</li>
+<li><p>运行队列<br><a href="https://blog.csdn.net/qq_21127313/article/details/54706233" target="_blank" rel="external">文档参考</a>  </p>
+<ol>
+<li>run-queue：活动（正在运行）和排队的进程数。每个CPU都会维持一个运行队列，理想情况下，调度器会不断让队列中的进程运行。进程不是处在sleep状态就是runable状态。如果CPU过载，就会出现调度器跟不上系统的要求，导致可运行的进程会填满队列。队列愈大，程序执行时间就愈长。</li>
+<li>对于每一个CPU来说运行队列最好不要超过3。如果是双核CPU就不要超过6。如果队列长期保持在3以上，说明任何一个进程运行时都不能马上得到cpu的响应，这时可能需要考虑升级cpu。另外满负荷运行cpu的使用率最好是user空间保持在<code>65%～70%</code>，system空间保持在<code>30%</code>，空闲保持在<code>0%~5%</code>。  </li>
+</ol>
+</li>
+<li><p>进程调度<br><a href="https://blog.csdn.net/lishichengyan/article/details/78327220" target="_blank" rel="external">文档参考1</a>，<a href="https://blog.csdn.net/codetz/article/details/51254914" target="_blank" rel="external">文档参考2</a>  </p>
+<ol>
+<li>CPU调度也叫进程调度。分为：短程调度、中程调度、长程调度。  </li>
+<li><p>CPU调度发生的情况：  </p>
+<ul>
+<li>从运行状态切换到等待状态  </li>
+<li>从运行状态切换到就绪状态  </li>
+<li>从等待切换到准备就绪  </li>
+<li>终止  </li>
+</ul>
+</li>
+<li><p>非抢占式(nonpreemptive)和抢占式(preemptive)调度。前者是指让程序一直运行着，直到它自己出异常；后者允许其他程序抢占现在正在运行的程序。  </p>
+</li>
+<li>上下文切换。  </li>
+</ol>
+</li>
+<li><p>系统调用<br><a href="https://blog.csdn.net/wrx1721267632/article/details/50547565" target="_blank" rel="external">文档参考1</a>，<a href="https://www.jianshu.com/p/4c8a1242082a" target="_blank" rel="external">文档参考2</a>，<a href="https://blog.csdn.net/jeanter/article/details/51776320" target="_blank" rel="external">文档参考3</a><br> 当用户态的进程调用一个系统调用时，CPU从用户态切换到内核态并开始执行一个内核函数。Linux通过由向量为128（0x80）的编程异常实现CPU由用户态到内核态的转换。  </p>
+</li>
+</ul>
+<h4 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h4><ul>
+<li><p>虚拟内存<br><a href="https://blog.csdn.net/youbingchen/article/details/52166318" target="_blank" rel="external">文档参考1</a>，<a href="https://www.cnblogs.com/shijingjing07/p/5611579.html" target="_blank" rel="external">文档参考2</a>  </p>
+<ol>
+<li>每个进程都有自己独立的内存空间，各个进程的内存空间具有类似的结构。  </li>
+<li>Linux内存管理采用的是页式管理，使用的是多级页表，动态地址转换机构与主存、辅存共同实现虚拟内存。  </li>
+<li>一个新进程建立的时候，将会建立起自己的内存空间，此进程的数据，代码等从磁盘拷贝到自己的进程空间，哪些数据在哪里，都由进程控制表中的task_struct记录，task_struct中记录中一条链表，记录中内存空间的分配情况，哪些地址有数据，哪些地址无数据，哪些可读，哪些可写，都可以通过这个链表记录。  </li>
+<li>每个进程已经分配的内存空间，都与对应的磁盘空间映射。  </li>
+<li>对于32位系统，寻址指针为4字节，对应的虚拟地址空间为0-2^32，即0-4G；对于64位系统，寻址指针为8字节，对应的虚拟地址空间为0-2^64，即0-16G。这个地址空间是虚拟的，并非实际存在的。  </li>
+</ol>
+</li>
+<li><p>SWAP换入换出<br><a href="https://blog.csdn.net/jltxgcy/article/details/74783698" target="_blank" rel="external">文档参考</a><br>内存页面分为用户页面和内核页面。<br>关于SWAP的设置，Oracle官方推荐：<br>RAM|Swap Space<br>—|—<br>Up to 512 MB|2 times the size of RAM<br>Between 1024 MB and 2048 MB|1.5 times the size of RAM<br>Between 2049 MB and 8192 MB|Equal to the size of RAM<br>More than 8192 MB|0.75 times the size of RAM</p>
+</li>
+<li><p>内存寻址<br><a href="http://blog.nsfocus.net/memory-addressing-mode/" target="_blank" rel="external">文档参考1</a>，<a href="https://baike.baidu.com/item/%E5%86%85%E5%AD%98%E5%AF%BB%E5%9D%80/1012006" target="_blank" rel="external">文档参考2</a><br>内存寻址是指CPU允许支持的内存大小。双通道内存技术其实是一种内存控制和管理技术，它依赖于芯片组的内存控制器发生作用，在理论上能够使两条同等规格内存所提供的带宽增长一倍。计算机管理内存的基本方式有两种：段式管理和页式管理。  </p>
+</li>
+<li><p>内存管理<br><a href="https://baike.baidu.com/item/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/5633616?fr=aladdin" target="_blank" rel="external">文档参考</a><br>内存管理是指软件运行时对计算机内存资源的分配和使用的技术。其最主要的目的是如何高效，快速的分配，并且在适当的时候释放和回收内存资源。  </p>
+</li>
+<li><p>Buffer Cache<br><a href="https://blog.csdn.net/qq_34649947/article/details/78774691" target="_blank" rel="external">文档参考</a><br>缓存区cache(磁盘缓存)和缓冲区buffer(内存缓存)都是临时存储区。不同点：  </p>
+<ul>
+<li>缓冲区buffer主要存在于RAM中，作为CPU暂时存储数据的区域  </li>
+<li>高速缓存cache是一种高速存储区域，可以是主存或硬盘等其他独立存储区域的一部分  </li>
+</ul>
+</li>
+<li><p>HugePages<br><a href="https://blog.csdn.net/hijk139/article/details/7656491" target="_blank" rel="external">文档参考</a><br>HugePages是linux内核的一个特性，使用hugepage可以用更大的内存页来取代传统的4K页面。优点有：  </p>
+<ul>
+<li>没有swap  </li>
+<li>减轻快表压力  </li>
+<li>减轻换页表的负载  </li>
+<li>提高内存的性能，降低CPU负载  </li>
+</ul>
+</li>
+<li><p>Kmsd<br><a href="https://www.cnblogs.com/ck1020/p/6770272.html" target="_blank" rel="external">文档参考</a><br>KSM是内核中的一种内存共享机制。在2.6.36版本的内核中引入，它会合并某些相同的页面以减少页面冗余，在内核中有一个KSM守护进程 ksmd,它定期扫描用户向它注册的内存区，寻找相同的页面，从而用一个添加写保护的页面来代替， 当有进程尝试写入的时候，会自动分配一个新页面，这点就是典型的COW机制。  </p>
+</li>
+<li><p>EPT<br><a href="https://www.cnblogs.com/ck1020/p/6043054.html" target="_blank" rel="external">文档参考</a><br>在虚拟化环境下，intel CPU在处理器级别加入了对内存虚拟化的支持。即扩展页表EPT，而AMD也有类似的成为NPT。  </p>
+</li>
+</ul>
+<h4 id="I-0-磁盘"><a href="#I-0-磁盘" class="headerlink" title="I/0(磁盘)"></a>I/0(磁盘)</h4><ul>
+<li><p>缺页中断<br><a href="https://baike.baidu.com/item/%E7%BC%BA%E9%A1%B5%E4%B8%AD%E6%96%AD/5029040?fr=aladdin" target="_blank" rel="external">文档参考</a><br>缺页中断是要访问的页不在主存，需要操作系统将其调入主存后再进行访问。在这个时候，被内存映射的文件实际上成了一个分页交换文件。  </p>
+<ul>
+<li>软性页缺失指页缺失发生时，相关的页已经被加载进内存，但是没有向MMU注册的情况。操作系统只需要在MMU中注册相关页对应的物理地址即可。  </li>
+<li>硬性页缺失是指相关的页在页缺失发生时未被加载进内存的情况，这时操作系统需要：  <ol>
+<li>寻找到一个空闲的页。或者把另外一个使用中的页写到磁盘上（如果其在最后一次写入后发生了变化的话），并注销在MMU内的记录；</li>
+<li>将数据读入被选定的页  </li>
+<li>向MMU注册该页  </li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>IOPS<br><a href="http://blog.51cto.com/wushank/1708168" target="_blank" rel="external">文档参考1</a>，<a href="https://zhuanlan.zhihu.com/p/34895884" target="_blank" rel="external">文档参考2</a><br>IOPS(Input/Output Per Second)即每秒的输入输出量(或读写次数)，是衡量磁盘性能的主要指标之一。IOPS是指单位时间内系统能处理的I/O请求数量，一般以每秒处理的I/O请求数量为单位。  </p>
+<ul>
+<li>顺序IO指读取和写入操作基于逻辑块逐个连续访问来自相邻地址的数据。在顺序IO访问中，HDD所需的磁道搜索时间显着减少，因为读/写磁头可以以最小的移动访问下一个块。  <ul>
+<li>数据备份和日志记录等业务是顺序IO业务。  </li>
+</ul>
+</li>
+<li>随机IO指读写操作时间连续，但访问地址不连续，随机分布在磁盘LUN的地址空间中。  <ul>
+<li>产生随机IO的业务有OLTP服务，SQL，即时消息服务等  </li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>IO调度<br><a href="https://www.cnblogs.com/albertrui/p/8867559.html" target="_blank" rel="external">文档参考1</a>，<a href="https://www.cnblogs.com/cutepig/p/3403711.html" target="_blank" rel="external">文档参考2</a>  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#查看当前系统支持的IO调度算法</span></div><div class="line">dmesg | grep -i scheduler</div><div class="line">[    0.852570] io scheduler noop registered</div><div class="line">[    0.852575] io scheduler deadline registered (default)</div><div class="line">[    0.852614] io scheduler cfq registered</div><div class="line">[    0.852619] io scheduler mq-deadline registered</div><div class="line">[    0.852624] io scheduler kyber registered</div></pre></td></tr></table></figure>
+<ul>
+<li><p>IO调度算法  </p>
+<ul>
+<li><p>CFQ(完全公平排队I/O调度程序)<br>特点：  </p>
+<ul>
+<li>在最新的内核版本和发行版中,都选择CFQ做为默认的I/O调度器。  </li>
+<li>CFQ试图均匀地分布对I/O带宽的访问,避免进程被饿死并实现较低的延迟,是deadline和as调度器的折中。  </li>
+<li>CFQ对于多媒体应用(video,audio)和桌面系统是最好的选择。  </li>
+<li>CFQ赋予I/O请求一个优先级，而I/O优先级请求独立于进程优先级，高优先级的进程的读写不能自动地继承高的I/O优先级。  </li>
+</ul>
+<p>工作原理：  </p>
+<ul>
+<li>CFQ为每个进程/线程，单独创建一个队列来管理该进程所产生的请求，也就是说每个进程一个队列,各队列之间的调度使用时间片来调度，以此来保证每个进程都能被很好的分配到I/O带宽。I/O调度器每次执行一个进程的4次请求。  </li>
+</ul>
+</li>
+<li><p>NOOP(电梯式调度程序)<br>特点：  </p>
+<ul>
+<li>在Linux2.4或更早的版本的调度程序，那时只有这一种I/O调度算法。  </li>
+<li>NOOP实现了一个简单的FIFO队列，它像电梯的工作方法一样对I/O请求进行组织，当有一个新的请求到来时，它将请求合并到最近的请求之后，以此来保证请求同一介质。  </li>
+<li>NOOP倾向饿死读而利于写。  </li>
+<li>NOOP对于闪存设备,RAM,嵌入式系统是最好的选择。  </li>
+</ul>
+<p>电梯算法饿死读请求的解释：</p>
+<ul>
+<li>因为写请求比读请求更容易。  </li>
+<li>写请求通过文件系统cache，不需要等一次写完成，就可以开始下一次写操作，写请求通过合并，堆积到I/O队列中。  </li>
+<li>读请求需要等到它前面所有的读操作完成，才能进行下一次读操作。在读操作之间有几毫秒时间，而写请求在这之间就到来，饿死了后面的读请求。  </li>
+</ul>
+</li>
+<li>Deadline(截止时间调度程序)<br>特点：  <ul>
+<li>通过时间以及硬盘区域进行分类，这个分类和合并要求类似于noop的调度程序。  </li>
+<li>Deadline确保了在一个截止时间内服务请求，这个截止时间是可调整的，而默认读期限短于写期限。这样就防止了写操作因为不能被读取而饿死的现象。  </li>
+<li>Deadline对数据库环境(ORACLE RAC,MYSQL等)是最好的选择。  </li>
+</ul>
+</li>
+<li>AS(预料I/O调度程序)<br>特点：  <ul>
+<li>本质上与Deadline一样，但在最后一次读操作后，要等待6ms，才能继续进行对其它I/O请求进行调度。  </li>
+<li>可以从应用程序中预订一个新的读请求，改进读操作的执行，但以一些写操作为代价。  </li>
+<li>它会在每个6ms中插入新的I/O操作，而会将一些小写入流合并成一个大写入流，用写入延时换取最大的写入吞吐量。  </li>
+<li>AS适合于写入较多的环境，比如文件服务器。  </li>
+<li>AS对数据库环境表现很差。  </li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>virtio<br><a href="https://www.cnblogs.com/bakari/p/8309638.html" target="_blank" rel="external">文档参考</a><br>一种 I/O 半虚拟化解决方案，是一套通用 I/O 设备虚拟化的程序，是对半虚拟化 Hypervisor 中的一组通用 I/O 设备的抽象。提供了一套上层应用与各 Hypervisor虚拟化设备（KVM，Xen，VMware等）之间的通信框架和编程接口，减少跨平台所带来的兼容性问题，大大提高驱动程序开发效率。  </p>
+</li>
+<li><p>VFS<br><a href="https://baike.baidu.com/item/VFS/7519887?fr=aladdin" target="_blank" rel="external">文档参考1</a>，<a href="http://blog.jobbole.com/105537/" target="_blank" rel="external">文档参考2</a><br>VFS(virtual File System)，也称为虚拟文件系统交换层(Virtual Filesystem Switch)的作用就是采用标准的Unix系统调用读写位于不同物理介质上的不同文件系统，即为各类文件系统提供了一个统一的操作界面和应用编程接口。VFS是一个可以让<code>open()</code>、<code>read()</code>、<code>write()</code>等系统调用不用关心底层的存储介质和文件系统类型就可以工作的粘合层。  </p>
+</li>
+</ul>
+</li>
+<li><p>iostat  </p>
+<table><tr><td>命令</td><td>参数</td><td>描述</td></tr><tr><td rowspan="13">iostat -x</td><td>rrqm/s</td><td>每秒这个设备相关的读取请求有多少被Merge了(当系统调用需要读取数据的时候，VFS将请求发到各个FS，如果FS发现不同的读取请求读取的是相同Block的数据，FS会将这个请求合并Merge)</td></tr><tr><td>wrqm/s</td><td>每秒这个设备相关的写入请求有多少被Merge了</td></tr><tr><td>r/s</td><td>每秒读取的扇区数</td></tr><tr><td>w/s</td><td>每秒写入的扇区数</td></tr><tr><td>rkB/s</td><td>每秒读K字节数，是 rsect/s 的一半，因为每扇区大小为512字节。(需要计算)</td></tr><tr><td>wkB/s</td><td>每秒写K字节数。是 wsect/s 的一半。(需要计算)</td></tr><tr><td>avgrq-sz</td><td>平均每次设备I/O操作的数据大小(扇区)。delta(rsect+wsect)/delta(rio+wio)</td></tr><tr><td>avgqu-sz</td><td>平均I/O队列长度。即 delta(aveq)/s/1000(因为aveq的单位为毫秒)</td></tr><tr><td>await</td><td>平均每次设备I/O操作的等待时间(毫秒)。即 delta(ruse+wuse)/delta(rio+wio)</td></tr><tr><td>r_await</td><td>发送给要服务的设备的读取请求的平均时间(毫秒)。这包括队列中请求所花费的时间和服务它们所花费的时间。</td></tr><tr><td>w_await</td><td>发送给要服务的设备的写入请求的平均时间(毫秒)。这包括队列中请求所花费的时间和服务它们所花费的时间。</td></tr><tr><td>svctm</td><td>平均每次设备I/O操作的服务时间(毫秒)</td></tr><tr><td>%util</td><td>一秒中有百分之多少的时间用于 I/O 操作，即被io消耗的cpu百分比</td></tr></table>
+</li>
+<li><p>iotop(yum安装)  </p>
+<ul>
+<li>左右箭头：改变排序方式，默认是按IO排序  </li>
+<li>r：改变排序顺序  </li>
+<li>o：只显示有IO输出的进程  </li>
+<li>p：进程/线程的显示方式的切换  </li>
+<li>a：显示累积使用量  </li>
+<li>q：退出  </li>
+</ul>
+</li>
+</ul>
+<h4 id="I-O-网络"><a href="#I-O-网络" class="headerlink" title="I/O(网络)"></a>I/O(网络)</h4><ul>
+<li><p>TCP三次握手四次挥手<br><a href="https://blog.csdn.net/qzcsu/article/details/72861891" target="_blank" rel="external">文档参考</a>  </p>
+<p>最开始的时候客户端和服务器都是处于CLOSED状态。主动打开连接的为客户端，被动打开连接的是服务器。  </p>
+<ol>
+<li>TCP服务器进程先创建传输控制块TCB，时刻准备接受客户进程的连接请求，此时服务器就进入了LISTEN(监听)状态；  </li>
+<li>TCP客户进程也是先创建传输控制块TCB，然后向服务器发出连接请求报文，这时报文首部中的同部位SYN=1，同时选择一个初始序列号 seq=x ，此时TCP客户端进程进入了 SYN-SENT(同步已发送状态)状态。TCP规定，SYN报文段(SYN=1的报文段)不能携带数据，但需要消耗掉一个序号。  </li>
+<li>TCP服务器收到请求报文后，如果同意连接，则发出确认报文。确认报文中应该 ACK=1，SYN=1，确认号是ack=x+1，同时也要为自己初始化一个序列号 seq=y，此时TCP服务器进程进入了SYN-RCVD(同步收到)状态。这个报文也不能携带数据，但是同样要消耗一个序号。  </li>
+<li>TCP客户进程收到确认后，还要向服务器给出确认。确认报文的ACK=1，ack=y+1，自己的序列号seq=x+1，此时TCP连接建立，客户端进入ESTABLISHED(已建立连接)状态。TCP规定，ACK报文段可以携带数据，但是如果不携带数据则不消耗序号。  </li>
+<li>当服务器收到客户端的确认后也进入ESTABLISHED状态，此后双方就可以开始通信了。<br><img src="https://note.youdao.com/yws/api/personal/file/35AAA3BE7E634F1CAFA9AA2D33544E69?method=download&amp;shareKey=1e2d9363595b8789c48b8fc0c00b7569" alt="TCP三次握手">  </li>
+</ol>
+<p>数据传输完毕后，双方都可释放连接。最开始的时候，客户端和服务器都是处于ESTABLISHED状态，然后客户端主动关闭，服务器被动关闭。   </p>
+<ol>
+<li>客户端进程发出连接释放报文，并且停止发送数据。释放数据报文首部，FIN=1，其序列号为seq=u(等于前面已经传送过来的数据的最后一个字节的序号加1)，此时客户端进入FIN-WAIT-1(终止等待1)状态。TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。  </li>
+<li>服务器收到连接释放报文，发出确认报文ACK=1、ack=u+1，并且带上自己的序列号seq=v，此时服务端就进入了CLOSE-WAIT(关闭等待)状态。TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个状态还要持续一段时间，也就是整个CLOSE-WAIT状态持续的时间。  </li>
+<li>客户端收到服务器的确认请求后，此时客户端就进入FIN-WAIT-2(终止等待2)状态，等待服务器发送连接释放报文(在这之前还需要接受服务器发送的最后的数据)。  </li>
+<li>服务器将最后的数据发送完毕后，就向客户端发送连接释放报文FIN=1、ack=u+1，由于在半关闭状态，服务器很可能又发送了一些数据，假定此时的序列号为seq=w，此时服务器就进入了LAST-ACK(最后确认)状态，等待客户端的确认。  </li>
+<li>客户端收到服务器的连接释放报文后，必须发出确认ACK=1、ack=w+1，而自己的序列号是seq=u+1，此时客户端就进入了TIME-WAIT(时间等待)状态。注意此时TCP连接还没有释放，必须经过2*MSL(最长报文段寿命)的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。  </li>
+<li>服务器只要收到了客户端发出的确认，立即进入CLOSED状态。同样撤销TCB后，就结束了这次的TCP连接。可以看到，服务器结束TCP连接的时间要比客户端早一些。<br><img src="https://note.youdao.com/yws/api/personal/file/9E8B256246D74619AA37B5FFA4AC3AF6?method=download&amp;shareKey=fd03ef9a64d60ff4d98fe6191e857987" alt="TCP四次挥手">  </li>
+</ol>
+</li>
+<li><p>TCP状态变迁<br><a href="https://blog.csdn.net/zjsyhjh/article/details/37056829" target="_blank" rel="external">文档参考</a><br><img src="https://note.youdao.com/yws/api/personal/file/922023EB6468470289645AB3FECF9964?method=download&amp;shareKey=a06e231294004af73c176e9e6a4caa3f" alt="TCP状态变迁图">  </p>
+<ul>
+<li><p>三次握手:  </p>
+<ul>
+<li>LISTEN：表示服务器的某个SOCKET处于监听状态，可以进行连接了。  </li>
+<li>SYN_SENT：表示客户端的某个SOCKET与服务器进行connect时，首先发送SYN报文，然后进入SYN_SENT状态，等待服务器发送ACK+SYN报文。  </li>
+<li>SYN_RECV：表示服务器收到客户端发送的SYN报文，然后向客户端发送SYN+ACK报文，随后服务器进入SYN_RECV状态。  </li>
+<li>ESTABLISHED：表示连接已经建立，当客户端在SYN_SENT状态时，收到服务器发送的ACK+SYN报文之后，然后进行第三次握手，客户端发送ACK报文，然后进入ESTABLISHED状态，当处于SYN_RECV状态的服务器收到客户端发送的ACK报文之后，也进入ESTABLISHED状态，然后连接建立。  </li>
+</ul>
+</li>
+<li><p>四次挥手：</p>
+<ul>
+<li>FIN_WAIT_1：表示客户端SOCKET想主动关闭连接，于是向服务器发送FIN报文，然后进入FIN_WAIT_1状态。  </li>
+<li>FIN_WAIT_2：表示客户端收到服务器发来的ACK报文，此时客户端进入FIN_WAIT_2状态，此时客户端这边的连接已经关闭，但服务器端的连接还没关闭，也就是服务器还可以继续向客户端发送数据。  </li>
+<li>CLOSING：这种状态表示此时双方刚好可能都在关闭连接，即客户端向服务器发送FIN报文，进入FIN_WAIT_1状态后，没有收到服务器发来的ACK报文，反而受到服务器发来的FIN报文，说明此时客户端和服务器同时发起关闭连接，随后，客户端进入CLOSING状态。  </li>
+<li>TIME_WAIT：表示收到了服务器发来的FIN报文，然后客户端发送ACK报文，随后进入TIME_WAIT状态，等待2MSL之后进入CLOSED状态。  </li>
+<li>CLOSE_WAIT：表示当服务器收到客户端发来的FIN报文之后，发送ACK报文，随后服务器进入CLOSE_WAIT状态。  </li>
+<li>LAST_ACK：表示服务器主动关闭连接，向客户端发送FIN报文后，随即进入LAST_ACK状态，如果收到了客户端发来的ACK报文之后，就进入CLOSED状态。  </li>
+</ul>
+</li>
+</ul>
+<p>为何TIME_WAIT需要等2MSL时间才能回到CLOSED状态：<br>如果网络不可靠，那么就无法保证最后客户端发送的ACK报文服务器端一定能够收到，因此处于LAST_ACK状态的服务器可能会因为超时而未收到ACK报文，而重新向客户端发送FIN报文，TIME_WAIT的作用就是用来客户端重新发送可能丢失的ACK报文。  </p>
+</li>
+<li><p>TCP队列<br><a href="https://yq.aliyun.com/articles/4252" target="_blank" rel="external">文档参考</a>  </p>
+<ul>
+<li>半连接队列：保存SYN_RECV状态的连接。队列长度由net.ipv4.tcp_max_syn_backlog设置  </li>
+<li>accept队列：保存ESTABLISHED状态的连接。队列长度为min(net.core.somaxconn,backlog)。其中backlog是我们创建ServerSocket(intport,int backlog)时指定的参数，最终会传递给listen方法。  </li>
+</ul>
+</li>
+<li><p>IO模型<br><a href="https://blog.csdn.net/xiexievv/article/details/44976215" target="_blank" rel="external">文档参考</a>  </p>
+<ul>
+<li>blocking IO  </li>
+<li>nonblocking IO  </li>
+<li>IO multiplexing  </li>
+<li>signal driven IO(不常用)  </li>
+<li>asynchronous IO  </li>
+</ul>
+</li>
+<li><p>网卡Bonding模式<br><a href="https://blog.csdn.net/wuweilong/article/details/39720571" target="_blank" rel="external">文档参考</a>  </p>
+<ul>
+<li>Mode 0(balance-rr) Round-robin策略，这个模式具备负载均衡和容错能力  </li>
+<li>Mode 1(active-backup) 主备策略，在绑定中只有一个网卡被激活，其他处于备份状态  </li>
+<li>Mode 2(balance-xor) XOR策略，通过源MAC地址与目的MAC地址做异或操作选择slave网卡  </li>
+<li>Mode 3 (broadcast) 广播，在所有的网卡上传送所有的报文  </li>
+<li>Mode 4 (802.3ad) IEEE 802.3ad动态链路聚合。创建共享相同的速率和双工模式的聚合组  </li>
+<li>Mode 5 (balance-tlb) 适配器传输负载均衡  </li>
+<li>Mode 6 (balance-alb) 适配器适应性负载均衡  </li>
+</ul>
+</li>
+<li><p>Bridge<br><a href="https://blog.csdn.net/acs713/article/details/42967191" target="_blank" rel="external">文档参考</a><br>计算机内部一般有系统总线来连接内部所有的硬件设备。一个典型的系统总线是PCI(Peripheral Component Interconnect)总线。其他类型的用得较多的总线还有ISA,EISA,MCA,SCSI,和USB。<br>一个计算机有多个不同类型的总线，这些总线由桥(bridge)链接起来。有以下两种高速总线处理到达或出自内存芯片的数据传输：  </p>
+<ol>
+<li>前端总线FSB：连接CPU和RAM控制器  </li>
+<li>后端总线：连接CPU和外部硬件设备CACHE  </li>
+</ol>
+</li>
+<li><p>网络管理  </p>
+<ul>
+<li><p>iftop(yum安装)  </p>
+<ul>
+<li>TX：发送流量  </li>
+<li>RX：接收流量  </li>
+<li>TOTAL：总流量  </li>
+<li>Cumm：运行iftop到目前时间的总流量  </li>
+<li>peak：流量峰值  </li>
+<li>rates：分别表示过去 2s 10s 40s 的平均流量  </li>
+</ul>
+</li>
+<li><p>tcpdump<br><a href="http://www.itshouce.com.cn/linux/linux-tcpdump.html" target="_blank" rel="external">文档参考</a>  </p>
+<ul>
+<li>抓取回环网口的包：<code>tcpdump -i lo</code>  </li>
+<li>防止包截断：<code>tcpdump -s0</code>  </li>
+<li>以数字显示主机及端口：<code>tcpdump -n</code>  </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="内核-Shell"><a href="#内核-Shell" class="headerlink" title="内核/Shell"></a>内核/Shell</h4><ul>
+<li><p>内核定制<br><a href="https://www.linuxidc.com/Linux/2014-03/97851.htm" target="_blank" rel="external">文档参考1</a>，<a href="https://blog.csdn.net/lixiangminghate/article/details/55224412" target="_blank" rel="external">文档参考2</a>，<a href="http://www.myir-tech.com/customize_linux.asp" target="_blank" rel="external">文档参考3</a><br>linux系统的启动流程：POST自检过程(BIOS) –&gt;如果有多块磁盘，需要在BIOS上选择启动磁盘 –&gt;引导MBR(bootloader引导程序) –&gt; 加载initrd文件 –&gt;执行进程init –&gt;显示欢迎界面<br>Linux系统定制的目的和意义：  </p>
+<ul>
+<li>系统小型化  </li>
+<li>提高实时性  </li>
+<li>对特殊硬件的支持  </li>
+<li>提高系统的可靠性  </li>
+</ul>
+</li>
+<li><p>Linux内核参数优化<br><a href="https://blog.csdn.net/menxu_work/article/details/51140572" target="_blank" rel="external">文档参考</a>  </p>
+<ul>
+<li><p><code>sysctl -a</code> 查看所有系统变量<br><code>/proc/sys</code>下内核文件与配置文件sysctl.conf中变量存在着对应关系  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#最大的待发送TCP数据缓冲区空间</span></div><div class="line">net.inet.tcp.sendspace=65536</div><div class="line"></div><div class="line"><span class="comment">#最大的接受TCP缓冲区空间</span></div><div class="line">net.inet.tcp.recvspace=65536</div><div class="line"></div><div class="line"><span class="comment">#最大的接受UDP缓冲区大小</span></div><div class="line">net.inet.udp.sendspace=65535</div><div class="line"></div><div class="line"><span class="comment">#最大的发送UDP数据缓冲区大小</span></div><div class="line">net.inet.udp.maxdgram=65535</div><div class="line"></div><div class="line"><span class="comment">#本地套接字连接的数据发送空间</span></div><div class="line">net.local.stream.sendspace=65535</div><div class="line"></div><div class="line"><span class="comment">#加快网络性能的协议</span></div><div class="line">net.inet.tcp.rfc1323=1</div><div class="line">net.inet.tcp.rfc1644=1</div><div class="line">net.inet.tcp.rfc3042=1</div><div class="line">net.inet.tcp.rfc3390=1</div><div class="line"></div><div class="line"><span class="comment">#最大的套接字缓冲区</span></div><div class="line">kern.ipc.maxsockbuf=2097152</div><div class="line"></div><div class="line"><span class="comment">#系统中允许的最多文件数量</span></div><div class="line">kern.maxfiles=65536</div><div class="line"></div><div class="line"><span class="comment">#每个进程能够同时打开的最大文件数量</span></div><div class="line">kern.maxfilesperproc=32768</div><div class="line"></div><div class="line"><span class="comment">#当一台计算机发起TCP连接请求时，系统会回应ACK应答数据包。该选项设置是否延迟ACK应答数据包，把它和包含数据的数据包一起发送，在高速网络和低负载的情况下会略微提高性能，但在网络连接较差的时候，对方计算机得不到应答会持续发起连接请求，反而会降低性能</span></div><div class="line">net.inet.tcp.delayed_ack=0</div><div class="line"></div><div class="line"><span class="comment">#屏蔽ICMP重定向功能</span></div><div class="line">net.inet.icmp.drop_redirect=1</div><div class="line">net.inet.icmp.log_redirect=1</div><div class="line">net.inet.ip.redirect=0</div><div class="line">net.inet6.ip6.redirect=0</div><div class="line"></div><div class="line"><span class="comment">#防止ICMP广播风暴</span></div><div class="line">net.inet.icmp.bmcastecho=0</div><div class="line">net.inet.icmp.maskrepl=0</div><div class="line"></div><div class="line"><span class="comment">#限制系统发送ICMP速率</span></div><div class="line">net.inet.icmp.icmplim=100</div><div class="line"></div><div class="line"><span class="comment">#安全参数，编译内核的时候加了options TCP_DROP_SYNFIN才可以用</span></div><div class="line">net.inet.icmp.icmplim_output=0</div><div class="line">net.inet.tcp.drop_synfin=1</div><div class="line"></div><div class="line"><span class="comment">#设置为1会帮助系统清除没有正常断开的TCP连接，这增加了一些网络带宽的使用，但是一些死掉的连接最终能被识别并清除。死的TCP连接是被拨号用户存取的系统的一个特别的问题，因为用户经常断开modem而不正确的关闭活动的连接</span></div><div class="line">net.inet.tcp.always_keepalive=1</div><div class="line"></div><div class="line"><span class="comment">#若看到net.inet.ip.intr_queue_drops这个在增加，就要调大net.inet.ip.intr_queue_maxlen，为0最好</span></div><div class="line">net.inet.ip.intr_queue_maxlen=1000</div><div class="line"></div><div class="line"><span class="comment">#防止DOS攻击，默认为30000</span></div><div class="line">net.inet.tcp.msl=7500</div><div class="line"></div><div class="line"><span class="comment">#接收到一个已经关闭的端口发来的所有包，直接drop，如果设置为1则是只针对TCP包</span></div><div class="line">net.inet.tcp.blackhole=2</div><div class="line"></div><div class="line"><span class="comment">#接收到一个已经关闭的端口发来的所有UDP包直接drop</span></div><div class="line">net.inet.udp.blackhole=1</div><div class="line"></div><div class="line"><span class="comment">#为网络数据连接时提供缓冲</span></div><div class="line">net.inet.tcp.inflight.enable=1</div><div class="line"></div><div class="line"><span class="comment">#如果打开的话每个目标地址一次转发成功以后它的数据都将被记录进路由表和arp数据表，节约路由的计算时间,但会需要大量的内核内存空间来保存路由表</span></div><div class="line">net.inet.ip.fastforwarding=0</div><div class="line"></div><div class="line"><span class="comment">#kernel编译打开options POLLING功能，高负载情况下使用低负载不推荐SMP不能和polling一起用</span></div><div class="line"><span class="comment">#kern.polling.enable=1</span></div><div class="line"></div><div class="line"><span class="comment">#并发连接数，默认为128，推荐在1024-4096之间，数字越大占用内存也越大</span></div><div class="line">kern.ipc.somaxconn=32768</div><div class="line"></div><div class="line"><span class="comment">#禁止用户查看其他用户的进程</span></div><div class="line">security.bsd.see_other_uids=0</div><div class="line"></div><div class="line"><span class="comment">#设置kernel安全级别</span></div><div class="line">kern.securelevel=0</div><div class="line"></div><div class="line"><span class="comment">#记录下任何TCP连接</span></div><div class="line">net.inet.tcp.log_in_vain=1</div><div class="line"></div><div class="line"><span class="comment">#记录下任何UDP连接</span></div><div class="line">net.inet.udp.log_in_vain=1</div><div class="line"></div><div class="line"><span class="comment">#防止不正确的udp包的攻击</span></div><div class="line">net.inet.udp.checksum=1</div><div class="line"></div><div class="line"><span class="comment">#防止DOS攻击</span></div><div class="line">net.inet.tcp.syncookies=1</div><div class="line"></div><div class="line"><span class="comment">#仅为线程提供物理内存支持，需要256兆以上内存</span></div><div class="line">kern.ipc.shm_use_phys=1</div><div class="line"></div><div class="line"><span class="comment"># 线程可使用的最大共享内存</span></div><div class="line">kern.ipc.shmmax=67108864</div><div class="line"></div><div class="line"><span class="comment"># 最大线程数量</span></div><div class="line">kern.ipc.shmall=32768</div><div class="line"></div><div class="line"><span class="comment"># 程序崩溃时不记录</span></div><div class="line">kern.coredump=0</div><div class="line"></div><div class="line"><span class="comment"># lo本地数据流接收和发送空间  </span></div><div class="line">net.local.stream.recvspace=65536</div><div class="line">net.local.dgram.maxdgram=16384</div><div class="line">net.local.dgram.recvspace=65536</div><div class="line"></div><div class="line"><span class="comment"># 数据包数据段大小，ADSL为1452</span></div><div class="line">net.inet.tcp.mssdflt=1460</div><div class="line"></div><div class="line"><span class="comment"># 为网络数据连接时提供缓冲  </span></div><div class="line">net.inet.tcp.inflight_enable=1</div><div class="line"></div><div class="line"><span class="comment"># 数据包数据段最小值，ADSL为1452</span></div><div class="line">net.inet.tcp.minmss=1460</div><div class="line"></div><div class="line"><span class="comment"># 本地数据最大数量</span></div><div class="line">net.inet.raw.maxdgram=65536</div><div class="line"></div><div class="line"><span class="comment"># 本地数据流接收空间</span></div><div class="line">net.inet.raw.recvspace=65536</div><div class="line"></div><div class="line"><span class="comment">#ipfw防火墙动态规则数量，默认为4096，增大该值可以防止某些病毒发送大量TCP连接，导致不能建立正常连接</span></div><div class="line">net.inet.ip.fw.dyn_max=65535</div><div class="line"></div><div class="line"><span class="comment">#设置ipf防火墙TCP连接空闲保留时间，默认8640000(120小时)</span></div><div class="line">net.inet.ipf.fr_tcpidletimeout=864000</div></pre></td></tr></table></figure>
+</li>
+<li><p>参考值(具体根据系统硬件配置对应值)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line">/proc/sys/net/core/wmem_max</div><div class="line"><span class="comment"># 最大socket写buffer,可参考的优化值:873200</span></div><div class="line"></div><div class="line">/proc/sys/net/core/rmem_max</div><div class="line"><span class="comment"># 最大socket读buffer,可参考的优化值:873200</span></div><div class="line"></div><div class="line">/proc/sys/net/ipv4/tcp_wmem</div><div class="line"><span class="comment"># TCP写buffer,可参考的优化值: 8192 436600 873200</span></div><div class="line"></div><div class="line">/proc/sys/net/ipv4/tcp_rmem</div><div class="line"><span class="comment"># TCP读buffer,可参考的优化值: 32768 436600 873200</span></div><div class="line"></div><div class="line">/proc/sys/net/ipv4/tcp_mem</div><div class="line"><span class="comment"># 同样有3个值,意思是:</span></div><div class="line"><span class="comment"># net.ipv4.tcp_mem[0]:低于此值,TCP没有内存压力.</span></div><div class="line"><span class="comment"># net.ipv4.tcp_mem[1]:在此值下,进入内存压力阶段.</span></div><div class="line"><span class="comment"># net.ipv4.tcp_mem[2]:高于此值,TCP拒绝分配socket.</span></div><div class="line"><span class="comment"># 上述内存单位是页,而不是字节.可参考的优化值是:786432 1048576 1572864</span></div><div class="line"></div><div class="line">/proc/sys/net/core/netdev_max_backlog</div><div class="line"><span class="comment"># 进入包的最大设备队列.默认是300,对重负载服务器而言,该值太低,可调整到1000.</span></div><div class="line"></div><div class="line">/proc/sys/net/core/somaxconn</div><div class="line"><span class="comment"># listen()的默认参数,挂起请求的最大数量.默认是128.对繁忙的服务器,增加该值有助于网络性能.可调整到256.</span></div><div class="line"></div><div class="line">/proc/sys/net/core/optmem_max</div><div class="line"><span class="comment"># socket buffer的最大初始化值,默认10K.</span></div><div class="line"></div><div class="line">/proc/sys/net/ipv4/tcp_max_syn_backlog</div><div class="line"><span class="comment"># 进入SYN包的最大请求队列.默认1024.对重负载服务器,增加该值显然有好处.可调整到2048.</span></div><div class="line"></div><div class="line">/proc/sys/net/ipv4/tcp_retries2</div><div class="line"><span class="comment"># TCP失败重传次数,默认值15,意味着重传15次才彻底放弃.可减少到5,以尽早释放内核资源.</span></div><div class="line"></div><div class="line">/proc/sys/net/ipv4/tcp_keepalive_time</div><div class="line">/proc/sys/net/ipv4/tcp_keepalive_intvl</div><div class="line">/proc/sys/net/ipv4/tcp_keepalive_probes</div><div class="line"><span class="comment"># 这3个参数与TCP KeepAlive有关.默认值是:</span></div><div class="line"><span class="comment"># tcp_keepalive_time = 7200 seconds (2 hours)</span></div><div class="line"><span class="comment"># tcp_keepalive_probes = 9</span></div><div class="line"><span class="comment"># tcp_keepalive_intvl = 75 seconds</span></div><div class="line"><span class="comment"># 意思是如果某个TCP连接在idle 2个小时后,内核才发起probe.如果probe 9次(每次75秒)不成功,内核才彻底放弃,认为该连接已失效.对服务器而言,显然上述值太大. 可调整到:</span></div><div class="line"><span class="comment"># /proc/sys/net/ipv4/tcp_keepalive_time 1800</span></div><div class="line"><span class="comment"># /proc/sys/net/ipv4/tcp_keepalive_intvl 30</span></div><div class="line"><span class="comment"># /proc/sys/net/ipv4/tcp_keepalive_probes 3</span></div><div class="line"></div><div class="line">/proc/sys/net/ipv4/ip_local_port_range</div><div class="line"><span class="comment"># 指定端口范围的一个配置,默认是32768 61000,已够大.</span></div><div class="line"></div><div class="line">net.ipv4.tcp_syncookies = 1</div><div class="line"><span class="comment"># 表示开启SYN Cookies。当出现SYN等待队列溢出时，启用cookies来处理，可防范少量SYN攻击，默认为0，表示关闭</span></div><div class="line"></div><div class="line">net.ipv4.tcp_tw_reuse = 1</div><div class="line"><span class="comment"># 表示开启重用。允许将TIME-WAIT sockets重新用于新的TCP连接，默认为0，表示关闭</span></div><div class="line"></div><div class="line">net.ipv4.tcp_tw_recycle = 1</div><div class="line"><span class="comment"># 表示开启TCP连接中TIME-WAIT sockets的快速回收，默认为0，表示关闭</span></div><div class="line"></div><div class="line">net.ipv4.tcp_fin_timeout = 30</div><div class="line"><span class="comment"># 表示如果套接字由本端要求关闭，这个参数决定了它保持在FIN-WAIT-2状态的时间</span></div><div class="line"></div><div class="line">net.ipv4.tcp_keepalive_time = 1200</div><div class="line"><span class="comment"># 表示当keepalive起用的时候，TCP发送keepalive消息的频度。缺省是2小时，改为20分钟</span></div><div class="line"></div><div class="line">net.ipv4.ip_local_port_range = 1024 65000</div><div class="line"><span class="comment"># 表示用于向外连接的端口范围。缺省情况下很小：32768到61000，改为1024到65000</span></div><div class="line"></div><div class="line">net.ipv4.tcp_max_syn_backlog = 8192</div><div class="line"><span class="comment"># 表示SYN队列的长度，默认为1024，加大队列长度为8192，可以容纳更多等待连接的网络连接数</span></div><div class="line"></div><div class="line">net.ipv4.tcp_max_tw_buckets = 5000</div><div class="line"><span class="comment"># 表示系统同时保持TIME_WAIT套接字的最大数量，如果超过这个数字，TIME_WAIT套接字将立刻被清除并打印警告信息。默认为180000，改为 5000。对于Apache、Nginx等服务器，上几行的参数可以很好地减少TIME_WAIT套接字数量，但是对于Squid，效果却不大。此项参数可以控制TIME_WAIT套接字的最大数量，避免Squid服务器被大量的TIME_WAIT套接字拖死</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>脚本编程  </p>
+<ul>
+<li><a href="http://www.runoob.com/linux/linux-comm-awk.html" target="_blank" rel="external">awk参考</a>  </li>
+<li><a href="http://man.linuxde.net/sed" target="_blank" rel="external">sed参考</a>  </li>
+<li><a href="http://www.runoob.com/linux/linux-shell.html" target="_blank" rel="external">shell参考</a>  </li>
+<li><a href="http://www.runoob.com/python/python-tutorial.html" target="_blank" rel="external">python参考</a>  </li>
+<li><a href="http://www.runoob.com/php/php-tutorial.html" target="_blank" rel="external">php参考</a>  </li>
+<li><a href="http://www.runoob.com/perl/perl-tutorial.html" target="_blank" rel="external">perl参考</a>  </li>
+<li><a href="http://www.runoob.com/ruby/ruby-tutorial.html" target="_blank" rel="external">ruby参考</a>  </li>
+<li><a href="http://www.runoob.com/lua/lua-tutorial.html" target="_blank" rel="external">lua参考</a>  </li>
+</ul>
+</li>
+<li><p>系统监控<br>在工作中我使用的是Zabbix做系统监控，<a href="https://www.zabbix.com/" target="_blank" rel="external">参考zabbix官网</a><br><img src="https://note.youdao.com/yws/api/personal/file/01ED5C8C063A4E06A9D67414E2B23D2D?method=download&amp;shareKey=fd7008621aae7a9506586165af188fd2" alt="zabbix dashboard">  </p>
+</li>
+</ul>
+<hr>
+<p>本作品采用<a href="https://creativecommons.org/licenses/by/2.5/cn/" target="_blank" rel="external">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://www.yfshare.vip">Jack Wang Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。<br><img src="http://note.youdao.com/yws/api/personal/file/FE3C6F68961F4541AF284E5F346FC3CA?method=download&amp;shareKey=c5e4c3ca81daa6e908d5630f8c6ec242" alt="打赏"><br>本文出自”Jack Wang Blog”：<a href="http://www.yfshare.vip/2018/07/27/操作系统层/">http://www.yfshare.vip/2018/07/27/操作系统层/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;到目前为止，也工作了好几年了吧。曾经某次听赵班长的公开课，听着听着发现，越听越懵…有种啥也不会的感觉..-_-!!!&lt;br&gt;但是呢，这些东西也确实是在工作中用到过，只是比较零碎。某些名词也确实很熟悉，但是呢，比如你现在问我里面具体的细节，我会用一脸懵逼来回应你，哈哈。&lt;br&gt;这些天抽空对着赵班长总结的表格，尝试在网上收集了些资料，整理出下面的文章。如果有不对的地方，欢迎大家指点。在整理这些东西的过程中，也是对我自己所掌握知识的一种回顾吧。让我们为了自己心中所想，一起努力吧！&lt;br&gt;
+    
+    </summary>
+    
+      <category term="运维知识体系" scheme="http://www.yfshare.vip/categories/%E8%BF%90%E7%BB%B4%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/"/>
+    
+    
+      <category term="CPU" scheme="http://www.yfshare.vip/tags/CPU/"/>
+    
+      <category term="Memory" scheme="http://www.yfshare.vip/tags/Memory/"/>
+    
+      <category term="I/O" scheme="http://www.yfshare.vip/tags/I-O/"/>
+    
+      <category term="Kernel" scheme="http://www.yfshare.vip/tags/Kernel/"/>
+    
+  </entry>
   
   <entry>
     <title>部署jenkins项目</title>
@@ -311,9 +806,9 @@
       <category term="Jenkins" scheme="http://www.yfshare.vip/categories/Jenkins/"/>
     
     
-      <category term="Jenkins" scheme="http://www.yfshare.vip/tags/Jenkins/"/>
-    
       <category term="Ansible" scheme="http://www.yfshare.vip/tags/Ansible/"/>
+    
+      <category term="Jenkins" scheme="http://www.yfshare.vip/tags/Jenkins/"/>
     
       <category term="Maven" scheme="http://www.yfshare.vip/tags/Maven/"/>
     
@@ -606,11 +1101,11 @@
       <category term="K8S" scheme="http://www.yfshare.vip/categories/K8S/"/>
     
     
-      <category term="Ansible" scheme="http://www.yfshare.vip/tags/Ansible/"/>
-    
       <category term="k8s" scheme="http://www.yfshare.vip/tags/k8s/"/>
     
       <category term="kubernetes" scheme="http://www.yfshare.vip/tags/kubernetes/"/>
+    
+      <category term="Ansible" scheme="http://www.yfshare.vip/tags/Ansible/"/>
     
   </entry>
   
@@ -2177,226 +2672,6 @@
       <category term="Logstash" scheme="http://www.yfshare.vip/tags/Logstash/"/>
     
       <category term="Kibana" scheme="http://www.yfshare.vip/tags/Kibana/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Logstash插件</title>
-    <link href="http://www.yfshare.vip/2017/11/18/Logstash%E6%8F%92%E4%BB%B6/"/>
-    <id>http://www.yfshare.vip/2017/11/18/Logstash插件/</id>
-    <published>2017-11-17T16:00:00.000Z</published>
-    <updated>2017-11-17T15:54:56.973Z</updated>
-    
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Logstash插件主要分为（常用插件）：input、filter、output、Codec等<br><a id="more"></a><br>Logstash input plugins：<a href="https://www.elastic.co/guide/en/logstash/5.1/input-plugins.html" target="_blank" rel="external">https://www.elastic.co/guide/en/logstash/5.1/input-plugins.html</a><br>Logstash filter plugins：<a href="https://www.elastic.co/guide/en/logstash/5.1/filter-plugins.html" target="_blank" rel="external">https://www.elastic.co/guide/en/logstash/5.1/filter-plugins.html</a><br>Logstash output plugins：<a href="https://www.elastic.co/guide/en/logstash/5.1/output-plugins.html" target="_blank" rel="external">https://www.elastic.co/guide/en/logstash/5.1/output-plugins.html</a><br>Logstash Codec plugins：<a href="https://www.elastic.co/guide/en/logstash/5.1/codec-plugins.html" target="_blank" rel="external">https://www.elastic.co/guide/en/logstash/5.1/codec-plugins.html</a>  </p>
-<p>环境：Centos 6.6<br>　　　ElasticSearch 5.1.1<br>　　　Logstash 5.1.1<br>　　　Kibana 5.1.1  </p>
-<h4 id="Logstash的codec用法之Logstash展示Nginx日志"><a href="#Logstash的codec用法之Logstash展示Nginx日志" class="headerlink" title="Logstash的codec用法之Logstash展示Nginx日志"></a>Logstash的codec用法之Logstash展示Nginx日志</h4><p>参考：<a href="https://www.elastic.co/guide/en/logstash/5.1/codec-plugins.html" target="_blank" rel="external">https://www.elastic.co/guide/en/logstash/5.1/codec-plugins.html</a><br><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">#文件必须以.<span class="keyword">conf</span>结尾，因为Logstash默认扫描*.<span class="keyword">conf</span>文件</div><div class="line">[root@ELK ~]# <span class="keyword">cat</span> /etc/logstash/              #在用grok时可以直接调用<span class="keyword">conf</span>.<span class="keyword">d</span>/nginx.<span class="keyword">conf</span> </div><div class="line"><span class="keyword">input</span> &#123;</div><div class="line">	<span class="keyword">file</span> &#123;</div><div class="line">		path =&gt; [<span class="string">"/var/log/nginx/access.log"</span>]</div><div class="line">		<span class="keyword">type</span> =&gt; <span class="string">"nginx"</span></div><div class="line">		start_position =&gt; <span class="string">"beginning"</span>  #这里参数可以写beginning和end</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">output &#123;</div><div class="line">	stdout &#123;</div><div class="line">		codec =&gt; rubydebug&#123;&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">[root@ELK ~]#</div><div class="line">[root@ELK ~]# /usr/share/logstash/bin/logstash --path.settings /etc/logstash/ -f /etc/logstash/<span class="keyword">conf</span>.<span class="keyword">d</span>/nginx.<span class="keyword">conf</span> </div><div class="line">Sending Logstash's logs to /<span class="keyword">var</span>/<span class="keyword">log</span>/logstash <span class="keyword">which</span> is now configured via log4j2.properties</div><div class="line">&#123;</div><div class="line">          <span class="string">"path"</span> =&gt; <span class="string">"/var/log/nginx/access.log"</span>,</div><div class="line">    <span class="string">"@timestamp"</span> =&gt; 2016-12-14T03:39:56.805Z,</div><div class="line">      <span class="string">"@version"</span> =&gt; <span class="string">"1"</span>,</div><div class="line">          <span class="string">"host"</span> =&gt; <span class="string">"0.0.0.0"</span>,</div><div class="line">       <span class="string">"message"</span> =&gt; <span class="string">"192.168.31.100 - - [13/Dec/2016:18:22:21 +0800] \"</span>GET / HTTP/1.1\<span class="string">" 200 612 \"</span>-\<span class="string">" \"</span>curl/7.19.7 (x86_64-redhat-linux-gnu) libcurl/7.19.7 NSS/3.15.3 zlib/1.2.3 libidn/1.18 libssh2/1.4.2\<span class="string">" \"</span>-\<span class="string">""</span>,</div><div class="line">          <span class="string">"type"</span> =&gt; <span class="string">"nginx"</span>,</div><div class="line">          <span class="string">"tags"</span> =&gt; []</div><div class="line">&#125;</div><div class="line">....</div><div class="line">#当再次请求Nginx时（即Nginx access.<span class="keyword">log</span>日志再次输出时），会打印到屏幕</div></pre></td></tr></table></figure></p>
-<p>注，beginning和end区别：<br><code>beginning是文件从头开始读取</code>，<code>end是读取最新内容</code>。第一次读取后会生成缓存文件 (隐藏文件)记录读取的进度，如：<code>.sincedb_d883144359d3b4f516b37dba51fab2a2(隐藏文件)</code>。rpm安装的在<code>/var/lib/logstash/plugins/inputs/file</code>这个目录下，具体位置需要搜索。  </p>
-<h4 id="Logstash的codec插件之multiline用法"><a href="#Logstash的codec插件之multiline用法" class="headerlink" title="Logstash的codec插件之multiline用法"></a>Logstash的codec插件之multiline用法</h4><p>参考：<a href="https://www.elastic.co/guide/en/logstash/5.1/plugins-codecs-multiline.html" target="_blank" rel="external">https://www.elastic.co/guide/en/logstash/5.1/plugins-codecs-multiline.html</a><br><a href="https://kibana.logstash.es/content/logstash/plugins/codec/multiline.html" target="_blank" rel="external">https://kibana.logstash.es/content/logstash/plugins/codec/multiline.html</a>  </p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">[root@ELK ~]<span class="comment"># cat /etc/logstash/conf.d/multiline.conf </span></div><div class="line">input &#123;</div><div class="line">	stdin &#123;</div><div class="line">		codec =&gt; multiline &#123;</div><div class="line">			pattern =&gt; <span class="string">"^\["</span></div><div class="line">			negate =&gt; <span class="keyword">true</span></div><div class="line">			what =&gt; <span class="string">"previous"</span></div><div class="line">			&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">output &#123;</div><div class="line">	stdout &#123;</div><div class="line">		codec =&gt; rubydebug&#123;&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">[root@ELK ~]<span class="comment">#</span></div><div class="line"><span class="comment">#测试配置文件语法</span></div><div class="line">[root@ELK ~]<span class="comment"># /usr/share/logstash/bin/logstash --path.settings /etc/logstash/ -f /etc/logstash/conf.d/multiline.conf -t</span></div><div class="line">Sending Logstash<span class="string">'s logs to /var/log/logstash which is now configured via log4j2.properties</span></div><div class="line">Configuration OK</div><div class="line">[root@ELK ~]#</div><div class="line">[root@ELK ~]# /usr/share/logstash/bin/logstash --path.settings /etc/logstash/ -f /etc/logstash/conf.d/multiline.conf</div><div class="line">Sending Logstash's logs to /<span class="keyword">var</span>/log/logstash which is now configured via log4j2.properties</div><div class="line">The stdin plugin is now waiting <span class="keyword">for</span> input:</div><div class="line">[hello world]</div><div class="line">[Windows of the world]</div><div class="line">&#123;</div><div class="line">    <span class="string">"@timestamp"</span> =&gt; <span class="number">2016</span><span class="number">-12</span><span class="number">-14</span>T07:<span class="number">53</span>:<span class="number">20.808</span>Z,</div><div class="line">      <span class="string">"@version"</span> =&gt; <span class="string">"1"</span>,</div><div class="line">          <span class="string">"host"</span> =&gt; <span class="string">"0.0.0.0"</span>,</div><div class="line">       <span class="string">"message"</span> =&gt; <span class="string">"[hello world]"</span>,</div><div class="line">          <span class="string">"tags"</span> =&gt; []</div><div class="line">&#125;</div><div class="line">Good mornning</div><div class="line">[</div><div class="line">&#123;</div><div class="line">    <span class="string">"@timestamp"</span> =&gt; <span class="number">2016</span><span class="number">-12</span><span class="number">-14</span>T07:<span class="number">54</span>:<span class="number">00.060</span>Z,</div><div class="line">      <span class="string">"@version"</span> =&gt; <span class="string">"1"</span>,</div><div class="line">          <span class="string">"host"</span> =&gt; <span class="string">"0.0.0.0"</span>,</div><div class="line">       <span class="string">"message"</span> =&gt; <span class="string">"[Windows of the world]\nGood mornning"</span>,</div><div class="line">          <span class="string">"tags"</span> =&gt; [</div><div class="line">        [<span class="number">0</span>] <span class="string">"multiline"</span></div><div class="line">    ]</div><div class="line">&#125;</div><div class="line"><span class="comment">#multiline插件是以“[”做标记，如果出现“[”，则把两个“[”之间的内容在message输出，“[”是结尾符</span></div></pre></td></tr></table></figure>
-<h4 id="Logstash的filter插件之grok用法"><a href="#Logstash的filter插件之grok用法" class="headerlink" title="Logstash的filter插件之grok用法"></a>Logstash的filter插件之grok用法</h4><p>参考：<a href="https://www.elastic.co/guide/en/logstash/5.1/plugins-filters-grok.html" target="_blank" rel="external">https://www.elastic.co/guide/en/logstash/5.1/plugins-filters-grok.html</a><br><a href="http://kibana.logstash.es/content/logstash/plugins/filter/grok.html" target="_blank" rel="external">http://kibana.logstash.es/content/logstash/plugins/filter/grok.html</a>  </p>
-<p>主要是做正则匹配，拆分<br>下面两个地址需要拨VPN才能访问：<br>官方提供的grok表达式：<a href="https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns" target="_blank" rel="external">https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns</a><br>grok在线调试：<a href="https://grokdebug.herokuapp.com/" target="_blank" rel="external">https://grokdebug.herokuapp.com/</a><br>grok正则表达式：<a href="https://github.com/logstash-plugins/logstash-patterns-core/blob/master/patterns/grok-patterns" target="_blank" rel="external">https://github.com/logstash-plugins/logstash-patterns-core/blob/master/patterns/grok-patterns</a><br>在用grok时可以直接调用，也可以自己写，如：<br><img src="http://note.youdao.com/yws/api/personal/file/9E3F41215A5B44F98B4DE31A1D194559?method=download&amp;shareKey=694a15483adc321844d8f3ac40ff77b7" alt="image">  </p>
-<p>grok里正则在这里<a href="https://grokdebug.herokuapp.com/" target="_blank" rel="external">调试</a><br><img src="http://note.youdao.com/yws/api/personal/file/CBEC3EEBC35B457CBC28DFE516A32D28?method=download&amp;shareKey=fe1269199d3998d52b92fdb53814dc6f" alt="image">  </p>
-<p>#日志内容本身都是一个类似于key-value 的格式，但是格式具体的样式却是多种多样的。logstash提供filters/kv插件，帮助处理不同样式的key-value日志，变成实际的LogStash::Event数据。  </p>
-<p>#kv没用会，下面是摘抄的示例<br><a href="https://kibana.logstash.es/content/logstash/plugins/filter/kv.html" target="_blank" rel="external">https://kibana.logstash.es/content/logstash/plugins/filter/kv.html</a><br><a href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-kv.html" target="_blank" rel="external">https://www.elastic.co/guide/en/logstash/current/plugins-filters-kv.html</a><br><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line">#解析<span class="keyword">test</span>.<span class="keyword">log</span>文件内容</div><div class="line">[root@ELK ~]# <span class="keyword">cat</span> /root/<span class="keyword">test</span>.<span class="keyword">log</span> </div><div class="line">192.168.31.105 - - [14/<span class="keyword">Dec</span>/2016:15:17:56 +0800] <span class="string">"GET / HTTP/1.1"</span> 304 0 <span class="string">"-"</span> <span class="string">"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"</span> <span class="string">"-"</span></div><div class="line">[root@ELK ~]#</div><div class="line">[root@ELK ~]# <span class="keyword">cat</span> /etc/logstash/<span class="keyword">conf</span>.<span class="keyword">d</span>/samp.<span class="keyword">conf</span> </div><div class="line"><span class="keyword">input</span> &#123;</div><div class="line">	<span class="keyword">file</span> &#123;</div><div class="line">		path =&gt; <span class="string">"/root/test.log"</span></div><div class="line">		start_position =&gt; <span class="string">"beginning"</span></div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">filter &#123;</div><div class="line">	grok &#123;</div><div class="line">		match =&gt; [<span class="string">"message"</span>,<span class="string">"%&#123;IPV4:remote_addr&#125; \- %&#123;USERNAME:remote_user&#125; \[%&#123;DATA:time_local&#125;\] (?&lt;http_request&gt;\"</span>[A-Za-z][A-Za-z]+\s*\/\s*[A-Za-z][A-Za-z]+\/[0-9][0-9]*\.[0-9][0-9]*\<span class="string">") (?&lt;status&gt;[0-9][0-9]*) (?&lt;body_bytes_sent&gt;[0-9][0-9]*) (?&lt;http_referer&gt;\"</span>[\s\S]*?\<span class="string">") (?&lt;http_user_agent&gt;\"</span>[\s\S]*?\<span class="string">") (?&lt;http_x_forwarded_for&gt;\"</span>[\s\S]*?\<span class="string">")"</span>]</div><div class="line">	&#125;</div><div class="line">    kv &#123;</div><div class="line">        source =&gt; <span class="string">"http_user_agent"</span></div><div class="line">        field_split =&gt; <span class="string">";"</span></div><div class="line">        value_split =&gt; <span class="string">"="</span></div><div class="line">        remove_field =&gt; [ <span class="string">"\\"</span>"]</div><div class="line">        &#125;</div><div class="line">	urldecode &#123;</div><div class="line">		all_fields =&gt; true</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">#这里的kv插件好像没有效果额..，kv适合有规律的拆分</div><div class="line">output &#123;</div><div class="line">	stdout &#123;</div><div class="line">		codec =&gt; rubydebug</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">[root@ELK ~]#</div><div class="line">[root@ELK ~]# /usr/share/logstash/bin/logstash --path.settings /etc/logstash/ -f /etc/logstash/<span class="keyword">conf</span>.<span class="keyword">d</span>/samp.<span class="keyword">conf</span> -t</div><div class="line">Sending Logstash's logs to /<span class="keyword">var</span>/<span class="keyword">log</span>/logstash <span class="keyword">which</span> is now configured via log4j2.properties</div><div class="line">Configuration OK</div><div class="line">[root@ELK ~]# /usr/share/logstash/bin/logstash --path.settings /etc/logstash/ -f /etc/logstash/<span class="keyword">conf</span>.<span class="keyword">d</span>/samp.<span class="keyword">conf</span></div><div class="line">Sending Logstash's logs to /<span class="keyword">var</span>/<span class="keyword">log</span>/logstash <span class="keyword">which</span> is now configured via log4j2.properties</div><div class="line">&#123;</div><div class="line">             <span class="string">"remote_addr"</span> =&gt; <span class="string">"192.168.31.105"</span>,</div><div class="line">         <span class="string">"body_bytes_sent"</span> =&gt; <span class="string">"0"</span>,</div><div class="line">              <span class="string">"time_local"</span> =&gt; <span class="string">"14/Dec/2016:15:17:56 +0800"</span>,</div><div class="line">                 <span class="string">"message"</span> =&gt; <span class="string">"192.168.31.105 - - [14/Dec/2016:15:17:56 +0800] \"</span>GET / HTTP/1.1\<span class="string">" 304 0 \"</span>-\<span class="string">" \"</span>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36\<span class="string">" \"</span>-\<span class="string">""</span>,</div><div class="line">                    <span class="string">"tags"</span> =&gt; [],</div><div class="line">         <span class="string">"http_user_agent"</span> =&gt; <span class="string">"\"</span>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36\<span class="string">""</span>,</div><div class="line">             <span class="string">"remote_user"</span> =&gt; <span class="string">"-"</span>,</div><div class="line">                    <span class="string">"path"</span> =&gt; <span class="string">"/root/test.log"</span>,</div><div class="line">              <span class="string">"@timestamp"</span> =&gt; 2016-12-14T16:05:20.443Z,</div><div class="line">            <span class="string">"http_referer"</span> =&gt; <span class="string">"\"</span>-\<span class="string">""</span>,</div><div class="line">                <span class="string">"@version"</span> =&gt; <span class="string">"1"</span>,</div><div class="line">                    <span class="string">"host"</span> =&gt; <span class="string">"0.0.0.0"</span>,</div><div class="line">    <span class="string">"http_x_forwarded_for"</span> =&gt; <span class="string">"\"</span>-\<span class="string">""</span>,</div><div class="line">            <span class="string">"http_request"</span> =&gt; <span class="string">"\"</span>GET / HTTP/1.1\<span class="string">""</span>,</div><div class="line">                  <span class="string">"status"</span> =&gt; <span class="string">"304"</span></div><div class="line">&#125;</div><div class="line">...</div><div class="line">[root@ELK ~]#</div><div class="line">#Logstash日志输出</div><div class="line">[root@ELK ~]# tail -f /<span class="keyword">var</span>/<span class="keyword">log</span>/logstash/logstash-plain.<span class="keyword">log</span> </div><div class="line">[2016-12-15T00:02:28,195][INFO ][logstash.runner          ] Using config.test_and_exit mode. Config Validation Result: OK. Exiting Logstash</div><div class="line">[2016-12-15T00:05:21,397][INFO ][logstash.pipeline        ] Starting pipeline &#123;<span class="string">"id"</span>=&gt;<span class="string">"main"</span>, <span class="string">"pipeline.workers"</span>=&gt;1, <span class="string">"pipeline.batch.size"</span>=&gt;125, <span class="string">"pipeline.batch.delay"</span>=&gt;5, <span class="string">"pipeline.max_inflight"</span>=&gt;125&#125;</div><div class="line">[2016-12-15T00:05:21,477][INFO ][logstash.pipeline        ] Pipeline main started</div><div class="line">[2016-12-15T00:05:22,156][INFO ][logstash.agent           ] Successfully started Logstash API endpoint &#123;:port=&gt;9600&#125;</div><div class="line">...</div><div class="line">[root@ELK ~]#</div></pre></td></tr></table></figure></p>
-<p>示例：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">filter &#123;</div><div class="line">    ruby &#123;</div><div class="line">        init =&gt; <span class="string">"@kname = ['method','uri','verb']"</span></div><div class="line">        code =&gt; <span class="string">"</span></div><div class="line">            new_event = LogStash::Event.new(Hash[@kname.zip(event.get('request').split('|'))])</div><div class="line">            new_event.remove('@timestamp')</div><div class="line">            event.append(new_event)</div><div class="line">        "</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> [uri] &#123;</div><div class="line">        ruby &#123;</div><div class="line">            init =&gt; <span class="string">"@kname = ['url_path','url_args']"</span></div><div class="line">            code =&gt; <span class="string">"</span></div><div class="line">                new_event = LogStash::Event.new(Hash[@kname.zip(event.get('uri').split('?'))])</div><div class="line">                new_event.remove('@timestamp')</div><div class="line">                event.append(new_event)</div><div class="line">            "</div><div class="line">        &#125;</div><div class="line">        kv &#123;</div><div class="line">            prefix =&gt; <span class="string">"url_"</span></div><div class="line">            <span class="built_in">source</span> =&gt; <span class="string">"url_args"</span></div><div class="line">            field_split =&gt; <span class="string">"&amp;"</span></div><div class="line">            remove_field =&gt; [ <span class="string">"url_args"</span>, <span class="string">"uri"</span>, <span class="string">"request"</span> ]</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#解释</span></div><div class="line">Nginx 访问日志中的 <span class="variable">$request</span>，通过这段配置，可以详细切分成 method, url_path, verb, url_a, url_b ...</div><div class="line"></div><div class="line">进一步的，如果 url_args 中有过多字段，可能导致 Elasticsearch 集群因为频繁 update mapping 或者消耗太多内存在 cluster state 上而宕机。所以，更优的选择，是只保留明确有用的 url_args 内容，其他部分舍去</div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">kv &#123;</div><div class="line">    prefix =&gt; <span class="string">"url_"</span></div><div class="line">    <span class="built_in">source</span> =&gt; <span class="string">"url_args"</span></div><div class="line">    field_split =&gt; <span class="string">"&amp;"</span></div><div class="line">    include_keys =&gt; [ <span class="string">"uid"</span>, <span class="string">"cip"</span> ]</div><div class="line">    remove_field =&gt; [ <span class="string">"url_args"</span>, <span class="string">"uri"</span>, <span class="string">"request"</span> ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#grok分析/var/log/secure日志</span></div><div class="line">input &#123;</div><div class="line">   file &#123;</div><div class="line">	path =&gt; [<span class="string">"/var/log/secure"</span>]</div><div class="line">	start_position =&gt; <span class="string">"end"</span></div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line">filter &#123;</div><div class="line">		grok &#123;</div><div class="line">   			match =&gt; [<span class="string">"message"</span>,<span class="string">".* sshd\[\d+\]: (?&lt;status&gt;\S+) .* (?&lt;ClientIP&gt;(?:\d&#123;1,3&#125;\.\d&#123;1,3&#125;\.\d&#123;1,3&#125;\.\d&#123;1,3&#125;)?) .*"</span>]</div><div class="line">		&#125;</div><div class="line">&#125;</div><div class="line">output &#123;</div><div class="line">    stdout &#123;</div><div class="line">		codec =&gt; rubydebug&#123;&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="Logstash的filter插件之json用法"><a href="#Logstash的filter插件之json用法" class="headerlink" title="Logstash的filter插件之json用法"></a>Logstash的filter插件之json用法</h4><p>参考：<a href="https://www.elastic.co/guide/en/logstash/5.1/plugins-filters-json.html" target="_blank" rel="external">https://www.elastic.co/guide/en/logstash/5.1/plugins-filters-json.html</a><br><a href="https://kibana.logstash.es/content/logstash/plugins/filter/json.html" target="_blank" rel="external">https://kibana.logstash.es/content/logstash/plugins/filter/json.html</a><br><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line">#修改Nginx日志格式</div><div class="line">[root@ELK ~]# head -32 /etc/nginx/nginx.<span class="keyword">conf</span> | tail -15</div><div class="line">#    log_format  main  '<span class="variable">$remote_addr</span> - <span class="variable">$remote_user</span> [<span class="variable">$time_local</span>] <span class="string">"$request"</span> '</div><div class="line">#                      '<span class="variable">$status</span> <span class="variable">$body_bytes_sent</span> <span class="string">"$http_referer"</span> '</div><div class="line">#                      '<span class="string">"$http_user_agent"</span> <span class="string">"$http_x_forwarded_for"</span>';</div><div class="line"></div><div class="line">    log_format json '&#123;<span class="string">"clinet"</span>:<span class="string">"$remote_addr"</span>,'</div><div class="line">		'<span class="string">"@timestamp"</span>:<span class="string">"$time_iso8601"</span>,'</div><div class="line">		'<span class="string">"@version"</span>:<span class="string">"1"</span>,'</div><div class="line">		'<span class="string">"host"</span>:<span class="string">"$server_addr"</span>,'</div><div class="line">		'<span class="string">"size"</span>:<span class="variable">$body_bytes_sent</span>,'</div><div class="line">		'<span class="string">"responsetime"</span>:<span class="variable">$request_time</span>,'</div><div class="line">		'<span class="string">"domain"</span>:<span class="string">"$host"</span>,'</div><div class="line">		'<span class="string">"status"</span>:<span class="string">"$status"</span>,'</div><div class="line">		'<span class="string">"ua"</span>:<span class="string">"$http_user_agent"</span>&#125;';</div><div class="line"></div><div class="line">    access_log  /<span class="keyword">var</span>/<span class="keyword">log</span>/nginx/access.<span class="keyword">log</span>  json;</div><div class="line">[root@ELK ~]#</div><div class="line">[root@ELK ~]# <span class="keyword">cat</span> /etc/logstash/<span class="keyword">conf</span>.<span class="keyword">d</span>/json.<span class="keyword">conf</span> </div><div class="line"><span class="keyword">input</span> &#123;</div><div class="line">	<span class="keyword">file</span> &#123;</div><div class="line">		path =&gt; [<span class="string">"/var/log/nginx/access.log"</span>]</div><div class="line">		<span class="keyword">type</span> =&gt; <span class="string">"Nginx"</span></div><div class="line">		start_position =&gt; <span class="string">"end"</span></div><div class="line">		codec =&gt; json</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">output &#123;</div><div class="line">	stdout &#123;</div><div class="line">		codec =&gt; rubydebug&#123;&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">[root@ELK ~]#</div><div class="line">[root@ELK ~]# /usr/share/logstash/bin/logstash --path.settings /etc/logstash/ -f /etc/logstash/<span class="keyword">conf</span>.<span class="keyword">d</span>/json.<span class="keyword">conf</span> -t</div><div class="line">Sending Logstash's logs to /<span class="keyword">var</span>/<span class="keyword">log</span>/logstash <span class="keyword">which</span> is now configured via log4j2.properties</div><div class="line">Configuration OK</div><div class="line">[root@ELK ~]#</div><div class="line">[root@ELK ~]# /usr/share/logstash/bin/logstash --path.settings /etc/logstash/ -f /etc/logstash/<span class="keyword">conf</span>.<span class="keyword">d</span>/json.<span class="keyword">conf</span></div><div class="line">Sending Logstash's logs to /<span class="keyword">var</span>/<span class="keyword">log</span>/logstash <span class="keyword">which</span> is now configured via log4j2.properties</div><div class="line">&#123;</div><div class="line">            <span class="string">"path"</span> =&gt; <span class="string">"/var/log/nginx/access.log"</span>,</div><div class="line">      <span class="string">"@timestamp"</span> =&gt; 2016-12-15T07:33:00.000Z,</div><div class="line">            <span class="string">"size"</span> =&gt; 0,</div><div class="line">          <span class="string">"domain"</span> =&gt; <span class="string">"192.168.31.100"</span>,</div><div class="line">        <span class="string">"@version"</span> =&gt; <span class="string">"1"</span>,</div><div class="line">            <span class="string">"host"</span> =&gt; <span class="string">"192.168.31.100"</span>,</div><div class="line">    <span class="string">"responsetime"</span> =&gt; 0.0,</div><div class="line">              <span class="string">"ua"</span> =&gt; <span class="string">"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36"</span>,</div><div class="line">            <span class="string">"type"</span> =&gt; <span class="string">"Nginx"</span>,</div><div class="line">          <span class="string">"clinet"</span> =&gt; <span class="string">"192.168.31.105"</span>,</div><div class="line">          <span class="string">"status"</span> =&gt; <span class="string">"304"</span>,</div><div class="line">            <span class="string">"tags"</span> =&gt; []</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h4 id="Logstash的filter插件之geoip用法"><a href="#Logstash的filter插件之geoip用法" class="headerlink" title="Logstash的filter插件之geoip用法"></a>Logstash的filter插件之geoip用法</h4><p>参考：<a href="https://www.elastic.co/guide/en/logstash/5.1/plugins-filters-geoip.html" target="_blank" rel="external">https://www.elastic.co/guide/en/logstash/5.1/plugins-filters-geoip.html</a><br><a href="https://kibana.logstash.es/content/logstash/plugins/filter/geoip.html" target="_blank" rel="external">https://kibana.logstash.es/content/logstash/plugins/filter/geoip.html</a><br>GeoIP 是最常见的免费IP地址归类查询库<br><figure class="highlight puppet"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># logstash v5.6.4</span></div><div class="line"><span class="comment"># logstash 配置文件</span></div><div class="line"><span class="comment"># cat logstash_10.20.conf</span></div><div class="line"><span class="keyword">input</span> &#123;</div><div class="line">   file &#123;</div><div class="line">	<span class="attr">path</span> =&gt; [<span class="string">"/root/test.log"</span>]</div><div class="line">	<span class="attr">start_position</span> =&gt; <span class="string">"end"</span></div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">filter</span> &#123;</div><div class="line">	grok &#123;</div><div class="line">   		<span class="attr">match</span> =&gt; [<span class="string">"message"</span>,<span class="string">"%&#123;IPV4:remote_addr&#125; [\-] %&#123;USERNAME:remote_user&#125; \[%&#123;DATA:time_local&#125;\] \"(?&lt;request&gt;[^\"]*)\" (?&lt;status&gt;\d+) (?&lt;body_bytes_sent&gt;\d+) \"(?&lt;http_referer&gt;[^\"]*)\" \"(?&lt;http_user_agent&gt;[^\"]*)\" \"%&#123;IPV4:http_x_forwarded_for&#125;"</span>]	&#125;</div><div class="line">	<span class="keyword">geoip</span> &#123;</div><div class="line">		<span class="attr">source</span> =&gt; <span class="string">"http_x_forwarded_for"</span></div><div class="line">		<span class="attr">fields</span> =&gt; [<span class="string">"ip"</span>,<span class="string">"city_name"</span>,<span class="string">"country_name"</span>,<span class="string">"location"</span>,<span class="string">"latitude"</span>,<span class="string">"longitude"</span>,<span class="string">"timezone"</span>,<span class="string">"region_name"</span>]</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">output</span> &#123;</div><div class="line">	stdout &#123;</div><div class="line">		<span class="attr">codec</span> =&gt; rubydebug&#123;&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#nginx 日志</span></div><div class="line">100.116.46.20 - - [15/Nov/2017:11:59:34 +0800] <span class="string">"GET /static/js/util/plugins/cordova-plugin-geolocation/www/geolocation.js HTTP/1.0"</span> 200 8629 <span class="string">"https://qian.julend.com/static/pageHtml/loan.html?s_qian=iOS"</span> <span class="string">"Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Mobile/14G60 GrowingIO/0.9.47-20170111143620 (4303466304)"</span> <span class="string">"27.8.223.7"</span></div><div class="line"></div><div class="line"><span class="comment">#nginx grok匹配</span></div><div class="line">%&#123;IPV4:remote_addr&#125; [\-] %&#123;USERNAME:remote_user&#125; \[%&#123;DATA:time_local&#125;\] \<span class="string">"(?&lt;request&gt;[^\"]*)\" (?&lt;status&gt;\d+) (?&lt;body_bytes_sent&gt;\d+) \"(?&lt;http_referer&gt;[^\"]*)\" \"(?&lt;http_user_agent&gt;[^\"]*)\" \"%&#123;IPV4:http_x_forwarded_for&#125;</span></div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># /usr/share/logstash/bin/logstash --path.settings /etc/logstash/ -f /etc/logstash/conf.d/logstash_10.20.conf --path.data /data/elk_data/logstash/</span></div><div class="line">dataSending Logstash<span class="string">'s logs to /data/elk_data/logstash/logs which is now configured via log4j2.properties</span></div><div class="line">&#123;</div><div class="line">             "remote_addr" =&gt; "100.116.46.20",</div><div class="line">                 "request" =&gt; "GET /static/js/util/plugins/cordova-plugin-geolocation/www/geolocation.js HTTP/1.0",</div><div class="line">                   "geoip" =&gt; &#123;</div><div class="line">           "city_name" =&gt; "Chongqing",</div><div class="line">            "timezone" =&gt; "Asia/Shanghai",</div><div class="line">                  "ip" =&gt; "27.8.223.7",</div><div class="line">            "latitude" =&gt; 29.5628,</div><div class="line">        "country_name" =&gt; "China",</div><div class="line">         "region_name" =&gt; "Chongqing",</div><div class="line">            "location" =&gt; &#123;</div><div class="line">            "lon" =&gt; 106.5528,</div><div class="line">            "lat" =&gt; 29.5628</div><div class="line">        &#125;,</div><div class="line">           "longitude" =&gt; 106.5528</div><div class="line">    &#125;,</div><div class="line">         "body_bytes_sent" =&gt; "8629",</div><div class="line">              "time_local" =&gt; "15/Nov/2017:11:59:34 +0800",</div><div class="line">                 "message" =&gt; "100.116.46.20 - - [15/Nov/2017:11:59:34 +0800] \"GET /static/js/util/plugins/cordova-plugin-geolocation/www/geolocation.js HTTP/1.0\" 200 8629 \"https://qian.julend.com/static/pageHtml/loan.html?s_qian=iOS\" \"Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Mobile/14G60 GrowingIO/0.9.47-20170111143620 (4303466304)\" \"27.8.223.7\"",</div><div class="line">         "http_user_agent" =&gt; "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Mobile/14G60 GrowingIO/0.9.47-20170111143620(4303466304)", </div><div class="line">             "remote_user" =&gt; "-",</div><div class="line">                    "path" =&gt; "/root/test.log",</div><div class="line">              "@timestamp" =&gt; 2017-11-15T06:16:03.829Z,</div><div class="line">            "http_referer" =&gt; "https://qian.julend.com/static/pageHtml/loan.html?s_qian=iOS",</div><div class="line">                "@version" =&gt; "1",</div><div class="line">                    "host" =&gt; "elk-cluster3",</div><div class="line">    "http_x_forwarded_for" =&gt; "27.8.223.7",</div><div class="line">                  "status" =&gt; "200"</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 去掉geoip后，nginx日志拆分</span></div><div class="line">&#123;</div><div class="line">             <span class="string">"remote_addr"</span> =&gt; <span class="string">"100.116.46.20"</span>,</div><div class="line">                 <span class="string">"request"</span> =&gt; <span class="string">"GET /static/js/util/plugins/cordova-plugin-geolocation/www/geolocation.js HTTP/1.0"</span>,</div><div class="line">         <span class="string">"body_bytes_sent"</span> =&gt; <span class="string">"8629"</span>,</div><div class="line">              <span class="string">"time_local"</span> =&gt; <span class="string">"15/Nov/2017:10:59:34 +0800"</span>,</div><div class="line">                 <span class="string">"message"</span> =&gt; <span class="string">"100.116.46.20 - - [15/Nov/2017:10:59:34 +0800] \"GET /static/js/util/plugins/cordova-plugin-geolocation/www/geolocation.js HTTP/1.0\" 200 8629 \"https://qian.julend.com/static/pageHtml/loan.html?s_qian=iOS\" \"Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Mobile/14G60 GrowingIO/0.9.47-20170111143620 (4303466304)\" \"27.8.223.7\""</span>,</div><div class="line">         <span class="string">"http_user_agent"</span> =&gt; <span class="string">"Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Mobile/14G60 GrowingIO/0.9.47-20170111143620 (4303466304)"</span>,</div><div class="line">             <span class="string">"remote_user"</span> =&gt; <span class="string">"-"</span>,</div><div class="line">                    <span class="string">"path"</span> =&gt; <span class="string">"/root/test.log"</span>,</div><div class="line">              <span class="string">"@timestamp"</span> =&gt; 2017-11-15T06:01:24.940Z,</div><div class="line">            <span class="string">"http_referer"</span> =&gt; <span class="string">"https://qian.julend.com/static/pageHtml/loan.html?s_qian=iOS"</span>,</div><div class="line">                <span class="string">"@version"</span> =&gt; <span class="string">"1"</span>,</div><div class="line">                    <span class="string">"host"</span> =&gt; <span class="string">"elk-cluster3"</span>,</div><div class="line">    <span class="string">"http_x_forwarded_for"</span> =&gt; <span class="string">"27.8.223.7"</span>,</div><div class="line">                  <span class="string">"status"</span> =&gt; <span class="string">"200"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="Logstash的filter插件之date时间处理"><a href="#Logstash的filter插件之date时间处理" class="headerlink" title="Logstash的filter插件之date时间处理"></a>Logstash的filter插件之date时间处理</h4><p>参考：<a href="https://www.elastic.co/guide/en/logstash/5.6/plugins-filters-date.html" target="_blank" rel="external">https://www.elastic.co/guide/en/logstash/5.6/plugins-filters-date.html</a><br><a href="https://kibana.logstash.es/content/logstash/plugins/filter/date.html" target="_blank" rel="external">https://kibana.logstash.es/content/logstash/plugins/filter/date.html</a><br>filters/date 插件可以用来转换你的日志记录中的时间字符串，变成 LogStash::Timestamp 对象，然后转存到 @timestamp 字段里<br><code>注意：因为在稍后的 outputs/elasticsearch 中常用的 %{+YYYY.MM.dd} 这种写法必须读取 @timestamp 数据，所以一定不要直接删掉这个字段保留自己的字段，而是应该用 filters/date 转换后删除自己的字段！</code>  </p>
-<p><code>建议打开 Nginx 的 access_log 配置项的 buffer 参数，对极限响应性能有极大提升！</code></p>
-<p>filters/date 插件支持五种时间格式  </p>
-<ul>
-<li>ISO8601<br>类似 “2011-04-19T03:44:01.103Z” 这样的格式。具体Z后面可以有 “08:00”也可以没有，”.103”这个也可以没有。常用场景里来说，Nginx 的 log_format 配置里就可以使用 $time_iso8601 变量来记录请求时间成这种格式。  </li>
-<li>UNIX<br>UNIX 时间戳格式，记录的是从 1970 年起始至今的总秒数。Squid 的默认日志格式中就使用了这种格式。  </li>
-<li>UNIX_MS<br>这个时间戳则是从 1970 年起始至今的总毫秒数。据我所知，JavaScript 里经常使用这个时间格式。  </li>
-<li>TAI64N<br>TAI64N 格式比较少见，是这个样子的：@4000000052f88ea32489532c。我目前只知道常见应用中， qmail 会用这个格式。  </li>
-<li>Joda-Time 库<br>Logstash 内部使用了 Java 的 Joda 时间库来作时间处理。所以我们可以使用 Joda 库所支持的时间格式来作具体定义。Joda 时间格式定义见下表：</li>
-</ul>
-<p>时间格式：  </p>
-<table>
-<thead>
-<tr>
-<th>Symbol</th>
-<th>Meaning</th>
-<th>Presentation</th>
-<th>Examples</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>G</td>
-<td>era</td>
-<td>text</td>
-<td>AD</td>
-</tr>
-<tr>
-<td>C</td>
-<td>century of era (&gt;=0)</td>
-<td>number</td>
-<td>20</td>
-</tr>
-<tr>
-<td>Y</td>
-<td>year of era (&gt;=0)</td>
-<td>year</td>
-<td>1996</td>
-</tr>
-<tr>
-<td>x</td>
-<td>weekyear</td>
-<td>year</td>
-<td>1996</td>
-</tr>
-<tr>
-<td>w</td>
-<td>week of weekyear</td>
-<td>number</td>
-<td>27</td>
-</tr>
-<tr>
-<td>e</td>
-<td>day of week</td>
-<td>number</td>
-<td>2</td>
-</tr>
-<tr>
-<td>E</td>
-<td>day of week</td>
-<td>text</td>
-<td>Tuesday; Tue</td>
-</tr>
-<tr>
-<td>y</td>
-<td>year</td>
-<td>year</td>
-<td>1996</td>
-</tr>
-<tr>
-<td>D</td>
-<td>day of year</td>
-<td>number</td>
-<td>189</td>
-</tr>
-<tr>
-<td>M</td>
-<td>month of year</td>
-<td>month</td>
-<td>July; Jul; 07</td>
-</tr>
-<tr>
-<td>d</td>
-<td>day of month</td>
-<td>number</td>
-<td>10</td>
-</tr>
-<tr>
-<td>a</td>
-<td>halfday of day</td>
-<td>text</td>
-<td>PM</td>
-</tr>
-<tr>
-<td>K</td>
-<td>hour of halfday (0~11)</td>
-<td>number</td>
-<td>0</td>
-</tr>
-<tr>
-<td>h</td>
-<td>clockhour of halfday (1~12)</td>
-<td>number</td>
-<td>12</td>
-</tr>
-<tr>
-<td>H</td>
-<td>hour of day (0~23)</td>
-<td>number</td>
-<td>0</td>
-</tr>
-<tr>
-<td>k</td>
-<td>clockhour of day (1~24)</td>
-<td>number</td>
-<td>24</td>
-</tr>
-<tr>
-<td>m</td>
-<td>minute of hour</td>
-<td>number</td>
-<td>30</td>
-</tr>
-<tr>
-<td>s</td>
-<td>second of minute</td>
-<td>number</td>
-<td>55</td>
-</tr>
-<tr>
-<td>S</td>
-<td>fraction of second</td>
-<td>number</td>
-<td>978</td>
-</tr>
-<tr>
-<td>z</td>
-<td>time zone</td>
-<td>text</td>
-<td>Pacific Standard Time; PST</td>
-</tr>
-<tr>
-<td>Z</td>
-<td>time zone offset/id</td>
-<td>zone</td>
-<td>-0800; -08:00; America/Los_Angeles</td>
-</tr>
-<tr>
-<td>‘</td>
-<td>escape for text</td>
-<td>delimiter</td>
-<td></td>
-</tr>
-<tr>
-<td>‘’</td>
-<td>single quote</td>
-<td>literal</td>
-<td>‘</td>
-</tr>
-</tbody>
-</table>
-<p><a href="http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html" target="_blank" rel="external">http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html</a>  </p>
-<p>Joda 时间格式的配置：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">filter &#123;</div><div class="line">    grok &#123;</div><div class="line">        match =&gt; [<span class="string">"message"</span>, <span class="string">"%&#123;HTTPDATE:logdate&#125;"</span>]</div><div class="line">    &#125;</div><div class="line">    date &#123;</div><div class="line">        match =&gt; [<span class="string">"logdate"</span>, <span class="string">"dd/MMM/yyyy:HH:mm:ss Z"</span>]</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>注意：时区偏移量只需要用一个字母 <code>Z</code> 即可  </p>
-<h4 id="Logstash的filter插件之secure日志切割"><a href="#Logstash的filter插件之secure日志切割" class="headerlink" title="Logstash的filter插件之secure日志切割"></a>Logstash的filter插件之secure日志切割</h4><p>参考：<a href="https://www.elastic.co/guide/en/logstash/5.6/plugins-filters-mutate.html" target="_blank" rel="external">https://www.elastic.co/guide/en/logstash/5.6/plugins-filters-mutate.html</a><br>这个需要配合filebeat操作<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># grep -iv '#' /etc/filebeat/filebeat.yml |grep -iv '^$'</span></div><div class="line">filebeat.prospectors:</div><div class="line">- input_type: <span class="built_in">log</span></div><div class="line">  paths:</div><div class="line">    - /var/<span class="built_in">log</span>/secure</div><div class="line">  document_type: secure_2.250</div><div class="line">  exclude_lines: [<span class="string">"system"</span>]      <span class="comment">#过滤不含system日志</span></div><div class="line">  include_lines: [<span class="string">"Accepted"</span>]    <span class="comment">#过滤含Accepted的日志</span></div><div class="line">output.logstash:</div><div class="line">  hosts: [<span class="string">"192.168.1.41:5044"</span>]</div><div class="line"><span class="comment">#</span></div></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#logstash配置文件</span></div><div class="line"><span class="comment"># cat logstash_test.conf</span></div><div class="line">input &#123;</div><div class="line">	beats &#123;</div><div class="line">		port =&gt; 5045</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">filter &#123;</div><div class="line">	<span class="keyword">if</span> [<span class="built_in">type</span>] == <span class="string">'secure_2.250'</span>&#123;</div><div class="line">		grok &#123;</div><div class="line">   			match =&gt; [<span class="string">"message"</span>,<span class="string">".* sshd\[\d+\]: (?&lt;status&gt;\S+) .* (?&lt;ClientIP&gt;(?:\d&#123;1,3&#125;\.\d&#123;1,3&#125;\.\d&#123;1,3&#125;\.\d&#123;1,3&#125;)?) .*"</span>]        <span class="comment">#正则过滤secure日志，且赋值到message字段</span></div><div class="line">		&#125;</div><div class="line"> 		mutate&#123;</div><div class="line">     			split =&gt; [<span class="string">"message"</span>,<span class="string">" "</span>]     <span class="comment">#把message字段以空格拆分，message字段的值来自grok</span></div><div class="line">	        	add_field =&gt;   &#123;</div><div class="line">        	    		<span class="string">"username"</span> =&gt; <span class="string">"%&#123;[message][8]&#125;"</span>         <span class="comment">#数组是以0开始的，第9个字段在数组里角标为8</span></div><div class="line">	            		<span class="string">"loginip"</span> =&gt; <span class="string">"%&#123;[message][10]&#125;"</span></div><div class="line">        	    		<span class="string">"login_result"</span> =&gt; <span class="string">"%&#123;[message][5]&#125;"</span></div><div class="line">        		&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">output &#123;</div><div class="line">	stdout &#123;</div><div class="line">		codec =&gt; rubydebug&#123;&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">#</span></div></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#输出结果</span></div><div class="line">&#123;</div><div class="line">          <span class="string">"offset"</span> =&gt; 136859,</div><div class="line">      <span class="string">"input_type"</span> =&gt; <span class="string">"log"</span>,</div><div class="line">          <span class="string">"source"</span> =&gt; <span class="string">"/var/log/secure"</span>,</div><div class="line">    <span class="string">"login_result"</span> =&gt; <span class="string">"Accepted"</span>,</div><div class="line">         <span class="string">"message"</span> =&gt; [</div><div class="line">        [ 0] <span class="string">"Nov"</span>,</div><div class="line">        [ 1] <span class="string">"16"</span>,</div><div class="line">        [ 2] <span class="string">"14:38:14"</span>,</div><div class="line">        [ 3] <span class="string">"localhost"</span>,</div><div class="line">        [ 4] <span class="string">"sshd[9305]:"</span>,</div><div class="line">        [ 5] <span class="string">"Accepted"</span>,</div><div class="line">        [ 6] <span class="string">"publickey"</span>,</div><div class="line">        [ 7] <span class="string">"for"</span>,</div><div class="line">        [ 8] <span class="string">"yfshare"</span>,</div><div class="line">        [ 9] <span class="string">"from"</span>,</div><div class="line">        [10] <span class="string">"192.168.1.123"</span>,</div><div class="line">        [11] <span class="string">"port"</span>,</div><div class="line">        [12] <span class="string">"2269"</span>,</div><div class="line">        [13] <span class="string">"ssh2:"</span>,</div><div class="line">        [14] <span class="string">"RSA"</span>,</div><div class="line">        [15] <span class="string">"51:37:66:2f:2b:c0:74:d1:0b:15:f8:9c:7f:84:64:0a"</span></div><div class="line">    ],</div><div class="line">            <span class="string">"type"</span> =&gt; <span class="string">"secure_2.250"</span>,</div><div class="line">        <span class="string">"ClientIP"</span> =&gt; <span class="string">"192.168.1.123"</span>,</div><div class="line">            <span class="string">"tags"</span> =&gt; [</div><div class="line">        [0] <span class="string">"beats_input_codec_plain_applied"</span></div><div class="line">    ],</div><div class="line">      <span class="string">"@timestamp"</span> =&gt; 2017-11-16T06:38:19.012Z,</div><div class="line">         <span class="string">"loginip"</span> =&gt; <span class="string">"192.168.1.123"</span>,</div><div class="line">        <span class="string">"@version"</span> =&gt; <span class="string">"1"</span>,</div><div class="line">            <span class="string">"beat"</span> =&gt; &#123;</div><div class="line">            <span class="string">"name"</span> =&gt; <span class="string">"localhost"</span>,</div><div class="line">        <span class="string">"hostname"</span> =&gt; <span class="string">"localhost"</span>,</div><div class="line">         <span class="string">"version"</span> =&gt; <span class="string">"5.6.4"</span></div><div class="line">    &#125;,</div><div class="line">            <span class="string">"host"</span> =&gt; <span class="string">"localhost"</span>,</div><div class="line">          <span class="string">"status"</span> =&gt; <span class="string">"Accepted"</span>,</div><div class="line">        <span class="string">"username"</span> =&gt; <span class="string">"yfshare"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在Kibana上的Visualize上选择Data Table。<br><img src="https://note.youdao.com/yws/api/personal/file/D6AC34D06690457AB5DBA55FC9A7768E?method=download&amp;shareKey=90c8da2df75c8d76924f8127a5e586a4" alt="Kianan_Visualize_dataTable"><br>如果报上面的错误<code>no cached mapping for this field. refresh field list from the management &gt; index patterns pageTransform</code><br>原因是我们自己新增字段后，Kibana上index是之前加上的，新增字段不存在会报错，刷新下index即可<br>解决方案是：<code>management &gt; index patterns</code>，刷新对应的index即可<br><img src="https://note.youdao.com/yws/api/personal/file/52309F704287411BA92143E8BEE341D0?method=download&amp;shareKey=55aa29e1eb3960f040f21e887c82c4fb" alt="Kianan_Visualize_dataTable">  </p>
-<h4 id="Logstash的output插件之发生email"><a href="#Logstash的output插件之发生email" class="headerlink" title="Logstash的output插件之发生email"></a>Logstash的output插件之发生email</h4><p>参考：<a href="https://www.elastic.co/guide/en/logstash/5.1/plugins-outputs-email.html" target="_blank" rel="external">https://www.elastic.co/guide/en/logstash/5.1/plugins-outputs-email.html</a><br><a href="https://kibana.logstash.es/content/logstash/plugins/output/email.html" target="_blank" rel="external">https://kibana.logstash.es/content/logstash/plugins/output/email.html</a><br>outputs/email 插件支持 SMTP 协议和 sendmail 两种方式，通过 <code>via</code> 参数设置。SMTP 方式有较多的 options 参数可配置。sendmail 只能利用本机上的 sendmail 服务来完成  </p>
-<p>126 邮箱发送到 qq 邮箱示例：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">output &#123;</div><div class="line">    email &#123;</div><div class="line">        port           =&gt;    <span class="string">"25"</span></div><div class="line">        address        =&gt;    <span class="string">"smtp.126.com"</span></div><div class="line">        username       =&gt;    <span class="string">"test@126.com"</span></div><div class="line">        password       =&gt;    <span class="string">""</span></div><div class="line">        authentication =&gt;    <span class="string">"plain"</span></div><div class="line">        use_tls        =&gt;    <span class="literal">true</span></div><div class="line">        from           =&gt;    <span class="string">"test@126.com"</span></div><div class="line">        subject        =&gt;    <span class="string">"Warning: %&#123;title&#125;"</span></div><div class="line">        to             =&gt;    <span class="string">"test@qq.com"</span></div><div class="line">        via            =&gt;    <span class="string">"smtp"</span></div><div class="line">        body           =&gt;    <span class="string">"%&#123;message&#125;"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h4 id="Logstash的output插件之发生HDFS"><a href="#Logstash的output插件之发生HDFS" class="headerlink" title="Logstash的output插件之发生HDFS"></a>Logstash的output插件之发生HDFS</h4><p>参考：<a href="https://www.elastic.co/guide/en/logstash/5.6/plugins-outputs-webhdfs.html" target="_blank" rel="external">https://www.elastic.co/guide/en/logstash/5.6/plugins-outputs-webhdfs.html</a><br><a href="https://kibana.logstash.es/content/logstash/plugins/output/hdfs.html" target="_blank" rel="external">https://kibana.logstash.es/content/logstash/plugins/output/hdfs.html</a><br>该插件最初来源于社区，目前已被官方收录，Logstash 5.6支持，使用的是Hadoop的 WebHDFS 接口，其本质是发送 POST 数据<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">input &#123;</div><div class="line">  ...</div><div class="line">&#125;</div><div class="line">filter &#123;</div><div class="line">  ...</div><div class="line">&#125;</div><div class="line">output &#123;</div><div class="line">  webhdfs &#123;</div><div class="line">    host =&gt; <span class="string">"127.0.0.1"</span>                 <span class="comment"># (required)</span></div><div class="line">    port =&gt; 50070                       <span class="comment"># (optional, default: 50070)</span></div><div class="line">    path =&gt; <span class="string">"/user/logstash/dt=%&#123;+YYYY-MM-dd&#125;/logstash-%&#123;+HH&#125;.log"</span>  <span class="comment"># (required)</span></div><div class="line">    user =&gt; <span class="string">"hue"</span>                       <span class="comment"># (required)</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>更多插件请见：<a href="https://kibana.logstash.es/content/logstash/plugins/filter/" target="_blank" rel="external">https://kibana.logstash.es/content/logstash/plugins/filter/</a>  </p>
-<hr>
-<p>本作品采用<a href="https://creativecommons.org/licenses/by/2.5/cn/" target="_blank" rel="external">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://www.yfshare.vip">Jack Wang Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。<br><img src="http://note.youdao.com/yws/api/personal/file/FE3C6F68961F4541AF284E5F346FC3CA?method=download&amp;shareKey=c5e4c3ca81daa6e908d5630f8c6ec242" alt="打赏"><br>本文出自”Jack Wang Blog”：<a href="http://www.yfshare.vip/2017/11/18/Logstash插件/">http://www.yfshare.vip/2017/11/18/Logstash插件/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Logstash插件主要分为（常用插件）：input、filter、output、Codec等&lt;br&gt;
-    
-    </summary>
-    
-      <category term="ELK" scheme="http://www.yfshare.vip/categories/ELK/"/>
-    
-    
-      <category term="ELK" scheme="http://www.yfshare.vip/tags/ELK/"/>
-    
-      <category term="Logstash" scheme="http://www.yfshare.vip/tags/Logstash/"/>
-    
-      <category term="插件" scheme="http://www.yfshare.vip/tags/%E6%8F%92%E4%BB%B6/"/>
     
   </entry>
   
