@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yfshare.vip/"/>
-  <updated>2018-11-05T18:18:12.426Z</updated>
+  <updated>2019-01-20T08:28:57.113Z</updated>
   <id>http://www.yfshare.vip/</id>
   
   <author>
@@ -16,13 +16,95 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Grafana日志聚合工具Loki</title>
+    <link href="http://www.yfshare.vip/2019/01/20/Grafana%E6%97%A5%E5%BF%97%E8%81%9A%E5%90%88%E5%B7%A5%E5%85%B7Loki/"/>
+    <id>http://www.yfshare.vip/2019/01/20/Grafana日志聚合工具Loki/</id>
+    <published>2019-01-20T08:22:01.000Z</published>
+    <updated>2019-01-20T08:28:57.113Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Loki是 Grafana Labs 团队最新的开源项目，是一个水平可扩展，高可用性，多租户的日志聚合系统。它的设计非常经济高效且易于操作，因为它不会为日志内容编制索引，而是为每个日志流编制一组标签，为 Prometheus和 Kubernetes用户做了相关优化。项目受 Prometheus 启发，类似于 Prometheus 的日志系统。<br><a id="more"></a></p>
+<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>Loki初体验<br>与其他日志聚合系统相比， Loki具有下面的一些特性：  </p>
+<ul>
+<li>不对日志进行全文索引。通过存储压缩非结构化日志和仅索引元数据，Loki 操作起来会更简单，更省成本。  </li>
+<li>通过使用与 Prometheus 相同的标签记录流对日志进行索引和分组，这使得日志的扩展和操作效率更高。  </li>
+<li>特别适合储存 Kubernetes Pod 日志; 诸如 Pod 标签之类的元数据会被自动删除和编入索引。  </li>
+<li>受 Grafana 原生支持。  </li>
+</ul>
+<p>Loki 由以下3个部分组成：  </p>
+<ul>
+<li>loki是主服务器，负责存储日志和处理查询。  </li>
+<li>promtail是代理，负责收集日志并将其发送给 loki。  </li>
+<li>Grafana 用于 UI 展示。  </li>
+</ul>
+<h4 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h4><table>
+<thead>
+<tr>
+<th>环境</th>
+<th>版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>centos</td>
+<td>v7.4</td>
+</tr>
+<tr>
+<td>docker</td>
+<td>v18.09.0</td>
+</tr>
+<tr>
+<td>docker-compose</td>
+<td>v1.23.2</td>
+</tr>
+<tr>
+<td>grafana</td>
+<td>v5.5.0</td>
+</tr>
+<tr>
+<td>node-exporter</td>
+<td>v0.17.0</td>
+</tr>
+<tr>
+<td>prometheus</td>
+<td>v2.5.0</td>
+</tr>
+</tbody>
+</table>
+<h4 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h4><p>clone loki源码<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[root@1-206 ~]<span class="comment"># curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose</span></div><div class="line">[root@1-206 ~]<span class="comment"># yum install -y git</span></div><div class="line">[root@1-206 ~]<span class="comment"># git clone https://github.com/grafana/loki.git</span></div><div class="line">[root@1-206 ~]<span class="comment"># cd loki/production/</span></div></pre></td></tr></table></figure></p>
+<p>可以直接运行官方的docker-compose.yml文件，执行命令为：<code>docker-compose -f docker-compose.yaml up -d</code><br>docker-compose.yml 文件如下，这里使用的 grafana 镜像为自己编译的，官方的镜像为：<code>image: grafana/grafana:master</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">[root@1-206 production]<span class="comment"># cat docker-compose.yaml </span></div><div class="line">version: <span class="string">"3"</span></div><div class="line">networks:</div><div class="line">  loki:</div><div class="line">services:</div><div class="line">  loki:</div><div class="line">    image: grafana/loki:master</div><div class="line">    ports:</div><div class="line">      - <span class="string">"3100:3100"</span></div><div class="line">    <span class="built_in">command</span>: -config.file=/etc/loki/<span class="built_in">local</span>-config.yaml</div><div class="line">    networks:</div><div class="line">      - loki</div><div class="line"></div><div class="line">  promtail:</div><div class="line">    image: grafana/promtail:master</div><div class="line">    volumes:</div><div class="line">      - /var/<span class="built_in">log</span>:/var/<span class="built_in">log</span></div><div class="line">    <span class="built_in">command</span>: </div><div class="line">      -config.file=/etc/promtail/docker-config.yaml</div><div class="line">    networks:</div><div class="line">      - loki</div><div class="line">      </div><div class="line">  grafana:</div><div class="line">    image: grafana/grafana:master</div><div class="line">    ports:</div><div class="line">      - <span class="string">"3000:3000"</span></div><div class="line">    environment:</div><div class="line">      GF_EXPLORE_ENABLED: <span class="string">"true"</span></div><div class="line">    networks:</div><div class="line">      - loki</div><div class="line">[root@1-206 production]<span class="comment">#</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[root@1-206 production]<span class="comment"># docker-compose -f docker-compose.yaml up -d</span></div><div class="line">[root@1-206 production]<span class="comment"># docker-compose ps</span></div><div class="line">        Name                       Command               State               Ports             </div><div class="line">-----------------------------------------------------------------------------------------------</div><div class="line">production_grafana_1    /docker-entrypoint.sh            Up      22/tcp, 0.0.0.0:3000-&gt;3000/tcp</div><div class="line">production_loki_1       /bin/loki -config.file=/et ...   Up      0.0.0.0:3100-&gt;3100/tcp, 80/tcp</div><div class="line">production_promtail_1   /usr/bin/promtail -config. ...   Up                                    </div><div class="line">[root@1-206 production]<span class="comment">#</span></div></pre></td></tr></table></figure>
+<h4 id="体验"><a href="#体验" class="headerlink" title="体验"></a>体验</h4><p>部署完成后，访问grafana：<a href="http://ip:3000，默认密码为`admin:admin`" target="_blank" rel="external">http://ip:3000，默认密码为`admin:admin`</a><br>Grafana v5.5.0+以上的版本才支持Loki<br><img src="https://note.youdao.com/yws/api/personal/file/26D9B679EB99481FA1C1EDBF165EB96C?method=download&amp;shareKey=2b739c0af348ab7f270255386e300f3c" alt="Grafana_Plugins"><br>添加数据源Prometheus和Loki<br><img src="https://note.youdao.com/yws/api/personal/file/1F579EED73B449309CB3163035F783DF?method=download&amp;shareKey=7a275eedbdd684e387ca38e38d6457fc" alt="Grafana_Add_Data_Sources"><br><img src="https://note.youdao.com/yws/api/personal/file/C06C1D8CEAB0467FB20D5054C4EE3315?method=download&amp;shareKey=8ff3e7543b97fff40b9a9506f03369ff" alt="Grafana_Prometheus"><br><img src="https://note.youdao.com/yws/api/personal/file/8137BBD8D6014847BCDFDD735F287454?method=download&amp;shareKey=0188720a3a63bb63af7ef233d4e7bf62" alt="Grafana_Loki"><br><img src="https://note.youdao.com/yws/api/personal/file/BA3128B97536448ABE61DF845D0817C0?method=download&amp;shareKey=0146ff6587169a25d36e0d3ca42a78fa" alt="Grafana_Data_Sources"><br>根据系统标签来查看Loki日志<br>测试发现当promtail定义读取的日志路径为<code>/var/log</code>时，即使日志路径为<code>/var/log/grafana/grafana.log</code>也不能读取。<br><img src="https://note.youdao.com/yws/api/personal/file/EF3D0ECA3532497B934D2BE81C5A7D9E?method=download&amp;shareKey=ed99699f094fd25c5de0e26297c86716" alt="Grafana_Loki_Log"><br><img src="https://note.youdao.com/yws/api/personal/file/23299AE377984D1AB5F71B446D2C0FC6?method=download&amp;shareKey=3b5375e6c45f4f13b1b1e0f09a633782" alt="Loki_Labels"><br>这里的job varlogs是在promtail的配置文件里定义的，promtail配置文件如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">[root@1-206 production]<span class="comment"># docker exec -it production_promtail_1 /bin/sh</span></div><div class="line">/ <span class="comment"># cat /etc/promtail/docker-config.yaml</span></div><div class="line">server:</div><div class="line">  http_listen_port: 0</div><div class="line">  grpc_listen_port: 0</div><div class="line">positions:</div><div class="line">  filename: /tmp/positions.yaml</div><div class="line">client:</div><div class="line">  url: http://loki:3100/api/prom/push</div><div class="line">scrape_configs:</div><div class="line">- job_name: system</div><div class="line">  entry_parser: raw</div><div class="line">  static_configs:</div><div class="line">  - targets:</div><div class="line">      - localhost</div><div class="line">    labels:</div><div class="line">      job: varlogs</div><div class="line">      __path__: /var/<span class="built_in">log</span></div><div class="line">/ <span class="comment">#</span></div></pre></td></tr></table></figure></p>
+<p>Loki也可以查看Prometheus的item<br><img src="https://note.youdao.com/yws/api/personal/file/7E5F70739BB94E09AE316125E4592BD4?method=download&amp;shareKey=aaf8df3108eec2660ffc43cc009e8f7e" alt="Grafana_Prometheus_Item">  </p>
+<p>参考：<br><a href="https://mp.weixin.qq.com/s?__biz=MzU4MjQ0MTU4Ng==&amp;mid=2247484023&amp;idx=1&amp;sn=0ea2c44046edf5365e201714edbbc6ba&amp;chksm=fdb90d6acace847c290efbe4c86599110610286cddc53f9917407ae7c41c522971414f2a0cca&amp;mpshare=1&amp;scene=23&amp;srcid=121488q6r3xYl39pZbdhZ22l#rd" target="_blank" rel="external">Grafana 日志聚合工具 Loki</a><br><a href="https://grafana.com/loki#about" target="_blank" rel="external">Loki官网</a><br><a href="https://github.com/grafana/loki/tree/master/production/ksonnet" target="_blank" rel="external">Deploy Loki to Kubernetes</a><br><a href="https://github.com/grafana/loki/blob/master/docs/usage.md" target="_blank" rel="external">Configuring the Loki Datasource in Grafana</a><br><a href="https://github.com/grafana/loki/blob/master/docs/api.md" target="_blank" rel="external">Loki API</a>  </p>
+<hr>
+<p>本作品采用<a href="https://creativecommons.org/licenses/by/2.5/cn/" target="_blank" rel="external">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://www.yfshare.vip">Jack Wang Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。<br><img src="http://note.youdao.com/yws/api/personal/file/FE3C6F68961F4541AF284E5F346FC3CA?method=download&amp;shareKey=c5e4c3ca81daa6e908d5630f8c6ec242" alt="打赏"><br>本文出自”Jack Wang Blog”：<a href="http://www.yfshare.vip/2019/01/20/Grafana日志聚合工具Loki/">http://www.yfshare.vip/2019/01/20/Grafana日志聚合工具Loki/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Loki是 Grafana Labs 团队最新的开源项目，是一个水平可扩展，高可用性，多租户的日志聚合系统。它的设计非常经济高效且易于操作，因为它不会为日志内容编制索引，而是为每个日志流编制一组标签，为 Prometheus和 Kubernetes用户做了相关优化。项目受 Prometheus 启发，类似于 Prometheus 的日志系统。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="K8S" scheme="http://www.yfshare.vip/categories/K8S/"/>
+    
+    
+      <category term="Grafana" scheme="http://www.yfshare.vip/tags/Grafana/"/>
+    
+      <category term="Loki" scheme="http://www.yfshare.vip/tags/Loki/"/>
+    
+      <category term="Docker" scheme="http://www.yfshare.vip/tags/Docker/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Python十行代码爬抖音</title>
     <link href="http://www.yfshare.vip/2018/11/06/Python%E5%8D%81%E8%A1%8C%E4%BB%A3%E7%A0%81%E7%88%AC%E6%8A%96%E9%9F%B3/"/>
     <id>http://www.yfshare.vip/2018/11/06/Python十行代码爬抖音/</id>
     <published>2018-11-05T16:07:32.000Z</published>
     <updated>2018-11-05T18:18:12.426Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>今天看到一篇文章介绍怎么用python来爬抖音的小视频和音乐。于是兴趣大增，先来试试能不能玩，哈哈。<br><a id="more"></a><br>先来看个效果图，嗯嗯…  </p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>今天看到一篇文章介绍怎么用python来爬抖音的小视频和音乐。于是兴趣大增，先来试试能不能玩，哈哈。<br><a id="more"></a><br>先来看个效果图，嗯嗯…  </p>
 <h4 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h4><p><img src="https://note.youdao.com/yws/api/personal/file/39A6E0DC37EA4772BFFFE2FB749455C3?method=download&amp;shareKey=0f9dc13147fe991223234ff80d468afe" alt="py_video">  </p>
 <h4 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h4><p>环境：<br>　　　python 3.7.1<br>　　　centos 7.4<br>　　　pip 10.0.1  </p>
 <h4 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]<span class="comment"># python3.7 --version</span></div><div class="line">Python <span class="number">3.7</span><span class="number">.1</span></div><div class="line">[root@localhost ~]<span class="comment">#</span></div></pre></td></tr></table></figure>
@@ -111,7 +193,7 @@
     <published>2018-11-03T16:20:00.000Z</published>
     <updated>2018-11-05T16:05:49.972Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Python是一种解释型、面向对象、动态数据类型的高级程序设计语言。<br><a id="more"></a><br>编译安装python3.7.1并支持ssl 模块  </p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>Python是一种解释型、面向对象、动态数据类型的高级程序设计语言。<br><a id="more"></a><br>编译安装python3.7.1并支持ssl 模块  </p>
 <h4 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h4><p>环境：<br>　　python 3.7.1<br>　　centos 7.4  </p>
 <h4 id="解决依赖关系"><a href="#解决依赖关系" class="headerlink" title="解决依赖关系"></a>解决依赖关系</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]<span class="comment"># yum install -y openssl openssl-devel libffi-devel zlib*</span></div></pre></td></tr></table></figure>
 <h4 id="编译安装python"><a href="#编译安装python" class="headerlink" title="编译安装python"></a>编译安装python</h4><figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[root<span class="symbol">@localhost</span> ~]<span class="meta"># wget -c <span class="string">'https://www.python.org/ftp/python/3.7.1/Python-3.7.1.tar.xz'</span></span></div><div class="line">[root<span class="symbol">@localhost</span> ~]<span class="meta"># tar -xf Python-3.7.1.tar.xz</span></div><div class="line">[root<span class="symbol">@localhost</span> ~]<span class="meta"># cd Python-3.7.1</span></div><div class="line">[root<span class="symbol">@localhost</span> Python<span class="number">-3.7</span><span class="number">.1</span>]<span class="meta"># ./configure --prefix=/usr/local/python3.7 --with-ssl</span></div><div class="line">[root<span class="symbol">@localhost</span> Python<span class="number">-3.7</span><span class="number">.1</span>]<span class="meta"># make &amp;&amp; make install</span></div></pre></td></tr></table></figure>
@@ -148,7 +230,7 @@
     <published>2018-09-29T14:04:34.000Z</published>
     <updated>2018-09-29T14:09:54.752Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>在部署完k8s及使用prometheus监控后，发现一个问题啊，那就是能不能像zabbix一样，自己定义key啊，监控自己的服务，毕竟官方提供的key也不能完全覆盖。。<br><a id="more"></a><br>在查阅官网资料发现，prometheus是可以使用自定义key的。<br>官方git地址：<a href="https://github.com/prometheus/node_exporter" target="_blank" rel="external">https://github.com/prometheus/node_exporter</a>  </p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>在部署完k8s及使用prometheus监控后，发现一个问题啊，那就是能不能像zabbix一样，自己定义key啊，监控自己的服务，毕竟官方提供的key也不能完全覆盖。。<br><a id="more"></a><br>在查阅官网资料发现，prometheus是可以使用自定义key的。<br>官方git地址：<a href="https://github.com/prometheus/node_exporter" target="_blank" rel="external">https://github.com/prometheus/node_exporter</a>  </p>
 <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>官方描述：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">There is varying support <span class="keyword">for</span> collectors on each operating system. The tables below list all existing collectors and the supported systems.</div><div class="line">Collectors are enabled by providing a --collector.&lt;name&gt; flag. Collectors that are enabled by default can be disabled by providing a --no-collector.&lt;name&gt; flag.</div></pre></td></tr></table></figure></p>
 <p>即通过官方提供的collector来实现自定义key功能。<br>具体的collector这里就不一一列出了，可<a href="https://github.com/prometheus/node_exporter#enabled-by-default" target="_blank" rel="external">参考这里</a>  </p>
 <h4 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h4><p>环境：<br>　　　Prometheus version 2.2.0<br>　　　node_exporter version 0.15.2<br>　　　Centos 7.4  </p>
@@ -200,7 +282,7 @@
     <published>2018-08-04T11:44:54.000Z</published>
     <updated>2018-08-04T12:12:20.475Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>运算符的优先级：<code>+</code>和<code>-</code>优先级最低，<code>*</code>,<code>/</code>,<code>//</code>,<code>%</code>优先级较高，单目运算符<code>+</code>和<code>-</code>优先级更高，乘方的优先级最高<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>运算符的优先级：<code>+</code>和<code>-</code>优先级最低，<code>*</code>,<code>/</code>,<code>//</code>,<code>%</code>优先级较高，单目运算符<code>+</code>和<code>-</code>优先级更高，乘方的优先级最高<br><a id="more"></a></p>
 <h3 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h3><p>环境：<br>　　　python 2.7<br>　　　centos 7.5  </p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> <span class="number">-2</span> * <span class="number">4</span> + <span class="number">3</span> ** <span class="number">2</span></div><div class="line"><span class="number">1</span></div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
 <h3 id="算数运算"><a href="#算数运算" class="headerlink" title="算数运算"></a>算数运算</h3><ul>
@@ -404,7 +486,7 @@
     <published>2018-07-27T14:03:19.000Z</published>
     <updated>2018-07-28T10:26:16.369Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>到目前为止，也工作了好几年了吧。曾经某次听赵班长的公开课，听着听着发现，越听越懵…有种啥也不会的感觉..-_-!!!<br>但是呢，这些东西也确实是在工作中用到过，只是比较零碎。某些名词也确实很熟悉，但是呢，比如你现在问我里面具体的细节，我会用一脸懵逼来回应你，哈哈。<br>这些天抽空对着赵班长总结的表格，尝试在网上收集了些资料，整理出下面的文章。如果有不对的地方，欢迎大家指点。在整理这些东西的过程中，也是对我自己所掌握知识的一种回顾吧。让我们为了自己心中所想，一起努力吧！<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>到目前为止，也工作了好几年了吧。曾经某次听赵班长的公开课，听着听着发现，越听越懵…有种啥也不会的感觉..-_-!!!<br>但是呢，这些东西也确实是在工作中用到过，只是比较零碎。某些名词也确实很熟悉，但是呢，比如你现在问我里面具体的细节，我会用一脸懵逼来回应你，哈哈。<br>这些天抽空对着赵班长总结的表格，尝试在网上收集了些资料，整理出下面的文章。如果有不对的地方，欢迎大家指点。在整理这些东西的过程中，也是对我自己所掌握知识的一种回顾吧。让我们为了自己心中所想，一起努力吧！<br><a id="more"></a></p>
 <p>整理运维知识体系之操作系统层<br>参考：<a href="https://www.unixhot.com/page/ops" target="_blank" rel="external">https://www.unixhot.com/page/ops</a>  </p>
 <table><tr><td>运维架构层级</td><td>运维角度</td><td>内容描述/主要技术关键词</td><td>监控体系</td><td>自动化/DevOps</td><td>云计算</td></tr><tr><td rowspan="5">操作系统层</td><td>CPU</td><td>CPU运行级别、CPU管理(进程管理、taskset、intel VT-X)、使用率、上下文切换、运行队列、进程调度、系统调用</td><td>mpstat、strace</td><td rowspan="5">虚拟化</td><td rowspan="5">公有云弹性计算产品</td></tr><tr><td>内存</td><td>虚拟内存、SWAP换入换出、内存寻址、内存管理（Buffer Cache、HugePages、ksmd、EPT）</td><td>vmstat、free</td></tr><tr><td>I/O(磁盘)</td><td>缺页中断、IOPS(顺序IO、随机IO)、IO管理(IO调度算法、virtio)、VFS</td><td>iostat、iotop</td></tr><tr><td>I/O(网络)</td><td>TCP/IP(三次握手、四次挥手、状态转换、TCP队列)、IO模型、Bonding、Bridge、网络管理(iftop、tcpdump)</td><td>iftop</td></tr><tr><td>内核/Shell</td><td>内核定制、内存参数优化、脚本编程(AWK、Sed、Shell、Python、PHP、Perl、Ruby、Lua)</td><td>系统监控</td></tr></table>
 
@@ -899,7 +981,7 @@
     <published>2018-07-04T14:56:08.000Z</published>
     <updated>2018-07-10T15:29:10.107Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Jenkins持续集成工具，也玩了不少遍，但很少分享这类文档，今天抽空整理了下文档，和大家分享，哈哈<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>Jenkins持续集成工具，也玩了不少遍，但很少分享这类文档，今天抽空整理了下文档，和大家分享，哈哈<br><a id="more"></a></p>
 <p>回想一下我们之前的发布流程：</p>
 <ol>
 <li>本地把项目打包  </li>
@@ -1015,7 +1097,7 @@
     <published>2018-06-30T12:30:00.000Z</published>
     <updated>2018-07-03T15:50:06.360Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>虽然zabbix已经玩了好多遍了，但每次重新部署时，还得到处找，今天抽空整理下文档，以后就可以直接复制粘贴了，哈哈<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>虽然zabbix已经玩了好多遍了，但每次重新部署时，还得到处找，今天抽空整理下文档，以后就可以直接复制粘贴了，哈哈<br><a id="more"></a></p>
 <h4 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h4><p>环境：<br>　　centos 7.4<br>　　zabbix 3.4.11<br>　　mysql 5.6<br>　　php 5.4<br>　　nginx 12.2  </p>
 <p>zabbix 3.4环境要求：<br>参考：<a href="https://www.zabbix.com/documentation/3.4/manual/installation/requirements" target="_blank" rel="external">zabbix requirements</a>  </p>
 <ul>
@@ -1064,7 +1146,7 @@
     <published>2018-06-21T15:00:00.000Z</published>
     <updated>2018-06-21T15:41:34.465Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>本文是基于Ansible批量部署Jenkins环境<br><a id="more"></a><br>支持部署的环境：  </p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>本文是基于Ansible批量部署Jenkins环境<br><a id="more"></a><br>支持部署的环境：  </p>
 <ul>
 <li>基于docker的Jenkins基础环境</li>
 <li>Maven</li>
@@ -1205,7 +1287,7 @@
     <published>2018-05-28T07:03:50.000Z</published>
     <updated>2018-05-29T06:45:32.657Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>kubernets scheduler主要负责的工作是：接受API Server创建的新Pod，并为其安排一个主机，将信息写入etcd中。<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>kubernets scheduler主要负责的工作是：接受API Server创建的新Pod，并为其安排一个主机，将信息写入etcd中。<br><a id="more"></a></p>
 <h4 id="调度流程"><a href="#调度流程" class="headerlink" title="调度流程"></a>调度流程</h4><p>kubernetes调度器通过API Server查找还未分配主机的Pod，并尝试为这些Pod分配主机。  </p>
 <ul>
 <li>客户端提交创建请求，可以通过API Server的Restful API，也可以使用kubectl命令行工具。支持的数据类型包括JSON和YAML  </li>
@@ -1316,7 +1398,7 @@
     <published>2018-05-21T08:09:57.000Z</published>
     <updated>2018-05-21T08:20:12.080Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>本文是基于Ansible批量部署kubernetes集群环境<br><a id="more"></a><br>支持部署k8s环境：  </p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>本文是基于Ansible批量部署kubernetes集群环境<br><a id="more"></a><br>支持部署k8s环境：  </p>
 <ul>
 <li>ETCD集群</li>
 <li>kube-master</li>
@@ -1498,7 +1580,7 @@
     <published>2018-03-16T16:42:57.000Z</published>
     <updated>2018-03-16T15:55:57.877Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><ul>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><ul>
 <li>Glusterfs简介<br>GlusterFS是Scale-Out存储解决方案Gluster的核心，它是一个开源的分布式文件系统，具有强大的横向扩展能力，通过扩展能够支持数PB存储容量和处理数千客户端。GlusterFS借助TCP/IP或InfiniBandRDMA网络将物理分布的存储资源聚集在一起，使用单一全局命名空间来管理数据  <a id="more"></a></li>
 <li>Glusterfs特点  <ul>
 <li>扩展性和高性能<br>GlusterFS利用双重特性来提供几TB至数PB的高扩展存储解决方案。Scale-Out架构允许通过简单地增加资源来提高存储容量和性能，磁盘、计算和I/O资源都可以独立增加，支持10GbE和InfiniBand等高速网络互联。Gluster弹性哈希（ElasticHash）解除了GlusterFS对元数据服务器的需求，消除了单点故障和性能瓶颈，真正实现了并行化数据访问</li>
@@ -1832,7 +1914,7 @@
     <published>2018-03-14T15:23:44.000Z</published>
     <updated>2018-10-29T15:42:02.145Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>当我们完成Kubernetes集群环境部署后，就需要提取Kubernets集群中POD的日志提取和监控。当集群内的N台服务器在Kubernets的管理下自动创建和销毁POD，但在这种情况下，我们就不方便及时获取所有POD和服务器的运行状态及资源消耗状态，给我们感觉是，驾驶着一辆没有仪表盘的跑车在高速公路上飙车，给人一种心慌的感觉。<br>在以前的工作中，用过Nagios，Cacti，zabbix等监控工具。但在Kubernets集群中，这些工具并不适用。因此，我们需要引入新的监控工具Prometheus。<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>当我们完成Kubernetes集群环境部署后，就需要提取Kubernets集群中POD的日志提取和监控。当集群内的N台服务器在Kubernets的管理下自动创建和销毁POD，但在这种情况下，我们就不方便及时获取所有POD和服务器的运行状态及资源消耗状态，给我们感觉是，驾驶着一辆没有仪表盘的跑车在高速公路上飙车，给人一种心慌的感觉。<br>在以前的工作中，用过Nagios，Cacti，zabbix等监控工具。但在Kubernets集群中，这些工具并不适用。因此，我们需要引入新的监控工具Prometheus。<br><a id="more"></a></p>
 <h4 id="Prometheus简介"><a href="#Prometheus简介" class="headerlink" title="Prometheus简介"></a>Prometheus简介</h4><p>Prometheus是SoundCloud开源的一款监控软件。它的实现参考了Google内部的监控实现， 与同样源自Google的Kubernetes项目十分搭配。Prometheus集成了数据采集，存储，异常告警多项功能，是一款一体化的完整方案。它针对大规模的集群环境设计了拉取式的数据采集方式、多维度数据存储格式以及服务发现等创新功能。<br>与传统监控工具相比，Prometheus 可以通过服务发现掌握集群内部已经暴露的监控点，然后主动拉取所有监控数据。通过这样的架构设计，我们仅需要向Kubernetes集群中部署一份Prometheus实例，它就可以通过向<code>apiserver</code>查询集群状态，然后向所有已经支持Prometheus metrics的kubelet获取所有Pod的运行数据。如果我们想采集底层服务器运行状态，通过DaemonSet在所有服务器上运行配套的node-exporter之后，Prometheus就可以自动采集到新的这部分数据。<br>这种动态发现的架构，非常适合服务器和程序都不固定的Kubernetes集群环境，同时也大大降低了运维的负担。  </p>
 <p>Prometheus官网：<a href="https://prometheus.io/" target="_blank" rel="external">https://prometheus.io/</a><br>Prometheus官方下载地址：<a href="https://prometheus.io/download/" target="_blank" rel="external">https://prometheus.io/download/</a><br>Prometheus官方文档地址：<a href="https://prometheus.io/docs/introduction/overview/" target="_blank" rel="external">https://prometheus.io/docs/introduction/overview/</a>  </p>
 <h4 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h4><p>环境：<br>　　　Prometheus v2.2.0<br>　　　node-exporter v0.15.2<br>　　　Kubernetes v1.8.2<br>　　　Centos 7.4  </p>
@@ -1962,7 +2044,7 @@
     <published>2018-02-23T12:44:12.000Z</published>
     <updated>2018-05-28T11:20:32.122Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Kubernetes是一个开源的，用于管理云平台中多个主机上的容器化的应用，Kubernetes的目标是让部署容器化的应用简单并且高效(powerful)，Kubernetes提供了应用部署，规划，更新，维护的一种机制。Kubernetes一个核心的特点就是能够自主的管理容器来保证云平台中的容器按照用户的期望状态运行。<br><a id="more"></a><br>环境：<br>　　　Centos 7.4.1708<br>　　　dockers 18.02.0-ce-rc1<br>　　　kubernetes v1.9.2<br>　　　etcd 3.2.15  </p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>Kubernetes是一个开源的，用于管理云平台中多个主机上的容器化的应用，Kubernetes的目标是让部署容器化的应用简单并且高效(powerful)，Kubernetes提供了应用部署，规划，更新，维护的一种机制。Kubernetes一个核心的特点就是能够自主的管理容器来保证云平台中的容器按照用户的期望状态运行。<br><a id="more"></a><br>环境：<br>　　　Centos 7.4.1708<br>　　　dockers 18.02.0-ce-rc1<br>　　　kubernetes v1.9.2<br>　　　etcd 3.2.15  </p>
 <p>k8s下载地址：<a href="https://github.com/kubernetes/kubernetes/releases" target="_blank" rel="external">https://github.com/kubernetes/kubernetes/releases</a><br><a href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.9.md#v192" target="_blank" rel="external">https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.9.md#v192</a>  </p>
 <h4 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h4><p>同步时间，所有节点均操作<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime -a</span></div><div class="line"><span class="comment"># ntpdate s1a.time.edu.cn</span></div><div class="line"><span class="comment"># crontab -l</span></div><div class="line">* */3 * * * ntpdate s1a.time.edu.cn &amp;&gt; /dev/null</div><div class="line"><span class="comment">#</span></div></pre></td></tr></table></figure></p>
 <p>设置主机名<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">[root@master1 ~]<span class="comment"># hostname master1.example.com</span></div><div class="line">[root@master2 ~]<span class="comment"># hostname master2.example.com</span></div><div class="line">[root@master3 ~]<span class="comment"># hostname master3.example.com</span></div><div class="line">[root@node1 ~]<span class="comment"># hostname node1.example.com</span></div><div class="line">[root@node2 ~]<span class="comment"># hostname node2.example.com</span></div><div class="line"></div><div class="line"><span class="comment">#三个节点均做hosts解析</span></div><div class="line"><span class="comment"># tail -5 /etc/hosts</span></div><div class="line">192.168.1.195 master1.example.com master1</div><div class="line">192.168.1.196 master2.example.com master2</div><div class="line">192.168.1.197 master3.example.com master3</div><div class="line">192.168.1.198 node1.example.com node1</div><div class="line">192.168.1.199 node2.example.com node2</div><div class="line"><span class="comment">#</span></div></pre></td></tr></table></figure></p>
@@ -2484,7 +2566,7 @@
     <link href="http://www.yfshare.vip/2018/01/11/%E8%87%AA%E5%BB%BAdocker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93-Vmware-Harbor/"/>
     <id>http://www.yfshare.vip/2018/01/11/自建docker私有仓库-Vmware-Harbor/</id>
     <published>2018-01-11T12:08:25.000Z</published>
-    <updated>2018-01-11T12:18:56.336Z</updated>
+    <updated>2019-01-20T08:25:48.818Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Harbor是一个用于存储和分发Docker镜像的企业级Registry服务器，通过添加一些企业必需的功能特性，例如安全、标识和管理等，扩展了开源Docker Distribution。作为一个企业级私有Registry服务器，Harbor提供了更好的性能和安全。提升用户使用Registry构建和运行环境传输镜像的效率。Harbor支持安装在多个Registry节点的镜像资源复制，镜像全部保存在私有Registry中，确保数据和知识产权在公司内部网络中管控。另外，Harbor也提供了高级的安全特性，诸如用户管理，访问控制和活动审计等。<br><a id="more"></a></p>
 <ul>
@@ -2519,7 +2601,7 @@
     
     </summary>
     
-      <category term="Docker" scheme="http://www.yfshare.vip/categories/Docker/"/>
+      <category term="K8S" scheme="http://www.yfshare.vip/categories/K8S/"/>
     
     
       <category term="Docker" scheme="http://www.yfshare.vip/tags/Docker/"/>
@@ -2533,7 +2615,7 @@
     <link href="http://www.yfshare.vip/2017/12/20/The-Docker-of-Jira7-2-0-and-Confluence6-0-0/"/>
     <id>http://www.yfshare.vip/2017/12/20/The-Docker-of-Jira7-2-0-and-Confluence6-0-0/</id>
     <published>2017-12-20T13:40:58.000Z</published>
-    <updated>2018-02-25T05:55:07.785Z</updated>
+    <updated>2019-01-20T08:25:18.996Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>JIRA是一个缺陷跟踪管理系统，开发者是 Atlassian；<br>Confluence 是一个专业的企业知识管理与协同软件，可以用于构建企业wiki。<br>这里我把Jira7.2.0 和 Confluence6.0.0根据实际需求把它们封装成两个Docker容器，方便我们快速部署它们。<br><a id="more"></a></p>
 <h4 id="主要变化"><a href="#主要变化" class="headerlink" title="主要变化"></a>主要变化</h4><ul>
@@ -2577,7 +2659,7 @@
     
     </summary>
     
-      <category term="Docker" scheme="http://www.yfshare.vip/categories/Docker/"/>
+      <category term="K8S" scheme="http://www.yfshare.vip/categories/K8S/"/>
     
     
       <category term="Docker" scheme="http://www.yfshare.vip/tags/Docker/"/>
@@ -2593,7 +2675,7 @@
     <link href="http://www.yfshare.vip/2017/12/20/%E8%87%AA%E5%BB%BAdocker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93-Registry/"/>
     <id>http://www.yfshare.vip/2017/12/20/自建docker私有仓库-Registry/</id>
     <published>2017-12-20T12:59:07.000Z</published>
-    <updated>2017-12-21T14:09:49.211Z</updated>
+    <updated>2019-01-20T08:25:05.409Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Docker Hub 存放着 Docker 及其组件的所有资源。它可以提供：  </p>
 <ul>
@@ -2645,7 +2727,7 @@
     
     </summary>
     
-      <category term="Docker" scheme="http://www.yfshare.vip/categories/Docker/"/>
+      <category term="K8S" scheme="http://www.yfshare.vip/categories/K8S/"/>
     
     
       <category term="Docker" scheme="http://www.yfshare.vip/tags/Docker/"/>
@@ -2661,7 +2743,7 @@
     <link href="http://www.yfshare.vip/2017/12/14/The-Redmine-svn-of-docker/"/>
     <id>http://www.yfshare.vip/2017/12/14/The-Redmine-svn-of-docker/</id>
     <published>2017-12-14T14:51:08.000Z</published>
-    <updated>2017-12-14T15:19:01.478Z</updated>
+    <updated>2019-01-20T08:25:31.831Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>The redmine + svn + apache2 of Docker 应用基于Debian系统部署，经改造后只需要 PULL+Compose后即可正常工作<br><a id="more"></a></p>
 <h2 id="Supported-tags-and-respective-Dockerfile-links"><a href="#Supported-tags-and-respective-Dockerfile-links" class="headerlink" title="Supported tags and respective Dockerfile links"></a>Supported tags and respective Dockerfile links</h2><ul>
@@ -2719,7 +2801,7 @@
     
     </summary>
     
-      <category term="Docker" scheme="http://www.yfshare.vip/categories/Docker/"/>
+      <category term="K8S" scheme="http://www.yfshare.vip/categories/K8S/"/>
     
     
       <category term="Mysql" scheme="http://www.yfshare.vip/tags/Mysql/"/>
@@ -2741,7 +2823,7 @@
     <published>2017-12-05T14:01:25.000Z</published>
     <updated>2017-12-05T14:06:57.191Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p><code>/var/log/messages</code>报错信息：<code>kernel: nf_conntrack: table full, dropping packet</code><br><a id="more"></a><br>问题背景：公司线上活动（可以理解为秒杀）瞬时流量比平时高好几倍，目前最高瞬时流量为25W/秒(requests)，最低时瞬时流量为6W/秒(requests)<br>而<code>/var/log/messages</code>日志一直报上述错误，直到活动结束  </p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p><code>/var/log/messages</code>报错信息：<code>kernel: nf_conntrack: table full, dropping packet</code><br><a id="more"></a><br>问题背景：公司线上活动（可以理解为秒杀）瞬时流量比平时高好几倍，目前最高瞬时流量为25W/秒(requests)，最低时瞬时流量为6W/秒(requests)<br>而<code>/var/log/messages</code>日志一直报上述错误，直到活动结束  </p>
 <p>当时，深刻了解到iptables的这个报错，会造成拒绝服务的问题。查资料后，需要关闭iptables，但服务器在阿里云VPC网络内，使用的是阿里云的安全组策略，故iptables没有打开。后排查，虽iptables和firewalld没开，但是Centos7 还是加载了这个<code>nf_conntrack</code>模块，而导致出现了上面这个问题。  </p>
 <p>网上说有三种方法，分别为：  </p>
 <ul>
@@ -2799,7 +2881,7 @@
     <published>2017-12-04T15:36:21.000Z</published>
     <updated>2017-12-18T13:12:38.663Z</updated>
     
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>这里分享的是ELK集群基础安装文档，<a href="http://www.yfshare.vip/2017/11/22/ELK%E5%AE%89%E8%A3%85-%E5%9F%BA%E7%A1%80/">这里是 ELK安装基础</a><br><a id="more"></a><br>环境：Centos 6.6<br>　　　ElasticSearch 5.1.1<br>　　　Logstash 5.1.1<br>　　　Kibana 5.1.1  </p>
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><script src="/assets/js/DPlayer.min.js"> </script><p>这里分享的是ELK集群基础安装文档，<a href="http://www.yfshare.vip/2017/11/22/ELK%E5%AE%89%E8%A3%85-%E5%9F%BA%E7%A1%80/">这里是 ELK安装基础</a><br><a id="more"></a><br>环境：Centos 6.6<br>　　　ElasticSearch 5.1.1<br>　　　Logstash 5.1.1<br>　　　Kibana 5.1.1  </p>
 <h4 id="安装集群管理软件"><a href="#安装集群管理软件" class="headerlink" title="安装集群管理软件"></a>安装集群管理软件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#安装ElasticSearch</span></div><div class="line">[root@ELK ~]<span class="comment"># yum -y install elasticsearch-5.1.1.rpm</span></div><div class="line"></div><div class="line"><span class="comment">#ELK node1配置</span></div><div class="line">[root@ELK ~]<span class="comment"># mkdir /etc/elasticsearch/data -p</span></div><div class="line">[root@ELK ~]<span class="comment"># id elasticsearch</span></div><div class="line">uid=498(elasticsearch) gid=499(elasticsearch) groups=499(elasticsearch)</div><div class="line">[root@ELK ~]<span class="comment"># chgrp elasticsearch /etc/elasticsearch/data/ -R</span></div><div class="line">[root@ELK ~]<span class="comment"># chmod 775 /etc/elasticsearch/data/ -R</span></div><div class="line">[root@ELK ~]<span class="comment"># java -version</span></div><div class="line">java version <span class="string">"1.8.0_112"</span></div><div class="line">Java(TM) SE Runtime Environment (build 1.8.0_112-b15)</div><div class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.112-b15, mixed mode)</div><div class="line">[root@ELK ~]<span class="comment"># ln -s /usr/local/jdk1.8.0_112/bin/java /usr/bin/</span></div><div class="line"></div><div class="line">[root@ELK ~]<span class="comment"># grep -v ^# /etc/elasticsearch/elasticsearch.yml | grep -v ^$</span></div><div class="line">cluster.name: <span class="string">"ES-cluster"</span></div><div class="line">node.name: <span class="string">"es-node01"</span></div><div class="line">node.master: <span class="literal">true</span></div><div class="line">node.data: <span class="literal">true</span></div><div class="line">http.enabled: <span class="literal">true</span></div><div class="line">path.data: /etc/elasticsearch/data</div><div class="line">path.logs: /var/<span class="built_in">log</span>/elasticsearch</div><div class="line">network.host: 0.0.0.0</div><div class="line">http.port: 9200</div><div class="line">http.cors.enabled: <span class="literal">true</span></div><div class="line">http.cors.allow-origin: <span class="string">"*"</span></div><div class="line">discovery.zen.ping.unicast.hosts: [<span class="string">"192.168.31.100"</span>, <span class="string">"192.168.31.110"</span>]</div><div class="line">discovery.zen.minimum_master_nodes: 1</div><div class="line"><span class="comment">#discovery.zen.minimum_master_nodes（默认是1）：这个参数控制的是，一个节点需要看到的具有master节点资格的最小数量，然后才能在集群中做操作。官方的推荐值是(N/2)+1，其中N是具有master资格的节点的数量（我们的情况是3，因此这个参数设置为2，但对于只有2个节点的情况，设置为2就有些问题了，一个节点DOWN掉后，你肯定连不上2台服务器了，这点需要注意）</span></div><div class="line">gateway.recover_after_nodes: 2</div><div class="line">[root@ELK ~]<span class="comment">#</span></div><div class="line">[root@ELK ~]<span class="comment"># /etc/init.d/elasticsearch start</span></div><div class="line">[root@ELK ~]<span class="comment"># netstat -tunlp | grep 9200</span></div><div class="line">tcp        0      0 :::9200                     :::*                        LISTEN      33156/java          </div><div class="line">[root@ELK ~]<span class="comment"># netstat -tunlp | grep 9300</span></div><div class="line">tcp        0      0 :::9300                     :::*                        LISTEN      33156/java          </div><div class="line">[root@ELK ~]<span class="comment">#</span></div><div class="line"></div><div class="line"><span class="comment">#ELK node2配置</span></div><div class="line"><span class="comment">#node2配置和node1配置相同(略)</span></div></pre></td></tr></table></figure>
 <h4 id="测试集群状态"><a href="#测试集群状态" class="headerlink" title="测试集群状态"></a>测试集群状态</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">[root@ELK ~]<span class="comment"># curl localhost:9200/_cat/nodes?v     #获取集群中节点列表</span></div><div class="line">ip             heap.percent ram.percent cpu load_1m load_5m load_15m node.role master name</div><div class="line">192.168.31.100            4          81  99    4.32    3.28     3.46 mdi       -      es-node01</div><div class="line">192.168.31.110            3          94   5    0.07    0.03     0.01 mdi       *      es-node02</div><div class="line">[root@ELK ~]<span class="comment"># </span></div><div class="line">[root@ELK ~]<span class="comment"># curl localhost:9200/_cat/health?v    #集群健康检查</span></div><div class="line">epoch      timestamp cluster    status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent</div><div class="line">1482982586 11:36:26  ES-cluster green           2         2     22  11    0    0        0             0                  -                100.0%</div><div class="line">[root@ELK ~]<span class="comment">#</span></div><div class="line">[root@ELK ~]<span class="comment"># curl 'localhost:9200/_cat/indices?v'  #获取ElasticSearch索引</span></div><div class="line">health status index                       uuid                   pri rep docs.count docs.deleted store.size pri.store.size</div><div class="line">green  open   logstash-message-2016.12.29 qkvr3jmWQei1oBhEy9VnCA   5   1         28            0    376.3kb        188.1kb</div><div class="line">green  open   logstash-nginx-2016.12.29   B9p9qwjsTlaE4<span class="built_in">fc</span>ZcIgJag   5   1          5            0      104kb           52kb</div><div class="line">green  open   .kibana                     bNLdONDMRdWK2-HdYkUuAA   1   1          3            0     34.1kb           17kb</div><div class="line">[root@ELK ~]<span class="comment">#</span></div><div class="line"></div><div class="line">//注：当ElasticSearch配置完成后，node2会复制node1的索引</div><div class="line">[root@ELK2 ~]<span class="comment"># curl 'localhost:9200/_cat/indices?v'</span></div><div class="line">health status index                       uuid                   pri rep docs.count docs.deleted store.size pri.store.size</div><div class="line">green  open   logstash-message-2016.12.29 qkvr3jmWQei1oBhEy9VnCA   5   1         28            0    376.3kb        188.1kb</div><div class="line">green  open   .kibana                     bNLdONDMRdWK2-HdYkUuAA   1   1          3            0     34.1kb           17kb</div><div class="line">green  open   logstash-nginx-2016.12.29   B9p9qwjsTlaE4<span class="built_in">fc</span>ZcIgJag   5   1          5            0      104kb           52kb</div><div class="line">[root@ELK2 ~]<span class="comment">#</span></div><div class="line"></div><div class="line"><span class="comment">#ElasticSearch集群日志文件位置：</span></div><div class="line">[root@ELK ~]<span class="comment"># ls /var/log/elasticsearch/</span></div><div class="line">ES-cluster_deprecation.log             ES-cluster_index_search_slowlog.log</div><div class="line">ES-cluster_index_indexing_slowlog.log  ES-cluster.log</div><div class="line">[root@ELK ~]<span class="comment">#</span></div></pre></td></tr></table></figure>
 <h4 id="安装elasticsearch-head插件"><a href="#安装elasticsearch-head插件" class="headerlink" title="安装elasticsearch-head插件"></a>安装elasticsearch-head插件</h4><p>由于Elasticsearch 5.0 head插件不能以插件形式安装，因此需要单独安装<br>参考：<a href="https://github.com/mobz/elasticsearch-head" target="_blank" rel="external">https://github.com/mobz/elasticsearch-head</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">Running as a plugin of Elasticsearch</div><div class="line"></div><div class="line">Install elasticsearch-head:</div><div class="line">– <span class="keyword">for</span> Elasticsearch 5.x:</div><div class="line">site plugins are not supported. Run elasticsearch-head as a standalone server</div><div class="line">– <span class="keyword">for</span> Elasticsearch 2.x – 4.x:</div><div class="line">sudo elasticsearch/bin/plugin install mobz/elasticsearch-head</div><div class="line">– <span class="keyword">for</span> Elasticsearch 1.x:</div><div class="line">sudo elasticsearch/bin/plugin -install mobz/elasticsearch-head/1.x</div><div class="line">– <span class="keyword">for</span> Elasticsearch 0.9:</div><div class="line">sudo elasticsearch/bin/plugin -install mobz/elasticsearch-head/0.9</div><div class="line">open http://localhost:9200/_plugin/head/</div><div class="line"></div><div class="line">Running with built <span class="keyword">in</span> server：</div><div class="line"><span class="built_in">enable</span> cors by adding http.cors.enabled: <span class="literal">true</span> <span class="keyword">in</span> elasticsearch configuration. Don’t forget to also <span class="built_in">set</span> http.cors.allow-origin because no origin allowed by default. http.cors.allow-origin: <span class="string">"*"</span> is valid value, however it’s considered as a security risk as your cluster is open to cross origin from anywhere. Check Elasticsearch documentation on this parameter: https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html<span class="comment">#modules-http</span></div><div class="line">git <span class="built_in">clone</span> git://github.com/mobz/elasticsearch-head.git</div><div class="line"><span class="built_in">cd</span> elasticsearch-head</div><div class="line">npm install</div><div class="line">grunt server</div><div class="line">open http://localhost:9100/</div></pre></td></tr></table></figure></p>
@@ -2840,37 +2922,6 @@
       <category term="Cluster" scheme="http://www.yfshare.vip/tags/Cluster/"/>
     
       <category term="Elasticsearch-Head" scheme="http://www.yfshare.vip/tags/Elasticsearch-Head/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>timelion请求语法</title>
-    <link href="http://www.yfshare.vip/2017/12/04/timelion%E8%AF%B7%E6%B1%82%E8%AF%AD%E6%B3%95/"/>
-    <id>http://www.yfshare.vip/2017/12/04/timelion请求语法/</id>
-    <published>2017-12-04T15:33:39.000Z</published>
-    <updated>2017-12-04T15:34:41.540Z</updated>
-    
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>ES2.0 开始提供了一个崭新的 pipeline aggregation 特性，但是 Kibana 似乎并没有立刻跟进这方面的意思，相反，Elastic 公司推出了另一个实验室产品：Timelion。<br><a id="more"></a><br>timelion 的用法在官博里已经有介绍。尤其是最近两篇如何用 timelion 实现异常告警的文章，更是从 ES 的 pipeline aggregation 细节和场景一路讲到 timelion 具体操作，我这里几乎没有再重新讲一遍 timelion 操作入门的必要了。不过，官方却一直没有列出来 timelion 支持的请求语法的文档，而是在页面上通过点击图标的方式下拉帮助。  </p>
-<h5 id="可视化效果类"><a href="#可视化效果类" class="headerlink" title="可视化效果类"></a>可视化效果类</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">.bars(<span class="variable">$width</span>): 用柱状图展示数组</div><div class="line">.lines(<span class="variable">$width</span>, <span class="variable">$fill</span>, <span class="variable">$show</span>, <span class="variable">$steps</span>): 用折线图展示数组</div><div class="line">.points(): 用散点图展示数组</div><div class="line">.color(<span class="string">"#c6c6c6"</span>): 改变颜色</div><div class="line">.hide(): 隐藏该数组</div><div class="line">.label(<span class="string">"change from %s"</span>): 标签</div><div class="line">.legend(<span class="variable">$position</span>, <span class="variable">$column</span>): 图例位置</div><div class="line">.yaxis(<span class="variable">$yaxis_number</span>, <span class="variable">$min</span>, <span class="variable">$max</span>, <span class="variable">$position</span>): 设置 Y 轴属性，.yaxis(2) 表示第二根 Y 轴</div></pre></td></tr></table></figure>
-<h5 id="数据运算类"><a href="#数据运算类" class="headerlink" title="数据运算类"></a>数据运算类</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">.abs(): 对整个数组元素求绝对值</div><div class="line">.precision(<span class="variable">$number</span>): 浮点数精度</div><div class="line">.testcast(<span class="variable">$count</span>, <span class="variable">$alpha</span>, <span class="variable">$beta</span>, <span class="variable">$gamma</span>): holt-winters 预测</div><div class="line">.cusum(<span class="variable">$base</span>): 数组元素之和，再加上 <span class="variable">$base</span></div><div class="line">.derivative(): 对数组求导数</div><div class="line">.divide(<span class="variable">$divisor</span>): 数组元素除法</div><div class="line">.multiply(<span class="variable">$multiplier</span>): 数组元素乘法</div><div class="line">.subtract(<span class="variable">$term</span>): 数组元素减法</div><div class="line">.sum(<span class="variable">$term</span>): 数组元素加法</div><div class="line">.add(): 同 .sum()</div><div class="line">.plus(): 同 .sum()</div><div class="line">.first(): 返回第一个元素</div><div class="line">.movingaverage(<span class="variable">$window</span>): 用指定的窗口大小计算移动平均值</div><div class="line">.mvavg(): .movingaverage() 的简写</div><div class="line">.movingstd(<span class="variable">$window</span>): 用指定的窗口大小计算移动标准差</div><div class="line">.mvstd(): .movingstd() 的简写</div></pre></td></tr></table></figure>
-<h5 id="数据源设定类"><a href="#数据源设定类" class="headerlink" title="数据源设定类"></a>数据源设定类</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">.elasticsearch(): 从 ES 读取数据</div><div class="line">.es(q=<span class="string">"querystring"</span>, metric=<span class="string">"cardinality:uid"</span>, index=<span class="string">"logstash-*"</span>, offset=<span class="string">"-1d"</span>): .elasticsearch() 的简写</div><div class="line">.graphite(metric=<span class="string">"path.to.*.data"</span>, offset=<span class="string">"-1d"</span>): 从 graphite 读取数据</div><div class="line">.quandl(): 从 quandl.com 读取 quandl 码</div><div class="line">.worldbank_indicators(): 从 worldbank.org 读取国家数据</div><div class="line">.wbi(): .worldbank_indicators() 的简写</div><div class="line">.worldbank(): 从 worldbank.org 读取数据</div><div class="line">.wb(): .worldbanck() 的简写</div></pre></td></tr></table></figure>
-<p>参考：<a href="https://elasticsearch.cn/article/24" target="_blank" rel="external">https://elasticsearch.cn/article/24</a><br>更多参考：<a href="https://elasticsearch.cn/article/" target="_blank" rel="external">https://elasticsearch.cn/article/</a>  </p>
-<hr>
-<p>本作品采用<a href="https://creativecommons.org/licenses/by/2.5/cn/" target="_blank" rel="external">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://www.yfshare.vip">Jack Wang Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。<br><img src="http://note.youdao.com/yws/api/personal/file/FE3C6F68961F4541AF284E5F346FC3CA?method=download&amp;shareKey=c5e4c3ca81daa6e908d5630f8c6ec242" alt="打赏"><br>本文出自”Jack Wang Blog”：<a href="http://www.yfshare.vip/2017/12/04/timelion请求语法/">http://www.yfshare.vip/2017/12/04/timelion请求语法/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;ES2.0 开始提供了一个崭新的 pipeline aggregation 特性，但是 Kibana 似乎并没有立刻跟进这方面的意思，相反，Elastic 公司推出了另一个实验室产品：Timelion。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="ELK" scheme="http://www.yfshare.vip/categories/ELK/"/>
-    
-    
-      <category term="ELK" scheme="http://www.yfshare.vip/tags/ELK/"/>
-    
-      <category term="Kibana" scheme="http://www.yfshare.vip/tags/Kibana/"/>
     
   </entry>
   
