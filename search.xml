@@ -10,7 +10,7 @@
 <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>K8S集群可以通过Replication Controller的scale机制完成服务的扩容或缩容，实现具有伸缩性的服务。<br>K8S自动伸缩分为：  </p>
 <ul>
 <li>sacle手动伸缩。见<a href="http://www.yfshare.vip/2018/05/28/k8s%E6%BB%9A%E5%8A%A8%E5%8D%87%E7%BA%A7-RollingUpdate/">k8s滚动升级(RollingUpdate)</a>  </li>
-<li>autoscale自动伸缩，HPA。  </li>
+<li>autoscale自动伸缩，见<a href="http://www.yfshare.vip/2019/01/28/k8s%E9%9B%86%E7%BE%A4%E6%B0%B4%E5%B9%B3%E6%89%A9%E5%B1%95-HPA/#autoscaling-v2beta2">HPA</a>。  </li>
 </ul>
 <p>自动扩展主要分为两种：  </p>
 <ul>
