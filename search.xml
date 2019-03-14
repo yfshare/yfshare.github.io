@@ -4,6 +4,75 @@
   
     
     <entry>
+      <title><![CDATA[Open-falcon理论]]></title>
+      <url>http://www.yfshare.vip/2019/03/14/Open-falcon%E7%90%86%E8%AE%BA/</url>
+      <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>open-falcon最初由小米公司创建，因此习惯称呼其为“小米监控”。<br><a id="more"></a></p>
+<h4 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h4><p>和zabbix对比<br>优点：</p>
+<ul>
+<li>Open-falcon agent支持无需配置自动发现metric  </li>
+<li>模板覆盖功能Expressions  </li>
+<li>falcon-agent资源使用率低  </li>
+<li>单机支持200Wmetres上报  </li>
+<li>部署简单  </li>
+<li>高效的历史数据查询功能  </li>
+</ul>
+<p>缺点：  </p>
+<ul>
+<li>Agent对基础服务监控支持有限  </li>
+<li>更新慢  </li>
+<li>用户群使用人员少  </li>
+<li>“重”  </li>
+<li>Trigger支持的条件判断函数较少  </li>
+</ul>
+<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>open-falcon有如下特点：  </p>
+<ul>
+<li>强大灵活的数据采集：自动发现，支持falcon-agent、snmp、支持用户主动push、用户自定义插件支持、opentsdb data model like(timestamp、endpoint、metric、key-value tags)  </li>
+<li>水平扩展能力：支持每个周期上亿次的数据采集、告警判定、历史数据存储和查询  </li>
+<li>高效率的告警策略管理：高效的portal、支持策略模板、模板继承和覆盖、多种告警方式、支持callback调用  </li>
+<li>人性化的告警设置：最大告警次数、告警级别、告警恢复通知、告警暂停、不同时段不同阈值、支持维护周期  </li>
+<li>高效率的graph组件：单机支撑200万metric的上报、归档、存储(周期为1分钟)  </li>
+<li>高效的历史数据query组件：采用rrdtool的数据归档策略，秒级返回上百个metric一年的历史数据  </li>
+<li>dashboard：多维度的数据展示，用户自定义Screen  </li>
+<li>高可用：整个系统无核心单点，易运维，易部署，可水平扩展  </li>
+<li>开发语言： 整个系统的后端，全部golang编写，portal和dashboard使用python编写  </li>
+</ul>
+<p>以上特点来自官网介绍，地址如下：  </p>
+<ul>
+<li><a href="http://open-falcon.org/" target="_blank" rel="external">http://open-falcon.org/</a>  </li>
+<li><a href="https://book.open-falcon.org" target="_blank" rel="external">https://book.open-falcon.org</a>  </li>
+<li><a href="https://github.com/open-falcon/falcon-plus/releases" target="_blank" rel="external">https://github.com/open-falcon/falcon-plus/releases</a>  </li>
+<li><a href="https://github.com/open-falcon-archive" target="_blank" rel="external">https://github.com/open-falcon-archive</a></li>
+</ul>
+<p>参考官方介绍，open-falcon只需要安装了falcon-agent的机器，就会自动开始采集各项指标，主动上报，不需要用户在server做任何配置。好处是用户维护方便，覆盖率高。但会给Server端造成较大的压力，但可以通过水平扩容来解决该问题。open-falcon也提供了proxy-gateway，用户可以通过http接口，push本地Gateway，然后Gateway会转发数据给Server端。  </p>
+<h4 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h4><ul>
+<li>官网架构图<br><img src="https://note.youdao.com/yws/api/personal/file/17FD51E4E100466199BCC58847688147?method=download&amp;shareKey=3a2c2fb8bc0e7c2f192f45be1c0e5e00" alt="open-falcon_Architecture">  </li>
+<li>Open-falcon逻辑流程图<br><img src="https://note.youdao.com/yws/api/personal/file/D11E196A0C594D77A76583AE05CC2D26?method=download&amp;shareKey=da683a8e18fef7f5252497af7f91abd1" alt="open-falcon_Architecture">  </li>
+<li>流程图<br><img src="https://note.youdao.com/yws/api/personal/file/FB92946E6A014E89BC9B37B27990E1E4?method=download&amp;shareKey=bb3233b367c2fb424fda12762c96f0d8" alt="open-falcon_流程图">  </li>
+</ul>
+<h4 id="组件介绍"><a href="#组件介绍" class="headerlink" title="组件介绍"></a>组件介绍</h4><table><tbody><tr><td><span>绘图组件</span></td><td><span>用途</span></td><td><span>服务端口</span></td><td><span>备注</span></td></tr><tr><td><span>Agent</span></td><td><span>部署在目标机器采集机器监控项。</span></td><td><span>http:1988</span></td><td></td></tr><tr><td rowspan="3"><span>Transfer</span></td><td rowspan="3">Transfer是数据转发服务。<br>它接收agent上报的数据，然后按照哈希规则进行数据分片、并将分片后的数据分别push给graph和judge等组件。</td><td><span>http:6060</span></td><td rowspan="3"></td></tr><tr><td><span>rpc:8433</span></td></tr><tr><td><span>socket:4444</span></td></tr><tr><td rowspan="2"><span>Graph</span></td><td rowspan="2"><span>graph是存储绘图数据的组件。<br>graph组件接收transfer组件推送上来的监控数据，同时处理api组件的查询请求、返回绘图数据。</span></td><td><span>http:6070</span></td><td rowspan="2"><span>可部署多实例做集群;需要连接数据库graph</span></td></tr><tr><td><span>rpc:6071</span></td><td></td></tr><tr><td><span>API</span></td><td><span>提供统一的restAPI操作接口。<br>如api组件接收查询请求，根据一致性哈希算法去相应的graph实例查询不同metric的数据，然后汇总拿到的数据，最后统一返回给用户。</span></td><td><span>http:8080</span></td><td><span></span></td></tr><tr><td><span>Dashboard</span></td><td><span>查询监控历史趋势图的web端。</span></td><td><span>http:8081</span></td><td><span>需要python虚拟环境；需要连接数据库dashborad，graph</span></td></tr></tbody></table>
+
+<table><tbody><tr><td> 报警组件<br></td><td> 作用<br></td><td> 备注</td></tr><tr><td> UIC<br></td><td> 用户组管理，单点登录<br></td><td><br></td></tr><tr><td> Portal<br></td><td> 配置报警策略，管理机器分组的web端<br></td><td><br></td></tr><tr><td> HBC<br></td><td> Hearbeat Server，心跳服务器。所有agent都会连到HBS，每分钟发一次心跳请求<br></td><td><br></td></tr><tr><td> Judge<br></td><td> Judge用于告警判断。agent将数据push给Transfer，Transfer不但会转发给Graph组件来绘图，还会转发给Judge用于判断是否触发告警<br></td><td><br></td></tr><tr><td> Alarm<br></td><td> alarm模块是处理报警event的。judge产生的报警event写入redis，alarm从redis读取处理，并进行不同渠道的发送<br></td><td><br></td></tr><tr><td rowspan="3"> Task<br></td><td rowspan="3"> 监控系统一个必要的辅助模块。定时任务模块<br></td><td> index更新。包括图表索引的全量更新和垃圾索引清理<br></td></tr><tr><td> falcon服务组件的自身状态数据采集。定时任务了采集了transfer、graph、task这三个服务的内部状态数据。<br></td></tr><tr><td> falcon自检控任务。<br></td></tr><tr><td> Gateway<br></td><td> 解决机房分区，<span>监控数据急需回传的问题</span><br></td><td><p><a href="https://github.com/open-falcon/falcon-plus/blob/master/modules/gateway/README.md" target="_blank">gateway</a></p></td></tr><tr><td> Nodata<br></td><td> nodata用于检测监控数据的上报异常。nodata和实时报警judge模块协同工作.<br></td><td><span>过程为: 配置了nodata的采集项超时未上报数据，nodata生成一条默认的模拟数据；用户配置相应的报警策略，收到mock数据就产生报警。采集项上报异常检测，作为judge模块的一个必要补充，能够使judge的实时报警功能更加可靠、完善。</span><span></span><br></td></tr><tr><td> Aggregator<br></td><td> 集群聚合模块。聚合某集群下的所有机器的某个指标的值，提供一种集群视角的监控体验<br></td><td><br></td></tr><tr><td> Agent-updater<br></td><td> 作者开发的工具，用于管理falcon-agent，agent-updater也有一个agent：ops-updater，可以看做是一个超级agent，用于管理其他agent的agent。<br></td><td><a href="https://github.com/open-falcon/ops-updater" target="_blank">ops-updater</a><br></td></tr></tbody></table> 
+
+<p>openfalcon-user google论坛：<a href="https://groups.google.com/forum/#!forum/openfalcon-users" target="_blank" rel="external">https://groups.google.com/forum/#!forum/openfalcon-users</a><br>openfalcon API接口文档：<a href="http://open-falcon.org/falcon-plus/" target="_blank" rel="external">http://open-falcon.org/falcon-plus/</a>  </p>
+<h4 id="open-falcon报警函数说明"><a href="#open-falcon报警函数说明" class="headerlink" title="open-falcon报警函数说明"></a>open-falcon报警函数说明</h4><p>open-falcon支持多种报警触发函数，支持的函数如下。默认情况下<code>#</code>后面的数字不能大于10，大于10将被当作10来处理。这个数字是可以修改的，需要修改<code>judge/config/cfg.json</code>中<code>remain</code>值。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[root@localhost open-falcon]<span class="comment"># grep -i 'remain' judge/config/cfg.json </span></div><div class="line">    <span class="string">"remain"</span>: 11,</div><div class="line">[root@localhost open-falcon]<span class="comment">#</span></div></pre></td></tr></table></figure></p>
+<ul>
+<li><code>all(#3)</code>: 最新的3个点都满足阈值条件则报警  </li>
+<li><code>max(#3)</code>: 对于最新的3个点，其最大值满足阈值条件则报警  </li>
+<li><code>min(#3)</code>: 对于最新的3个点，其最小值满足阈值条件则报警  </li>
+<li><code>sum(#3)</code>: 对于最新的3个点，其和满足阈值条件则报警  </li>
+<li><code>avg(#3)</code>: 对于最新的3个点，其平均值满足阈值条件则报警  </li>
+<li><code>diff(#3)</code>: 拿最新push上来的点（被减数），与历史最新的3个点（3个减数）相减，得到3个差，只要有一个差满足阈值条件则报警  </li>
+<li><code>pdiff(#3)</code>: 拿最新push上来的点，与历史最新的3个点相减，得到3个差，再将3个差值分别除以减数，得到3个商值，只要有一个商值满足阈值则报警  </li>
+<li><code>lookup(#2,3)</code>: 最新的3个点中有2个满足条件则报警  </li>
+<li><code>stddev(#7) = 3</code>：离群点检测函数，取最新 <strong>7</strong> 个点的数据分别计算得到他们的标准差和均值，分别计为 σ 和 μ，其中当前值计为 X，那么当 X 落在区间 [μ-3σ, μ+3σ] 之外时，则认为当前值波动过大，触发报警；更多参考3-sigma算法：<a href="https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule" target="_blank" rel="external">https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule</a>  </li>
+</ul>
+<p>参考：<br><a href="http://book.open-falcon.org/zh_0_2/usage/func.html" target="_blank" rel="external">http://book.open-falcon.org/zh_0_2/usage/func.html</a><br><a href="http://search.jikexueyuan.com/course/?q=falcon" target="_blank" rel="external">http://search.jikexueyuan.com/course/?q=falcon</a>  </p>
+<hr>
+<p>本作品采用<a href="https://creativecommons.org/licenses/by/2.5/cn/" target="_blank" rel="external">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://www.yfshare.vip">Jack Wang Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。<br><img src="http://note.youdao.com/yws/api/personal/file/FE3C6F68961F4541AF284E5F346FC3CA?method=download&amp;shareKey=c5e4c3ca81daa6e908d5630f8c6ec242" alt="打赏"><br>本文出自”Jack Wang Blog”：<a href="http://www.yfshare.vip/2019/03/14/Open-falcon理论/">http://www.yfshare.vip/2019/03/14/Open-falcon理论/</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[k8s集群水平扩展(HPA)]]></title>
       <url>http://www.yfshare.vip/2019/01/28/k8s%E9%9B%86%E7%BE%A4%E6%B0%B4%E5%B9%B3%E6%89%A9%E5%B1%95-HPA/</url>
       <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Horizontal Pod Autoscaling，简称HPA，是Kubernetes中实现POD水平自动伸缩的功能。<br><a id="more"></a></p>
