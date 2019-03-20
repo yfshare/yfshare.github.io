@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yfshare.vip/"/>
-  <updated>2019-03-14T14:07:11.359Z</updated>
+  <updated>2019-01-28T14:59:28.048Z</updated>
   <id>http://www.yfshare.vip/</id>
   
   <author>
@@ -14,93 +14,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Open-falcon理论</title>
-    <link href="http://www.yfshare.vip/2019/03/14/Open-falcon%E7%90%86%E8%AE%BA/"/>
-    <id>http://www.yfshare.vip/2019/03/14/Open-falcon理论/</id>
-    <published>2019-03-14T13:58:17.000Z</published>
-    <updated>2019-03-14T14:07:11.359Z</updated>
-    
-    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>open-falcon最初由小米公司创建，因此习惯称呼其为“小米监控”。<br><a id="more"></a></p>
-<h4 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h4><p>和zabbix对比<br>优点：</p>
-<ul>
-<li>Open-falcon agent支持无需配置自动发现metric  </li>
-<li>模板覆盖功能Expressions  </li>
-<li>falcon-agent资源使用率低  </li>
-<li>单机支持200Wmetres上报  </li>
-<li>部署简单  </li>
-<li>高效的历史数据查询功能  </li>
-</ul>
-<p>缺点：  </p>
-<ul>
-<li>Agent对基础服务监控支持有限  </li>
-<li>更新慢  </li>
-<li>用户群使用人员少  </li>
-<li>“重”  </li>
-<li>Trigger支持的条件判断函数较少  </li>
-</ul>
-<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>open-falcon有如下特点：  </p>
-<ul>
-<li>强大灵活的数据采集：自动发现，支持falcon-agent、snmp、支持用户主动push、用户自定义插件支持、opentsdb data model like(timestamp、endpoint、metric、key-value tags)  </li>
-<li>水平扩展能力：支持每个周期上亿次的数据采集、告警判定、历史数据存储和查询  </li>
-<li>高效率的告警策略管理：高效的portal、支持策略模板、模板继承和覆盖、多种告警方式、支持callback调用  </li>
-<li>人性化的告警设置：最大告警次数、告警级别、告警恢复通知、告警暂停、不同时段不同阈值、支持维护周期  </li>
-<li>高效率的graph组件：单机支撑200万metric的上报、归档、存储(周期为1分钟)  </li>
-<li>高效的历史数据query组件：采用rrdtool的数据归档策略，秒级返回上百个metric一年的历史数据  </li>
-<li>dashboard：多维度的数据展示，用户自定义Screen  </li>
-<li>高可用：整个系统无核心单点，易运维，易部署，可水平扩展  </li>
-<li>开发语言： 整个系统的后端，全部golang编写，portal和dashboard使用python编写  </li>
-</ul>
-<p>以上特点来自官网介绍，地址如下：  </p>
-<ul>
-<li><a href="http://open-falcon.org/" target="_blank" rel="external">http://open-falcon.org/</a>  </li>
-<li><a href="https://book.open-falcon.org" target="_blank" rel="external">https://book.open-falcon.org</a>  </li>
-<li><a href="https://github.com/open-falcon/falcon-plus/releases" target="_blank" rel="external">https://github.com/open-falcon/falcon-plus/releases</a>  </li>
-<li><a href="https://github.com/open-falcon-archive" target="_blank" rel="external">https://github.com/open-falcon-archive</a></li>
-</ul>
-<p>参考官方介绍，open-falcon只需要安装了falcon-agent的机器，就会自动开始采集各项指标，主动上报，不需要用户在server做任何配置。好处是用户维护方便，覆盖率高。但会给Server端造成较大的压力，但可以通过水平扩容来解决该问题。open-falcon也提供了proxy-gateway，用户可以通过http接口，push本地Gateway，然后Gateway会转发数据给Server端。  </p>
-<h4 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h4><ul>
-<li>官网架构图<br><img src="https://note.youdao.com/yws/api/personal/file/17FD51E4E100466199BCC58847688147?method=download&amp;shareKey=3a2c2fb8bc0e7c2f192f45be1c0e5e00" alt="open-falcon_Architecture">  </li>
-<li>Open-falcon逻辑流程图<br><img src="https://note.youdao.com/yws/api/personal/file/D11E196A0C594D77A76583AE05CC2D26?method=download&amp;shareKey=da683a8e18fef7f5252497af7f91abd1" alt="open-falcon_Architecture">  </li>
-<li>流程图<br><img src="https://note.youdao.com/yws/api/personal/file/FB92946E6A014E89BC9B37B27990E1E4?method=download&amp;shareKey=bb3233b367c2fb424fda12762c96f0d8" alt="open-falcon_流程图">  </li>
-</ul>
-<h4 id="组件介绍"><a href="#组件介绍" class="headerlink" title="组件介绍"></a>组件介绍</h4><table><tbody><tr><td><span>绘图组件</span></td><td><span>用途</span></td><td><span>服务端口</span></td><td><span>备注</span></td></tr><tr><td><span>Agent</span></td><td><span>部署在目标机器采集机器监控项。</span></td><td><span>http:1988</span></td><td></td></tr><tr><td rowspan="3"><span>Transfer</span></td><td rowspan="3">Transfer是数据转发服务。<br>它接收agent上报的数据，然后按照哈希规则进行数据分片、并将分片后的数据分别push给graph和judge等组件。</td><td><span>http:6060</span></td><td rowspan="3"></td></tr><tr><td><span>rpc:8433</span></td></tr><tr><td><span>socket:4444</span></td></tr><tr><td rowspan="2"><span>Graph</span></td><td rowspan="2"><span>graph是存储绘图数据的组件。<br>graph组件接收transfer组件推送上来的监控数据，同时处理api组件的查询请求、返回绘图数据。</span></td><td><span>http:6070</span></td><td rowspan="2"><span>可部署多实例做集群;需要连接数据库graph</span></td></tr><tr><td><span>rpc:6071</span></td><td></td></tr><tr><td><span>API</span></td><td><span>提供统一的restAPI操作接口。<br>如api组件接收查询请求，根据一致性哈希算法去相应的graph实例查询不同metric的数据，然后汇总拿到的数据，最后统一返回给用户。</span></td><td><span>http:8080</span></td><td><span></span></td></tr><tr><td><span>Dashboard</span></td><td><span>查询监控历史趋势图的web端。</span></td><td><span>http:8081</span></td><td><span>需要python虚拟环境；需要连接数据库dashborad，graph</span></td></tr></tbody></table>
-
-<table><tbody><tr><td> 报警组件<br></td><td> 作用<br></td><td> 备注</td></tr><tr><td> UIC<br></td><td> 用户组管理，单点登录<br></td><td><br></td></tr><tr><td> Portal<br></td><td> 配置报警策略，管理机器分组的web端<br></td><td><br></td></tr><tr><td> HBC<br></td><td> Hearbeat Server，心跳服务器。所有agent都会连到HBS，每分钟发一次心跳请求<br></td><td><br></td></tr><tr><td> Judge<br></td><td> Judge用于告警判断。agent将数据push给Transfer，Transfer不但会转发给Graph组件来绘图，还会转发给Judge用于判断是否触发告警<br></td><td><br></td></tr><tr><td> Alarm<br></td><td> alarm模块是处理报警event的。judge产生的报警event写入redis，alarm从redis读取处理，并进行不同渠道的发送<br></td><td><br></td></tr><tr><td rowspan="3"> Task<br></td><td rowspan="3"> 监控系统一个必要的辅助模块。定时任务模块<br></td><td> index更新。包括图表索引的全量更新和垃圾索引清理<br></td></tr><tr><td> falcon服务组件的自身状态数据采集。定时任务了采集了transfer、graph、task这三个服务的内部状态数据。<br></td></tr><tr><td> falcon自检控任务。<br></td></tr><tr><td> Gateway<br></td><td> 解决机房分区，<span>监控数据急需回传的问题</span><br></td><td><p><a href="https://github.com/open-falcon/falcon-plus/blob/master/modules/gateway/README.md" target="_blank">gateway</a></p></td></tr><tr><td> Nodata<br></td><td> nodata用于检测监控数据的上报异常。nodata和实时报警judge模块协同工作.<br></td><td><span>过程为: 配置了nodata的采集项超时未上报数据，nodata生成一条默认的模拟数据；用户配置相应的报警策略，收到mock数据就产生报警。采集项上报异常检测，作为judge模块的一个必要补充，能够使judge的实时报警功能更加可靠、完善。</span><span></span><br></td></tr><tr><td> Aggregator<br></td><td> 集群聚合模块。聚合某集群下的所有机器的某个指标的值，提供一种集群视角的监控体验<br></td><td><br></td></tr><tr><td> Agent-updater<br></td><td> 作者开发的工具，用于管理falcon-agent，agent-updater也有一个agent：ops-updater，可以看做是一个超级agent，用于管理其他agent的agent。<br></td><td><a href="https://github.com/open-falcon/ops-updater" target="_blank">ops-updater</a><br></td></tr></tbody></table> 
-
-<p>openfalcon-user google论坛：<a href="https://groups.google.com/forum/#!forum/openfalcon-users" target="_blank" rel="external">https://groups.google.com/forum/#!forum/openfalcon-users</a><br>openfalcon API接口文档：<a href="http://open-falcon.org/falcon-plus/" target="_blank" rel="external">http://open-falcon.org/falcon-plus/</a>  </p>
-<h4 id="open-falcon报警函数说明"><a href="#open-falcon报警函数说明" class="headerlink" title="open-falcon报警函数说明"></a>open-falcon报警函数说明</h4><p>open-falcon支持多种报警触发函数，支持的函数如下。默认情况下<code>#</code>后面的数字不能大于10，大于10将被当作10来处理。这个数字是可以修改的，需要修改<code>judge/config/cfg.json</code>中<code>remain</code>值。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[root@localhost open-falcon]<span class="comment"># grep -i 'remain' judge/config/cfg.json </span></div><div class="line">    <span class="string">"remain"</span>: 11,</div><div class="line">[root@localhost open-falcon]<span class="comment">#</span></div></pre></td></tr></table></figure></p>
-<ul>
-<li><code>all(#3)</code>: 最新的3个点都满足阈值条件则报警  </li>
-<li><code>max(#3)</code>: 对于最新的3个点，其最大值满足阈值条件则报警  </li>
-<li><code>min(#3)</code>: 对于最新的3个点，其最小值满足阈值条件则报警  </li>
-<li><code>sum(#3)</code>: 对于最新的3个点，其和满足阈值条件则报警  </li>
-<li><code>avg(#3)</code>: 对于最新的3个点，其平均值满足阈值条件则报警  </li>
-<li><code>diff(#3)</code>: 拿最新push上来的点（被减数），与历史最新的3个点（3个减数）相减，得到3个差，只要有一个差满足阈值条件则报警  </li>
-<li><code>pdiff(#3)</code>: 拿最新push上来的点，与历史最新的3个点相减，得到3个差，再将3个差值分别除以减数，得到3个商值，只要有一个商值满足阈值则报警  </li>
-<li><code>lookup(#2,3)</code>: 最新的3个点中有2个满足条件则报警  </li>
-<li><code>stddev(#7) = 3</code>：离群点检测函数，取最新 <strong>7</strong> 个点的数据分别计算得到他们的标准差和均值，分别计为 σ 和 μ，其中当前值计为 X，那么当 X 落在区间 [μ-3σ, μ+3σ] 之外时，则认为当前值波动过大，触发报警；更多参考3-sigma算法：<a href="https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule" target="_blank" rel="external">https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule</a>  </li>
-</ul>
-<p>参考：<br><a href="http://book.open-falcon.org/zh_0_2/usage/func.html" target="_blank" rel="external">http://book.open-falcon.org/zh_0_2/usage/func.html</a><br><a href="http://search.jikexueyuan.com/course/?q=falcon" target="_blank" rel="external">http://search.jikexueyuan.com/course/?q=falcon</a>  </p>
-<hr>
-<p>本作品采用<a href="https://creativecommons.org/licenses/by/2.5/cn/" target="_blank" rel="external">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://www.yfshare.vip">Jack Wang Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。<br><img src="http://note.youdao.com/yws/api/personal/file/FE3C6F68961F4541AF284E5F346FC3CA?method=download&amp;shareKey=c5e4c3ca81daa6e908d5630f8c6ec242" alt="打赏"><br>本文出自”Jack Wang Blog”：<a href="http://www.yfshare.vip/2019/03/14/Open-falcon理论/">http://www.yfshare.vip/2019/03/14/Open-falcon理论/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;open-falcon最初由小米公司创建，因此习惯称呼其为“小米监控”。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Monitor" scheme="http://www.yfshare.vip/categories/Monitor/"/>
-    
-    
-      <category term="open-falcon" scheme="http://www.yfshare.vip/tags/open-falcon/"/>
-    
-      <category term="小米监控" scheme="http://www.yfshare.vip/tags/%E5%B0%8F%E7%B1%B3%E7%9B%91%E6%8E%A7/"/>
-    
-  </entry>
   
   <entry>
     <title>k8s集群水平扩展(HPA)</title>
@@ -3090,6 +3003,64 @@
       <category term="Svn" scheme="http://www.yfshare.vip/tags/Svn/"/>
     
       <category term="Apache" scheme="http://www.yfshare.vip/tags/Apache/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于kernel: nf_conntrack: table full, dropping packet问题</title>
+    <link href="http://www.yfshare.vip/2017/12/05/%E5%85%B3%E4%BA%8Ekernel-nf-conntrack-table-full-dropping-packet%E9%97%AE%E9%A2%98/"/>
+    <id>http://www.yfshare.vip/2017/12/05/关于kernel-nf-conntrack-table-full-dropping-packet问题/</id>
+    <published>2017-12-05T14:01:25.000Z</published>
+    <updated>2017-12-05T14:06:57.191Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p><code>/var/log/messages</code>报错信息：<code>kernel: nf_conntrack: table full, dropping packet</code><br><a id="more"></a><br>问题背景：公司线上活动（可以理解为秒杀）瞬时流量比平时高好几倍，目前最高瞬时流量为25W/秒(requests)，最低时瞬时流量为6W/秒(requests)<br>而<code>/var/log/messages</code>日志一直报上述错误，直到活动结束  </p>
+<p>当时，深刻了解到iptables的这个报错，会造成拒绝服务的问题。查资料后，需要关闭iptables，但服务器在阿里云VPC网络内，使用的是阿里云的安全组策略，故iptables没有打开。后排查，虽iptables和firewalld没开，但是Centos7 还是加载了这个<code>nf_conntrack</code>模块，而导致出现了上面这个问题。  </p>
+<p>网上说有三种方法，分别为：  </p>
+<ul>
+<li>修改参数法</li>
+<li>使用RAW表，跳过记录法</li>
+<li>移除模块法</li>
+</ul>
+<p>因服务器没有使用iptables和firewalld，故采用的是<code>移除模块法</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># /sbin/lsmod | egrep 'ip_tables|conntrack'</span></div><div class="line">nf_conntrack_ipv4      19108  2 </div><div class="line">nf_defrag_ipv4         12729  1 nf_conntrack_ipv4</div><div class="line">xt_conntrack           12760  1 </div><div class="line">nf_conntrack          111302  5 nf_nat,nf_nat_ipv4,xt_conntrack,nf_nat_masquerade_ipv4,nf_conntrack_ipv4</div><div class="line">ip_tables              27115  2 iptable_filter,iptable_nat</div><div class="line"><span class="comment">#</span></div></pre></td></tr></table></figure></p>
+<p><code>state</code>模块和<code>nf_conntrack</code>之间是有依赖关系，想要卸载<code>nf_conntrack</code>模块的话，必须也要把<code>state</code>模块移除，不然，其会自动启用nf_conntrack模块。  </p>
+<p>卸载模块前需要先关闭iptables和firewalld，如果发现firewalld或iptables没有启用，但是卸载模块时，还是提示模块正在使用，则把iptables或firewalld启动后再关闭，再尝试卸载模块。  </p>
+<p>操作方法如下：  </p>
+<ul>
+<li>先将/etc/sysconfig/iptables 中包含state的语句移除，并restart iptables</li>
+<li>执行语句<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#这里是参考文档作者的</span></div><div class="line">modprobe -r xt_NOTRACK nf_conntrack_netbios_ns nf_conntrack_ipv4 xt_state</div><div class="line">modprobe -r nf_conntrack</div><div class="line"></div><div class="line"><span class="comment">#这里是我实际卸载的模块</span></div><div class="line">modprobe -r nf_conntrack_netbios_ns xt_state</div><div class="line">modprobe -r nf_conntrack</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>执行完查看/proc/net/ 下面如果没用了 nf_conntrack ，就证明模块移除成功了  </p>
+<p>总结（以下摘录原文作者）：<br>以上三种方法种，如果像<code>web这样的操作访问量并发不大</code>的情况下，建议通过第一种方法实现。因为nf_conntrack模块的作用不仅仅只用于记录状态，iptables还可以通过对该模块的使有达到动态过滤的作用。如我在用ab动测试的一台服务器上进行并发模拟时，在/var/log/message里发现如下的日志<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Apr 22 15:21:46 localhost kernel: possible SYN flooding on port 80. Sending cookies.</div><div class="line">Apr 22 15:22:46 localhost kernel: possible SYN flooding on port 80. Sending cookies.</div></pre></td></tr></table></figure></p>
+<p>而此时iptables会智能的将发动SYN flood攻击的IP暂时拒绝掉<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># ab -c 500 -n 5000 "http://192.168.10.177/"</span></div><div class="line">This is ApacheBench, Version 2.0.40-dev &lt;<span class="variable">$Revision</span>: 1.146 $&gt; apache-2.0</div><div class="line">Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/</div><div class="line">Copyright 2006 The Apache Software Foundation, http://www.apache.org/</div><div class="line">Benchmarking 192.168.10.177 (be patient)</div><div class="line">apr_socket_recv: Connection reset by peer (104)</div><div class="line">Total of 68 requests completed</div></pre></td></tr></table></figure></p>
+<p>如上所以，我用ab操作时，其就会收到apr_socket_recv 的错误提示 。我在网上查询到其具体实现的原理如下：  </p>
+<ul>
+<li><p>传统的防火墙只能进行静态过滤，而 iptables 除了这个基本的功能之外还可以进行动态过滤，即可以对连接状态进行跟踪，通常称为 conntrack 。 但这不意味着它只能对 TCP 这样的面向连接的协议有效，它还可以对 UDP， ICMP 这种无连接的协议进行跟踪。  </p>
+</li>
+<li><p>iptables 中的连接跟踪是通过 state 模块来实现的，是在PREROUTING 链中完成的，除了本地主机产生的数据包，它们是在 OUTPUT 链中完成。 它把“连接”划分为四种状态：NEW， ESTABLISHED， RELATED 和 INVALID。连接跟踪当前的所有连接状态可以通过 /proc/net/nf_conntrack 来查看（注意，在一些稍微旧的 Linux 系统上是 /proc/net/ip_conntrack）  </p>
+</li>
+<li>当 conntrack 第一次看到相关的数据包时，就会把状态标记为 NEW ，比如 TCP 协议中收到第一个 SYN 数据包。当连接的双方都有数据包收发并且还将继续匹配到这些数据包时，连接状态就会变为 ESTABLISHED 。而 RELATED 状态是指一个新的连接，但这个连接和某个已知的连接有关系，比如 FTP 协议中的数据传输连接。INVALID 状态是说数据包和已知的任何连接都不匹配</li>
+</ul>
+<p>当然，仅仅利用iptables conntrack自动实现syn flood 等DDOS攻击时很弱的。而现成的动态过滤和DDOS防护的方法是很多的。比如netstat脚本实现，iptalbes限制每秒进行连接数，nginx/apache的连接数限制模块及fail2ban日志分析法………… ，所以在具有以上防护的情况下，非常推荐将web 、squid/varnish等应用所在的服务器配置为RAW方式 。我在现网一台150M/S 的cache server上将80和3128两个端口全部NOTRACK之后，conntrack hash表由瞬满直线下降到只有几百条。<br>最后，最不推荐使用的第三种方法，因为第三种方法会将state模块也一块儿移除掉。  </p>
+<p>参考：<br><a href="http://www.361way.com/ip_conntrack-tablefull/1717.html" target="_blank" rel="external">http://www.361way.com/ip_conntrack-tablefull/1717.html</a><br><a href="http://www.361way.com/%E5%86%8D%E7%9C%8Bnf_conntrack-table-full%E9%97%AE%E9%A2%98/2404.html" target="_blank" rel="external">http://www.361way.com/%E5%86%8D%E7%9C%8Bnf_conntrack-table-full%E9%97%AE%E9%A2%98/2404.html</a><br><a href="http://jaseywang.me/2012/08/16/%E8%A7%A3%E5%86%B3-nf_conntrack-table-full-dropping-packet-%E7%9A%84%E5%87%A0%E7%A7%8D%E6%80%9D%E8%B7%AF/" target="_blank" rel="external">http://jaseywang.me/2012/08/16/%E8%A7%A3%E5%86%B3-nf_conntrack-table-full-dropping-packet-%E7%9A%84%E5%87%A0%E7%A7%8D%E6%80%9D%E8%B7%AF/</a><br><a href="https://wiki.khnet.info/index.php/Conntrack_tuning" target="_blank" rel="external">https://wiki.khnet.info/index.php/Conntrack_tuning</a><br><a href="http://blog.zol.com.cn/2608/article_2607945.html" target="_blank" rel="external">http://blog.zol.com.cn/2608/article_2607945.html</a><br><a href="http://blog.csdn.net/dog250/article/details/7262619" target="_blank" rel="external">http://blog.csdn.net/dog250/article/details/7262619</a>  </p>
+<hr>
+<p>本作品采用<a href="https://creativecommons.org/licenses/by/2.5/cn/" target="_blank" rel="external">知识共享署名 2.5 中国大陆许可协议</a>进行许可，欢迎转载，但转载请注明来自<a href="http://www.yfshare.vip">Jack Wang Blog</a>，并保持转载后文章内容的完整。本人保留所有版权相关权利。<br><img src="http://note.youdao.com/yws/api/personal/file/FE3C6F68961F4541AF284E5F346FC3CA?method=download&amp;shareKey=c5e4c3ca81daa6e908d5630f8c6ec242" alt="打赏"><br>本文出自”Jack Wang Blog”：<a href="http://www.yfshare.vip/2017/12/05/关于kernel-nf-conntrack-table-full-dropping-packet问题/">http://www.yfshare.vip/2017/12/05/关于kernel-nf-conntrack-table-full-dropping-packet问题/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;/var/log/messages&lt;/code&gt;报错信息：&lt;code&gt;kernel: nf_conntrack: table full, dropping packet&lt;/code&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://www.yfshare.vip/categories/Linux/"/>
+    
+    
+      <category term="Kernel" scheme="http://www.yfshare.vip/tags/Kernel/"/>
+    
+      <category term="nf_conntrack" scheme="http://www.yfshare.vip/tags/nf-conntrack/"/>
+    
+      <category term="dropping packet" scheme="http://www.yfshare.vip/tags/dropping-packet/"/>
     
   </entry>
   
