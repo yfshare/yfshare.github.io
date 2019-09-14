@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yfshare.vip/"/>
-  <updated>2019-01-28T14:59:28.048Z</updated>
+  <updated>2019-01-28T14:59:28.049Z</updated>
   <id>http://www.yfshare.vip/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.yfshare.vip/2019/01/28/k8s%E9%9B%86%E7%BE%A4%E6%B0%B4%E5%B9%B3%E6%89%A9%E5%B1%95-HPA/"/>
     <id>http://www.yfshare.vip/2019/01/28/k8s集群水平扩展-HPA/</id>
     <published>2019-01-28T14:51:38.000Z</published>
-    <updated>2019-01-28T14:59:28.048Z</updated>
+    <updated>2019-01-28T14:59:28.049Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Horizontal Pod Autoscaling，简称HPA，是Kubernetes中实现POD水平自动伸缩的功能。<br><a id="more"></a></p>
 <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>K8S集群可以通过Replication Controller的scale机制完成服务的扩容或缩容，实现具有伸缩性的服务。<br>K8S自动伸缩分为：  </p>
@@ -210,7 +210,7 @@
     <link href="http://www.yfshare.vip/2019/01/20/Grafana%E6%97%A5%E5%BF%97%E8%81%9A%E5%90%88%E5%B7%A5%E5%85%B7Loki/"/>
     <id>http://www.yfshare.vip/2019/01/20/Grafana日志聚合工具Loki/</id>
     <published>2019-01-20T08:22:01.000Z</published>
-    <updated>2019-01-20T08:38:31.158Z</updated>
+    <updated>2019-01-20T08:38:31.159Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Loki是 Grafana Labs 团队最新的开源项目，是一个水平可扩展，高可用性，多租户的日志聚合系统。它的设计非常经济高效且易于操作，因为它不会为日志内容编制索引，而是为每个日志流编制一组标签，为 Prometheus和 Kubernetes用户做了相关优化。项目受 Prometheus 启发，类似于 Prometheus 的日志系统。<br><a id="more"></a></p>
 <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>Loki初体验<br>与其他日志聚合系统相比， Loki具有下面的一些特性：  </p>
@@ -381,7 +381,7 @@
     <link href="http://www.yfshare.vip/2018/11/04/Python%E5%8D%87%E7%BA%A7/"/>
     <id>http://www.yfshare.vip/2018/11/04/Python升级/</id>
     <published>2018-11-03T16:20:00.000Z</published>
-    <updated>2018-11-05T16:05:49.972Z</updated>
+    <updated>2018-11-05T16:05:49.973Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Python是一种解释型、面向对象、动态数据类型的高级程序设计语言。<br><a id="more"></a><br>编译安装python3.7.1并支持ssl 模块  </p>
 <h4 id="环境说明"><a href="#环境说明" class="headerlink" title="环境说明"></a>环境说明</h4><p>环境：<br>　　python 3.7.1<br>　　centos 7.4  </p>
@@ -418,7 +418,7 @@
     <link href="http://www.yfshare.vip/2018/09/29/node-exporter%E8%87%AA%E5%AE%9A%E4%B9%89key/"/>
     <id>http://www.yfshare.vip/2018/09/29/node-exporter自定义key/</id>
     <published>2018-09-29T14:04:34.000Z</published>
-    <updated>2018-09-29T14:09:54.752Z</updated>
+    <updated>2018-09-29T14:09:54.753Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>在部署完k8s及使用prometheus监控后，发现一个问题啊，那就是能不能像zabbix一样，自己定义key啊，监控自己的服务，毕竟官方提供的key也不能完全覆盖。。<br><a id="more"></a><br>在查阅官网资料发现，prometheus是可以使用自定义key的。<br>官方git地址：<a href="https://github.com/prometheus/node_exporter" target="_blank" rel="external">https://github.com/prometheus/node_exporter</a>  </p>
 <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>官方描述：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">There is varying support <span class="keyword">for</span> collectors on each operating system. The tables below list all existing collectors and the supported systems.</div><div class="line">Collectors are enabled by providing a --collector.&lt;name&gt; flag. Collectors that are enabled by default can be disabled by providing a --no-collector.&lt;name&gt; flag.</div></pre></td></tr></table></figure></p>
@@ -674,7 +674,7 @@
     <link href="http://www.yfshare.vip/2018/07/27/%E8%BF%90%E7%BB%B4%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E4%B9%8B%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%B1%82/"/>
     <id>http://www.yfshare.vip/2018/07/27/运维知识体系之操作系统层/</id>
     <published>2018-07-27T14:03:19.000Z</published>
-    <updated>2018-07-28T10:26:16.369Z</updated>
+    <updated>2018-07-28T10:26:16.370Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>到目前为止，也工作了好几年了吧。曾经某次听赵班长的公开课，听着听着发现，越听越懵…有种啥也不会的感觉..-_-!!!<br>但是呢，这些东西也确实是在工作中用到过，只是比较零碎。某些名词也确实很熟悉，但是呢，比如你现在问我里面具体的细节，我会用一脸懵逼来回应你，哈哈。<br>这些天抽空对着赵班长总结的表格，尝试在网上收集了些资料，整理出下面的文章。如果有不对的地方，欢迎大家指点。在整理这些东西的过程中，也是对我自己所掌握知识的一种回顾吧。让我们为了自己心中所想，一起努力吧！<br><a id="more"></a></p>
 <p>整理运维知识体系之操作系统层<br>参考：<a href="https://www.unixhot.com/page/ops" target="_blank" rel="external">https://www.unixhot.com/page/ops</a>  </p>
@@ -2102,7 +2102,7 @@
     <link href="http://www.yfshare.vip/2018/03/14/Prometheus%E7%9B%91%E6%8E%A7TLS-Kubernetes%E9%9B%86%E7%BE%A4/"/>
     <id>http://www.yfshare.vip/2018/03/14/Prometheus监控TLS-Kubernetes集群/</id>
     <published>2018-03-14T15:23:44.000Z</published>
-    <updated>2018-10-29T15:42:02.145Z</updated>
+    <updated>2018-10-29T15:42:02.146Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>当我们完成Kubernetes集群环境部署后，就需要提取Kubernets集群中POD的日志提取和监控。当集群内的N台服务器在Kubernets的管理下自动创建和销毁POD，但在这种情况下，我们就不方便及时获取所有POD和服务器的运行状态及资源消耗状态，给我们感觉是，驾驶着一辆没有仪表盘的跑车在高速公路上飙车，给人一种心慌的感觉。<br>在以前的工作中，用过Nagios，Cacti，zabbix等监控工具。但在Kubernets集群中，这些工具并不适用。因此，我们需要引入新的监控工具Prometheus。<br><a id="more"></a></p>
 <h4 id="Prometheus简介"><a href="#Prometheus简介" class="headerlink" title="Prometheus简介"></a>Prometheus简介</h4><p>Prometheus是SoundCloud开源的一款监控软件。它的实现参考了Google内部的监控实现， 与同样源自Google的Kubernetes项目十分搭配。Prometheus集成了数据采集，存储，异常告警多项功能，是一款一体化的完整方案。它针对大规模的集群环境设计了拉取式的数据采集方式、多维度数据存储格式以及服务发现等创新功能。<br>与传统监控工具相比，Prometheus 可以通过服务发现掌握集群内部已经暴露的监控点，然后主动拉取所有监控数据。通过这样的架构设计，我们仅需要向Kubernetes集群中部署一份Prometheus实例，它就可以通过向<code>apiserver</code>查询集群状态，然后向所有已经支持Prometheus metrics的kubelet获取所有Pod的运行数据。如果我们想采集底层服务器运行状态，通过DaemonSet在所有服务器上运行配套的node-exporter之后，Prometheus就可以自动采集到新的这部分数据。<br>这种动态发现的架构，非常适合服务器和程序都不固定的Kubernetes集群环境，同时也大大降低了运维的负担。  </p>
@@ -2865,7 +2865,7 @@
     <link href="http://www.yfshare.vip/2017/12/20/%E8%87%AA%E5%BB%BAdocker%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93-Registry/"/>
     <id>http://www.yfshare.vip/2017/12/20/自建docker私有仓库-Registry/</id>
     <published>2017-12-20T12:59:07.000Z</published>
-    <updated>2019-01-20T08:25:05.409Z</updated>
+    <updated>2019-01-20T08:25:05.410Z</updated>
     
     <content type="html"><![CDATA[<script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>Docker Hub 存放着 Docker 及其组件的所有资源。它可以提供：  </p>
 <ul>
