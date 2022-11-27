@@ -1,0 +1,263 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="Blog"><title>Prometheus查询语法 | Jack Wang Blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=2.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Prometheus查询语法</h1><a id="logo" href="/.">Jack Wang Blog</a><p class="description">Goals determine what you are going to be</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa icon-rss"> 订阅</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Prometheus查询语法</h1><div class="post-meta">Jun 2, 2021<span> | </span><span class="category"><a href="/categories/Monitor/">Monitor</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span></div><a data-disqus-identifier="2021/06/02/Prometheus查询语法/" href="/2021/06/02/Prometheus查询语法/#disqus_thread" class="disqus-comment-count"></a><div class="clear"><div id="toc" class="toc-article"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#表达式语言数据类型"><span class="toc-number">1.</span> <span class="toc-text">表达式语言数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#时间序列选择器"><span class="toc-number">1.1.</span> <span class="toc-text">时间序列选择器</span></a></li></ol></li></ol></div></div><div class="post-content"><script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><p>prometheus从根本上存储的所有数据都是时间序列: 具有时间戳的数据流只属于单个度量指标和该度量指标下的多个标签维度。除了存储时间序列数据外，Prometheus也可以利用查询表达式存储5分钟的返回结果中的时间序列数据。<br><a id="more"></a><br>Prometheus提供一个函数式的表达式语言，可以使用户实时地查找和聚合时间序列数据。表达式计算结果可以在图表中展示，也可以在Prometheus表达式浏览器中以表格形式展示，或者作为数据源, 以HTTP API的方式提供给外部系统使用。  </p>
+<h4 id="表达式语言数据类型"><a href="#表达式语言数据类型" class="headerlink" title="表达式语言数据类型"></a>表达式语言数据类型</h4><p>在Prometheus的表达式语言中，任何表达式或者子表达式都可以归为四种类型：  </p>
+<ul>
+<li>即时向量(instant vector) 包含每个时间序列的单个样本的一组时间序列，共享相同的时间戳  </li>
+<li>范围向量(Range vector) 包含每个时间序列随时间变化的数据点的一组时间序列  </li>
+<li>标量(Scalar) 一个简单的数字浮点值  </li>
+<li>字符串(String) 一个简单的字符串值(目前未被使用)  </li>
+</ul>
+<h5 id="时间序列选择器"><a href="#时间序列选择器" class="headerlink" title="时间序列选择器"></a>时间序列选择器</h5><ol>
+<li>即时向量选择器<br>即时向量选择器允许选择一组时间序列，或者某个给定的时间戳的样本数据。如：<code>container_cpu_usage_seconds_total</code>选择了具有<code>container_cpu_usage_seconds_total</code>的时间序列  </li>
+</ol>
+<p>查询pod (nginx-deployment-d8d99448f-h6585)聚合一分钟之内的cpu 负载<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#查看当前K8S集群中所有的POD</span></div><div class="line">kubectl get pod --all-namespaces</div></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sum by (container_name)(rate(container_cpu_usage_seconds_total&#123;image!=<span class="string">""</span>,container_name!=<span class="string">"POD"</span>,pod_name=<span class="string">"kubernetes-dashboard-666fbbf977-v9vsh"</span>&#125;[1m]))</div></pre></td></tr></table></figure>
+<p>等于<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sum by (container_name)(rate(container_cpu_usage_seconds_total&#123;image=<span class="string">"k8scn/kubernetes-dashboard-amd64@sha256:811a618089732441fa2aaaac0c860956e61410cec4b5715bbb328d0d4a685393"</span>,container_name=<span class="string">"kubernetes-dashboard"</span>,pod_name=<span class="string">"kubernetes-dashboard-666fbbf977-v9vsh"</span>&#125;[1m]))</div></pre></td></tr></table></figure></p>
+<ul>
+<li>sum：求和。<a href="https://prometheus.io/docs/prometheus/latest/querying/operators/#aggregation-operators" target="_blank" rel="external">聚合操作符参考</a>  </li>
+<li>by：固定语法。保留结果向量中的标签集合，其他标签被保留输出。  </li>
+<li>rate：计算范围向量中时间序列的每平平均增长率。<a href="https://prometheus.io/docs/prometheus/latest/querying/functions/#rate(" target="_blank" rel="external">rate范围向量参考</a>)  </li>
+<li><code>container_cpu_usage_seconds_total</code>：容器CPU每秒使用总和，是一个时间序列名称。  </li>
+<li><code>{}</code>：即时矢量选择器。允许在给定的时间戳(即时)中为每个时间序列和每个样本值选择一组时间序列：比如仅指定度量标准名称。这将产生包含具有此度量标准名称的所有时间序列的元素的即时矢量。<a href="https://prometheus.io/docs/prometheus/latest/querying/basics/#instant-vector-selectors" target="_blank" rel="external">即时矢量选择器参考</a>  </li>
+<li><code>{image!=&quot;&quot;,container_name!=&quot;POD&quot;,pod_name=&quot;kubernetes-dashboard-666fbbf977-v9vsh&quot;}</code>都是时间序列<code>container_cpu_usage_seconds_total</code>的标签。其中<code>image</code>是名称标签，<code>container_name</code>是工作标签，<code>pod_name</code>是组标签。  </li>
+<li><code>image!=&quot;&quot;</code>：是时间序列<code>container_cpu_usage_seconds_total</code>的名称标签，意思是image不为空。<code>container_name!=&quot;POD&quot;</code>意思同上，container_name不等于POD。<code>pod_name=&quot;kubernetes-dashboard-666fbbf977-v9vsh&quot;</code>意思同上，意思是pod_name等于kubernetes-dashboard-666fbbf977-v9vsh。<a href="https://prometheus.io/docs/prometheus/latest/querying/operators/#comparison-binary-operators" target="_blank" rel="external">匹配操作符参考</a>  </li>
+<li><code>[1m]</code>：范围矢量选择器。在语法上，范围持续时间会附在矢量选择器末尾的<code>[]</code>内，意思是为每个结果范围矢量元素提取多久的时间值。<a href="https://prometheus.io/docs/prometheus/latest/querying/basics/#range-vector-selectors" target="_blank" rel="external">范围矢量选择器参考</a>  </li>
+</ul>
+<p><img src="https://note.youdao.com/yws/api/personal/file/65A93214887848EC9E2F6C6EE2131A4E?method=download&amp;shareKey=155f0013085a3da273abd690806013d1" alt="prometheus时间序列">  </p>
+<p>我们可以通过Prometheus的UI界面查询到该container<em>name的具体信息，如下：<br>随便输入一个时间序列值，Prometheus默认会列出当前K8s里所有的监控信息，然后ctrl+F搜索<br>![prometheus</em>时间序列](<a href="https://note.youdao.com/yws/api/personal/file/F458416FAFC341B0BBDCD5D0C29DE7DE?method=download&amp;shareKey=ab0ca193e6ec09a12f3cf779e2d43da3" target="_blank" rel="external">https://note.youdao.com/yws/api/personal/file/F458416FAFC341B0BBDCD5D0C29DE7DE?method=download&amp;shareKey=ab0ca193e6ec09a12f3cf779e2d43da3</a>)  </p>
+<p>下面两个监控指标获取的监控目标相同<br><img src="https://note.youdao.com/yws/api/personal/file/3A91CDF1741543B7A826B90A96676678?method=download&amp;shareKey=121675fb7d7dac5dbe3254bd63259409" alt="prometheus_时间序列"><br><img src="https://note.youdao.com/yws/api/personal/file/F5A333034C014366853D5675924A3F5B?method=download&amp;shareKey=638d2567347ac6dbe6f2997ef0d8bac2" alt="prometheus_时间序列">  </p>
+<ol>
+<li>范围向量选择器<br>范围向量表达式正如即时向量表达式一样运行，前者返回从当前时刻的时间序列回来。语法是，在一个向量表达式之后添加<code>[]</code>来表示时间范围，持续时间用数字表示，后接下面单元之一：<br>时间长度有一个数值决定，后面可以跟下面的单位：  </li>
+</ol>
+<ul>
+<li><code>s</code> - seconds  </li>
+<li><code>m</code> - minutes  </li>
+<li><code>h</code> - hours  </li>
+<li><code>d</code> - days  </li>
+<li><code>w</code> - weeks  </li>
+<li><code>y</code> - years  </li>
+</ul>
+<p>见上面例子，<a href="https://prometheus.io/docs/prometheus/latest/querying/basics/#range-vector-selectors" target="_blank" rel="external">范围矢量选择器参考</a>  </p>
+<ol>
+<li>偏移修饰符(offset modifier)<br>偏移修饰符允许更改查询中单个即时向量和范围向量的时间偏移量。<a href="https://prometheus.io/docs/prometheus/latest/querying/basics/#offset-modifier" target="_blank" rel="external">偏移修饰符(offset modifier)参考</a>  </li>
+</ol>
+<p>以下表达式返回container_cpu_usage_seconds_total在一天前5分钟内的速率<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(rate(container_cpu_usage_seconds_total&#123;image!=<span class="string">""</span>,container_name!=<span class="string">"POD"</span>,pod_name=<span class="string">"kubernetes-dashboard-666fbbf977-v9vsh"</span>&#125; [5m] offset 1d))</div></pre></td></tr></table></figure></p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/760F65C1186A4B8E89CFF5DE6A3E9441?method=download&amp;shareKey=af536b0fa31d1c8182cfaada12d23b82" alt="prometheus_偏移修饰符"><br><img src="https://note.youdao.com/yws/api/personal/file/41A2911C678848AB89AD4DAF25B82E77?method=download&amp;shareKey=783a554ef5db48b9c080b6bd0100145e" alt="prometheus_偏移修饰符">  </p>
+<ol>
+<li>操作符  </li>
+</ol>
+<p>4.1. 二元操作符<br>Prometheus的查询语言支持基本的逻辑运算和算术运算。对于两个瞬时向量, <a href="https://prometheus.io/docs/prometheus/latest/querying/operators/#vector-matching" target="_blank" rel="external">匹配行为</a>可以被改变  </p>
+<p>4.2. 算术二元运算符  </p>
+<ul>
+<li><code>+</code> 加法  </li>
+<li><code>-</code> 减法  </li>
+<li><code>*</code> 乘法  </li>
+<li><code>/</code> 除法  </li>
+<li><code>%</code> 模  </li>
+<li><code>^</code> 幂等  </li>
+</ul>
+<p>二元运算操作符支持<code>scalar/scalar(标量/标量)</code>、<code>vector/scalar(向量/标量)</code>、和<code>vector/vector(向量/向量)</code>之间的操作<br>在两个标量之间进行操作符运算，得到的结果也是标量  </p>
+<p>在向量和标量之间，这个操作符会作用于这个向量的每个样本值上。例如：如果一个时间序列瞬时向量除以2，操作结果也是一个新的瞬时向量，且度量指标名称不变, 它是原度量指标瞬时向量的每个样本值除以2<br>在两个向量之间，一个二元算术操作符作用在左边瞬时向量的每个样本值，且该样本值与操作符右边能匹配上的样本值计算，向量匹配。结果写入到一个没有度量指标名称的瞬时向量  </p>
+<p>4.3. 比较二元操作符<br>在Prometheus系统中，比较二元操作符有：  </p>
+<ul>
+<li><code>==</code> 等于  </li>
+<li><code>!=</code> 不等于  </li>
+<li><code>&gt;</code> 大于  </li>
+<li><code>&lt;</code> 小于  </li>
+<li><code>&gt;=</code> 大于等于  </li>
+<li><code>&lt;=</code> 小于等于  </li>
+</ul>
+<p>比较二元操作符被应用于<code>scalar/scalar（标量/标量）</code>、<code>vector/scalar(向量/标量)</code>，和<code>vector/vector（向量/向量）</code>。比较操作符得到的结果是<code>bool</code>布尔类型值，返回<code>1</code>或者<code>0</code>值。  </p>
+<p>在两个标量之间的比较运算，bool结果写入到另一个结果标量中。<br>瞬时向量和标量之间的比较运算，这个操作符会应用到某个当前时刻的每个时间序列数据上，如果一个时间序列数据值与这个标量比较结果是false，则这个时间序列数据被丢弃掉，如果是true, 则这个时间序列数据被保留在结果中。  </p>
+<p>在两个瞬时向量之间的比较运算，左边度量指标数据中的每个时间序列数据，与右边度量指标中的每个时间序列数据匹配，没有匹配上的，或者计算结果为false的，都被丢弃，不在结果中显示。否则将保留左边的度量指标和标签的样本数据写入瞬时向量。  </p>
+<p>4.4. 逻辑/集合二元操作符<br><code>逻辑/集合</code>二元操作符只能作用在<code>即时向量</code>， 包括：  </p>
+<ul>
+<li><code>and</code> 交集  </li>
+<li><code>or</code> 并集  </li>
+<li><code>unless</code> 补集  </li>
+</ul>
+<p><code>vector1 and vector2</code> 的逻辑/集合二元操作符，规则：vector1瞬时向量中的每个样本数据与vector2向量中的所有样本数据进行标签匹配，不匹配的，全部丢弃。运算结果是保留左边的度量指标名称和值。<br><code>vector1 or vector2</code>的逻辑/集合二元操作符，规则: 保留vector1向量中的每一个元素，对于vector2向量元素，则不匹配vector1向量的任何元素，则追加到结果元素中。<br><code>vector1 unless vector2</code>的逻辑/集合二元操作符，又称差积。规则：包含在vector1中的元素，但是该元素不在vector2向量所有元素列表中，则写入到结果集中。  </p>
+<ol>
+<li>向量匹配<br>向量之间的匹配是指右边向量中的每一个元素，在左边向量中也存在。这里有两种基本匹配行为特征：  </li>
+</ol>
+<ul>
+<li>一对一，找到这个操作符的两边向量元素的相同元素。默认情况下，操作符的格式是<code>vector1 [operate] vector2</code>。如果它们有相同的标签和值，则表示相匹配。<code>ingoring</code>关键字是指，向量匹配时，可以忽略指定标签。<code>on</code>关键字是指，在指定标签上进行匹配。格式如下所示：<br><a href="https://github.com/1046102779/prometheus/blob/master/prometheus/querying/operators.md#向量匹配" target="_blank" rel="external">参考</a>  </li>
+</ul>
+<ol>
+<li>聚合操作符<br>Prometheus支持下面的内置聚合操作符。这些聚合操作符被用于聚合单个即时向量的所有时间序列列表，把聚合的结果值存入到新的向量中。  </li>
+</ol>
+<ul>
+<li><code>sum</code> (在维度上求和)  </li>
+<li><code>max</code> (在维度上求最大值)  </li>
+<li><code>min</code> (在维度上求最小值)  </li>
+<li><code>avg</code> (在维度上求平均值)  </li>
+<li><code>stddev</code> (求标准差)  </li>
+<li><code>stdvar</code> (求方差)  </li>
+<li><code>count</code> (统计向量元素的个数)  </li>
+<li><code>count_values</code> (统计相同数据值的元素数量)  </li>
+<li><code>bottomk</code> (样本值第k个最小值)  </li>
+<li><code>topk</code> (样本值第k个最大值)  </li>
+<li><code>quantile</code> (统计分位数)  </li>
+</ul>
+<p>这些操作符被用于聚合所有标签维度，或者通过without或者by子句来保留不同的维度。<br>parameter只能用于<code>count_values</code>, <code>quantile</code>, <code>topk</code>和<code>bottomk</code>。<code>without</code>移除结果向量中的标签集合，其他标签被保留输出。<code>by</code>关键字的作用正好相反，即使它们的标签值在向量的所有元素之间。<code>keep_common</code>子句允许保留额外的标签(在元素之间相同，但不在by子句中的标签)  </p>
+<p><code>count_values</code>对每个唯一的样本值输出一个时间序列。每个时间序列都附加一个标签。这个标签的名字有聚合参数指定，同时这个标签值是唯一的样本值。每一个时间序列值是结果样本值出现的次数。<br><code>topk</code>和<code>bottomk</code>与其他输入样本子集聚合不同，返回的结果中包括原始标签。by和without仅仅用在输入向量的桶中。  </p>
+<p>例如： 如果度量指标名称http_requests_total包含由group, application, instance的标签组成的时间序列数据，我们可以通过以下方式计算去除instance标签的http请求总数：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sum(http_requests_total) without (instance)</div></pre></td></tr></table></figure></p>
+<p>如果我们对所有应用程序的http请求总数：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sum(http_requests_total)</div></pre></td></tr></table></figure></p>
+<p>统计每个编译版本的二进制文件数量：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">count_values(<span class="string">"version"</span>, build_version)</div></pre></td></tr></table></figure></p>
+<p>通过所有实例，获取http请求第5个最大值：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">topk(5, http_requests_total)</div></pre></td></tr></table></figure></p>
+<ol>
+<li>二元运算符优先级<br>在Prometheus系统中，二元运算符优先级从高到低：  </li>
+</ol>
+<ul>
+<li><code>^</code>  </li>
+<li><code>*</code>,<code>/</code>,<code>%</code>  </li>
+<li><code>+</code>,<code>-</code>  </li>
+<li><code>==</code>,<code>!=</code>,<code>&lt;=</code>,<code>&lt;</code>,<code>&gt;=</code>,<code>&gt;</code>  </li>
+<li><code>and</code>,<code>unless</code>  </li>
+<li><code>or</code>  </li>
+</ul>
+<p>参考：<a href="https://github.com/1046102779/prometheus/blob/master/prometheus/querying/operators.md" target="_blank" rel="external">https://github.com/1046102779/prometheus/blob/master/prometheus/querying/operators.md</a>  </p>
+<ol>
+<li>函数<br>一些函数有默认的参数，例如：<code>year(v=vector(time()) instant-vector)</code>。v是参数值，<code>instant-vector</code>是参数类型。<code>vector(time())</code>是默认值。  </li>
+</ol>
+<ul>
+<li><code>abs()</code><br> <code>abs(v instant-vector)</code>返回输入向量的所有样本的绝对值  </li>
+<li><p><code>absent()</code><br> <code>absent(v instant-vector)</code>，如果赋值给它的向量具有样本数据，则返回空向量；如果传递的瞬时向量参数没有样本数据，则返回不带度量指标名称且带有标签的样本值为1的结果<br> 当监控度量指标时，如果获取到的样本数据是空的， 使用absent方法对告警是非常有用的。  </p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">absent(nonexistent&#123;job=<span class="string">"myjob"</span>&#125;) <span class="comment"># =&gt; key: value = &#123;job="myjob"&#125;: 1</span></div><div class="line">absent(nonexistent&#123;job=<span class="string">"myjob"</span>, instance=~<span class="string">".*"</span>&#125;) <span class="comment"># =&gt; &#123;job="myjob"&#125; 1</span></div><div class="line">absent(sum(nonexistent&#123;job=<span class="string">"myjob"</span>&#125;)) <span class="comment"># =&gt; key:value &#123;&#125;: 0</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><code>ceil()</code><br><code>ceil(v instant-vector)</code> 是一个向上舍入为最接近的整数  </p>
+</li>
+<li><p><code>changes()</code><br><code>changes(v range-vector)</code>输入一个范围向量， 返回这个范围向量内每个样本数据值变化的次数。  </p>
+</li>
+<li><p><code>clamp_max()</code><br><code>clamp_max(v instant-vector, max scalar)</code>数，输入一个瞬时向量和最大值，样本数据值若大于max，则改为max，否则不变.  </p>
+</li>
+<li><p><code>clamp_min()</code><br><code>clamp_min(v instant-vector)</code>函数，输入一个瞬时向量和最大值，样本数据值小于min，则改为min。否则不变。  </p>
+</li>
+<li><p><code>count_saclar()</code><br><code>count_scalar(v instant-vector)</code>函数, 输入一个瞬时向量，返回<code>key:value=&quot;scalar&quot;</code>: 样本个数。而<code>count()</code>函数，输入一个瞬时向量，返回<code>key:value=</code>向量：样本个数，其中结果中的向量允许通过<code>by</code>条件分组  </p>
+</li>
+<li><p><code>day_of_month()</code><br><code>day_of_month(v=vector(time()) instant-vector)</code>函数，返回被给定UTC时间所在月的第几天。返回值范围：1~31。  </p>
+</li>
+<li><p><code>day_of_week()</code><br><code>day_of_week(v=vector(time()) instant-vector)</code>函数，返回被给定UTC时间所在周的第几天。返回值范围：0~6. 0表示星期天  </p>
+</li>
+<li><p><code>days_in_month()</code><br><code>days_in_month(v=vector(time()) instant-vector)</code>函数，返回当月一共有多少天。返回值范围：28~31  </p>
+</li>
+<li><p><code>delta()</code><br><code>delta(v range-vector)</code>函数，计算一个范围向量v的第一个元素和最后一个元素之间的差值。返回值：key:value=度量指标：差值  </p>
+</li>
+</ul>
+<p>返回过去两小时的CPU温度差：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">delta(cpu_temp_celsius&#123;host=<span class="string">"zeus"</span>&#125;[2h])</div></pre></td></tr></table></figure></p>
+<p>delta函数返回值类型只能是gauges  </p>
+<ul>
+<li><p><code>deriv()</code><br><code>deriv(v range-vector)</code>函数，计算一个范围向量v中各个时间序列二阶导数，使用<a href="https://en.wikipedia.org/wiki/Simple_linear_regression" target="_blank" rel="external">简单线性回归</a><br>deriv二阶导数返回值类型只能是gauges  </p>
+</li>
+<li><p><code>drop_common_labels()</code><br><code>drop_common_labels(instant-vector)</code>函数，输入一个瞬时向量，返回值是<code>key:value=</code>度量指标：样本值，其中度量指标是去掉了具有相同标签<br>例如：<br>http_requests_total{code=”200”, host=”127.0.0.1:9090”, method=”get”} : 4,<br>http_requests_total{code=”200”, host=”127.0.0.1:9090”, method=”post”} : 5,<br>返回值: http_requests_total{method=”get”} : 4, http_requests_total{code=”200”, method=”post”} : 5  </p>
+</li>
+<li><p><code>exp()</code><br><code>exp(v instant-vector)</code>函数，输入一个瞬时向量, 返回各个样本值的e指数值，即为e^N次方。特殊情况如下所示：<br><code>Exp(+inf) = +Inf Exp(NaN) = NaN</code>  </p>
+</li>
+<li><p><code>floor()</code><br><code>floor(v instant-vector)</code>函数，与<code>ceil()</code>函数相反。 4.3 为 4  </p>
+</li>
+<li><p><code>histogram_quantile()</code><br><code>histogram_quatile(φ float, b instant-vector)</code>函数计算b向量的<code>φ-直方图 (0 ≤ φ ≤ 1)</code> 。<a href="https://www.howtoing.com/how-to-query-prometheus-on-ubuntu-14-04-part-2/" target="_blank" rel="external">参考中文文献</a>  </p>
+</li>
+<li><p><code>holt_winters()</code><br><code>holt_winters(v range-vector, sf scalar, tf scalar)</code>函数基于范围向量v，生成事件序列数据平滑值。平滑因子<code>sf</code>越低, 对老数据越重要。趋势因子<code>tf</code>越高，越多的数据趋势应该被重视。0&lt; sf, tf &lt;=1。 <code>holt_winters</code>仅用于gauges  </p>
+</li>
+<li><p><code>hour()</code><br><code>hour(v=vector(time()) instant-vector)</code>函数返回被给定UTC时间的当前第几个小时，时间范围：0~23  </p>
+</li>
+<li><p><code>idelta()</code><br><code>idelta(v range-vector)</code>函数，输入一个范围向量，返回key: value = 度量指标： 每最后两个样本值差值  </p>
+</li>
+<li><p><code>increase()</code><br><code>increase(v range-vector)</code>函数， 输入一个范围向量，返回：<code>key:value =</code>度量指标：last值-first值，自动调整单调性，如：服务实例重启，则计数器重置。与<code>delta()</code>不同之处在于delta是求差值，而increase返回最后一个减第一个值,可为正为负<br> 返回过去5分钟，连续两个时间序列数据样本值的http请求增加值:  </p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">increase(http_requests_total&#123;job=<span class="string">"api-server"</span>&#125;[5m])</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p><code>irate</code><br><code>irate(v range-vector)</code>函数, 输入：范围向量，输出：<code>key: value =</code>度量指标： <code>(last值-last前一个值)/时间戳差值</code>。它是基于最后两个数据点，自动调整单调性， 如：服务实例重启，则计数器重置<br>针对范围向量中的每个时间序列数据，返回两个最新数据点过去5分钟的HTTP请求速率：  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">irate(http_requests_total&#123;job=<span class="string">"api-server"</span>&#125;[5m])</div></pre></td></tr></table></figure>
+<p><code>irate</code>只能用于绘制快速移动的计数器。因为速率的简单更改可以重置FOR子句，利用警报和缓慢移动的计数器，完全由罕见的尖峰组成的图形很难阅读  </p>
+</li>
+<li><p><code>label_replace()</code><br>对于v中的每个时间序列，<code>label_replace(v instant-vector, dst_label string, replacement string, src_label string, regex string)</code>将正则表达式与标签值src_label匹配。如果匹配，则返回时间序列，标签值dst_label被替换的扩展替换。$1替换为第一个匹配子组，$2替换为第二个等。如果正则表达式不匹配，则时间序列不会更改。  </p>
+<p>另一种更容易的理解是：<code>label_replace</code>函数，输入：瞬时向量，输出：<code>key: value =</code>度量指标： 值（要替换的内容：首先，针对src_label标签，对该标签值进行regex正则表达式匹配。如果不能匹配的度量指标，则不发生任何改变；否则，如果匹配，则把dst_label标签的标签纸替换为replacement 下面这个例子返回一个向量值a带有<code>foo</code>标签： <code>label_replace(up{job=&quot;api-server&quot;, serice=&quot;a:c&quot;}, &quot;foo&quot;, &quot;$1&quot;, &quot;service&quot;, &quot;(.*):.*&quot;)</code></p>
+</li>
+<li><p><code>ln()</code><br><code>ln(v instance-vector)</code>计算瞬时向量v中所有样本数据的自然对数。特殊例子：<br><code>ln(+Inf) = +Inf ln(0) = -Inf ln(x&lt;0) = NaN ln(NaN) = NaN</code>  </p>
+</li>
+<li><p><code>log2()</code><br><code>log2(v instant-vector)</code>函数计算瞬时向量v中所有样本数据的二进制对数。  </p>
+</li>
+<li><p><code>log10()</code><br><code>log10(v instant-vector)</code>函数计算瞬时向量v中所有样本数据的10进制对数。相当于<code>ln()</code>  </p>
+</li>
+<li><p><code>minute()</code><br><code>minute(v=vector(time()) instant-vector)</code>函数返回给定UTC时间当前小时的第多少分钟。结果范围：0~59  </p>
+</li>
+<li><p><code>month()</code><br><code>month(v=vector(time()) instant-vector)</code>函数返回给定UTC时间当前属于第几个月，结果范围：0~12  </p>
+</li>
+<li><p><code>predict_linear()</code><br><code>predict_linear(v range-vector, t scalar)</code>预测函数，输入：范围向量和从现在起t秒后，输出：不带有度量指标，只有标签列表的结果值  </p>
+</li>
+<li><p><code>rate()</code><br><code>rate(v range-vector)</code>函数, 输入：范围向量，输出：key: value = 不带有度量指标，且只有标签列表：<code>(last值-first值)/时间差</code><br><code>rate(http_requests_total[5m])</code><br><code>rate()</code>函数返回值类型只能用counters，当用图表显示增长缓慢的样本数据时，这个函数是非常合适的<br>注意：当rate函数和聚合方式联合使用时，一般先使用rate函数，再使用聚合操作, 否则，当服务实例重启后，rate无法检测到counter重置  </p>
+</li>
+<li><p><code>resets()</code><br><code>resets()</code>函数, 输入：一个范围向量，输出：key-value=没有度量指标，且有标签列表[在这个范围向量中每个度量指标被重置的次数]。在两个连续样本数据值下降，也可以理解为counter被重置<br><code>resets(http_requests_total[5m])</code>。resets只能和counters一起使用  </p>
+</li>
+<li><p><code>round()</code><br><code>round(v instant-vector, to_nearest 1= scalar)</code>函数，与ceil和floor函数类似，输入：瞬时向量，输出：指定整数级的四舍五入值, 如果不指定，则是1以内的四舍五入  </p>
+</li>
+<li><p><code>scalar()</code><br><code>scalar(v instant-vector)</code>函数, 输入：瞬时向量，输出：key: value = “scalar”, 样本值[如果度量指标样本数量大于1或者等于0, 则样本值为NaN, 否则，样本值本身]  </p>
+</li>
+<li><p><code>sort()</code><br><code>sort(v instant-vector)</code>函数，输入：瞬时向量，输出：key: value = 度量指标：样本值[升序排列]  </p>
+</li>
+<li><p><code>sort_desc()</code><br><code>sort(v instant-vector</code>函数，输入：瞬时向量，输出：key: value = 度量指标：样本值[降序排列]  </p>
+</li>
+<li><p><code>sqrt()</code><br><code>sqrt(v instant-vector)</code>函数，输入：瞬时向量，输出：key: value = 度量指标： 样本值的平方根  </p>
+</li>
+<li><p><code>time()</code><br><code>time()</code>函数，返回从1970-01-01到现在的秒数，注意：它不是直接返回当前时间，而是时间戳  </p>
+</li>
+<li><p><code>vector()</code><br><code>vector(s scalar)</code>函数，返回：<code>key: value= {}</code>, 传入参数值  </p>
+</li>
+<li><p><code>year()</code><br><code>year(v=vector(time()) instant-vector)</code>，返回年份  </p>
+</li>
+<li><p><code>_over_time()</code><br>下面的函数列表允许传入一个范围向量，返回一个带有聚合的瞬时向量：  </p>
+<ul>
+<li><code>avg_over_time(range-vector)</code>: 范围向量内每个度量指标的平均值  </li>
+<li><code>min_over_time(range-vector)</code>: 范围向量内每个度量指标的最小值  </li>
+<li><code>max_over_time(range-vector)</code>: 范围向量内每个度量指标的最大值  </li>
+<li><code>sum_over_time(range-vector)</code>: 范围向量内每个度量指标的求和值  </li>
+<li><code>count_over_time(range-vector)</code>: 范围向量内每个度量指标的样本数据个数  </li>
+<li><code>quantile_over_time(scalar, range-vector)</code>: 范围向量内每个度量指标的样本数据值分位数，<code>φ-quantile (0 ≤ φ ≤ 1)</code>  </li>
+<li><code>stddev_over_time(range-vector)</code>: 范围向量内每个度量指标的总体标准偏差  </li>
+<li><code>stdvar_over_time(range-vector)</code>: 范围向量内每个度量指标的总体标准方差  </li>
+</ul>
+</li>
+</ul>
+<p>参考：<a href="https://github.com/1046102779/prometheus/blob/master/prometheus/querying/functions.md" target="_blank" rel="external">https://github.com/1046102779/prometheus/blob/master/prometheus/querying/functions.md</a><br><a href="https://www.kancloud.cn/huyipow/prometheus/525003" target="_blank" rel="external">https://www.kancloud.cn/huyipow/prometheus/525003</a>  </p>
+<hr>
+<p>本文出自”Jack Wang Blog”：<a href="http://www.yfshare.vip/2021/06/02/Prometheus查询语法/">http://www.yfshare.vip/2021/06/02/Prometheus查询语法/</a></p>
+</div><script type="text/javascript" src="/js/share.js?v=2.0.0" async></script><a data-url="http://www.yfshare.vip/2021/06/02/Prometheus查询语法/" data-id="clazk7v5700dm0wm53i9fgil7" class="article-share-link">分享到</a><div class="tags"><a href="/tags/Prometheus/">Prometheus</a></div><div class="post-nav"><a href="/2022/01/14/Grafana展示Prometheus数据/" class="pre">Grafana展示Prometheus数据</a><a href="/2021/03/17/代理转zabbix proxy/" class="next">代理转发zabbix proxy</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button></div><script>var disqus_shortname = 'yfshare';
+var disqus_identifier = '2021/06/02/Prometheus查询语法/';
+var disqus_title = 'Prometheus查询语法';
+var disqus_url = 'http://www.yfshare.vip/2021/06/02/Prometheus查询语法/';
+$('.btn_click_load').click(function() {
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+  $('.btn_click_load').css('display','none');
+});
+$.ajax({
+  url: 'https://disqus.com/favicon.ico',
+  timeout: 3000,
+  type: 'GET',
+  success: (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    $('.btn_click_load').css('display','none');
+  })(),
+  error: function() {
+    $('.btn_click_load').css('display','block');
+  }
+});</script><script id="dsq-count-scr" src="//yfshare.disqus.com/count.js" async></script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Ansible/">Ansible</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Atlassian/">Atlassian</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Database/">Database</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ELK/">ELK</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hexo/">Hexo</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Jenkins/">Jenkins</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/K8S/">K8S</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Monitor/">Monitor</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Python/">Python</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Security/">Security</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Virtualization/">Virtualization</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WEB/">WEB</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/版本控制系统/">版本控制系统</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/运维知识体系/">运维知识体系</a><span class="category-list-count">1</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2022/11/27/解决Prometheus too many open files问题/">解决Prometheus too many open files问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/11/07/部署文件不切片的Minio-Server/">部署文件不切片的Minio-Server</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/10/27/解决Grafana query processing would load too many samples into memory in query exec/">解决Grafana query processing would load too many samples into memory in query exec</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/08/27/Redis-Sentinel/">Redis-Sentinel</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/05/07/部署nsq/">部署NSQ</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/04/22/Prometheus监控docker/">Prometheus监控docker</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/01/14/Grafana展示Prometheus数据/">Grafana展示Prometheus数据</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/06/02/Prometheus查询语法/">Prometheus查询语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/03/17/代理转zabbix proxy/">代理转发zabbix proxy</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/16/Python-读取Mysql生成EXCEL（XLSX）/">Python 读取Mysql生成EXCEL（XLSX）</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://yfshare.blog.51cto.com/" title="酱油瓶 博客" target="_blank">酱油瓶 博客</a><ul></ul><a href="https://blog.phplearn.xin/" title="震哥 博客" target="_blank">震哥 博客</a><ul></ul><a href="http://renzhiyuan.blog.51cto.com/" title="任志远Ray 博客" target="_blank">任志远Ray 博客</a><ul></ul><a href="http://www.cnblogs.com/aresxin/" title="欣哥aresxin 博客" target="_blank">欣哥aresxin 博客</a></div><div class="widget"><div class="widget-title"><i class="fa fa-external-resources"> 资源站</i></div><ul></ul><a href="http://mirror.symnds.com/distributions/CentOS-vault/" title="Centos镜像站" target="_blank">Centos镜像站</a><ul></ul><a href="http://www.rpmfind.net/" title="rpmfind mirror" target="_blank">rpmfind mirror</a><ul></ul><a href="http://rpm.org/" title="rpm.org" target="_blank">rpm.org</a><ul></ul><a href="http://rpm.pbone.net/" title="rpm search" target="_blank">rpm search</a><ul></ul><a href="http://download.chinaunix.net/" title="chinaunix download" target="_blank">chinaunix download</a><ul></ul><a href="http://www.anquanquan.info/" title="安全圈info" target="_blank">安全圈info</a><ul></ul><a href="http://source.tosimp.net/" title="Tosimp 资源站" target="_blank">Tosimp 资源站</a></div><div class="widget"><div class="widget-title"><i class="fa fa-external-music"> 音乐</i></div></div><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=371362&auto=1&height=66"></iframe><div class="widget"><div class="widget-title"><i class="fa fa-external-game"> 游戏</i></div><ul></ul><a href="/2048" title="2048小游戏" target="_blank">2048小游戏</a><ul></ul><a href="/tantanqiu" title="变色弹球跳台阶小游戏" target="_blank">变色弹球跳台阶小游戏</a></div><div class="widget"><div class="widget-title"><i class="fa fa-comment-o"> 最近评论</i></div><script type="text/javascript" src="//yfshare.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=20&amp;hide_mods=1"></script></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2022 <a href="/." rel="nofollow">Jack Wang Blog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=2.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=2.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=2.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?3890bdc1bfaccae9364479b65f36fbd2";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+</script><script type="text/javascript" src="/js/codeblock-resizer.js?v=2.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=2.0.0"></script></div></body></html>
